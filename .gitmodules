@@ -1,9 +1,9 @@
-[submodule "node_libraries/sparql-spin.src"]
-	path = node_modules/sparql-spin.src
-	url = git://github.com/Acubed/sparql-spin-js3.git
 [submodule "node_modules/rdf.src"]
 	path = node_modules/rdf.src
 	url = git://github.com/Acubed/node-rdf.git
 [submodule "node_modules/sparql-spin.src"]
 	path = node_modules/sparql-spin.src
 	url = git://github.com/Acubed/sparql-spin-js3.git
+[submodule "node_modules/jade.src"]
+	path = node_modules/jade.src
+	url = git://github.com/visionmedia/jade.git
