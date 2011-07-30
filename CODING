@@ -1,0 +1,13 @@
+The simple but stern coding guidelines:
+
+TABS TO INDENT.
+
+SPACES TO ALIGN.
+
+No trailing whitespace at the end of a line. This means no indents on blank lines. (No /[ \t]+$/ or /^[ ]+/ matches).
+
+Any time asynchronous functions are called in parallel, they must be marked with a docblock comment (/** */ style) containing the text "Parallel query" as so:
+	/** Parallel query */
+We need to keep track of where we run asynchronous tasks in parallel.
+
+http://semver.org/ is the only way to number it, folks.
