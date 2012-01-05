@@ -5,7 +5,7 @@
 var fs=require('fs');
 
 var rdf=require('rdf');
-rdf.context.setMapping("type", "http://magnode.org/");
+rdf.environment.setPrefix("type", "http://magnode.org/");
 
 // Parse runtime configuration
 var arguments = process.argv.slice(2);
