@@ -1,5 +1,6 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 
+// Disable debug output
 //console.log=function(){}
 
 var fs=require('fs');
@@ -65,12 +66,14 @@ var db = new (require("magnode/db.lazy"))( { file: database , format: "n3" } );
 if(!profile){
 	// This is _supposed_ to ask the database for the default profile to use but this may not work
 	var m = db.filter({subject:database,predicate:"rdf:value"}).map(function(v){return v.object;});
+	console.log(db);
 	if(m[0]) profile=m[0];
 }
 console.log("Load profile: %s", profile);
 var o = db.filter({subject:profile,predicate:"http://magnode.org/services"}).map(function(v){return v.object;});
 
 var renders = new (require("magnode/view"))(db, []);
+renders.cache = {};
 
 // Server objects must be in the correct order to be chained
 var list = db.getCollection(o[0]);
@@ -84,7 +87,8 @@ for(var i=0; i<list.length; i++){
 	var resourceTypes = db.filter({subject:list[i], predicate:"rdf:type"}).map(function(v){return v.object});
 	for(var j=0;j<resourceTypes.length;j++) resources[resourceTypes[j]]=list[i];
 	renders.render('http://magnode.org/Service_Instance', resources, [], function(res){
-		if(!res) throw new Error(res);
+		if(!res || !res['http://magnode.org/Service_Instance']) throw new Error('Service <'+list[i]+'> could not be created');
+		console.log('Started <'+list[i]+'>');
 	});
 }
 
