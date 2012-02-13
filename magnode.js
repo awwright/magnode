@@ -13,12 +13,14 @@ var arguments = process.argv.slice(2);
 var listenPort=9000;
 var database;
 var profile;
+var scanInstanceTransform;
 function loadConfigFile(file){
 	console.log("Load config file: %s", file);
 	var config = JSON.parse(fs.readFileSync(file).toString());
 	console.log(config);
 	if(config.database) database=config.database;
 	if(config.profile) profile=config.profile;
+	if(config.scanInstanceTransform) scanInstanceTransform=config.scanInstanceTransform;
 }
 for(var i=0; i<arguments.length; i++){
 	switch(arguments[i]){
@@ -62,6 +64,13 @@ for(var i=0; i<arguments.length; i++){
 console.log("Open database: %s", database);
 var db = new (require("magnode/db.lazy"))( { file: database , format: "n3" } );
 
+if(scanInstanceTransform && scanInstanceTransform.length){
+	var gen = require('magnode/transform.InstanceTransform');
+	for(var i=0; i<scanInstanceTransform.length; i++){
+		var transform = gen.createTransform(require(scanInstanceTransform[i]));
+		transform.about.forEach(function(v){db.add(v);});
+	}
+}
 
 if(!profile){
 	// This is _supposed_ to ask the database for the default profile to use but this may not work
@@ -72,7 +81,11 @@ if(!profile){
 console.log("Load profile: %s", profile);
 var o = db.filter({subject:profile,predicate:"http://magnode.org/services"}).map(function(v){return v.object;});
 
-var renders = new (require("magnode/view"))(db, []);
+var transformTypes =
+	[ require('magnode/transform.ModuleTransform')
+	, require('magnode/transform.InstanceTransform')
+	];
+var renders = new (require("magnode/view"))(db, transformTypes);
 renders.cache = {};
 
 // Server objects must be in the correct order to be chained
