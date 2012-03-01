@@ -10,4 +10,6 @@ Any time asynchronous functions are called in parallel, they must be marked with
 	/** Parallel query */
 We need to keep track of where we run asynchronous tasks in parallel.
 
+Avoid importing code and clutter into the repository. Use Git submodules whenever possible.
+
 http://semver.org/ is the only way to number it, folks.
