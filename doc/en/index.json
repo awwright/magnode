@@ -1,0 +1,71 @@
+{
+	"title": "Magnode",
+	"langTitle": "Magnode Documentation in English",
+	"description": "The definitive guide to using, understanding, and developing Magnode",
+	"sections": [
+		{
+			"title": "Intro",
+			"dir": "intro",
+			"articles": []
+		},
+		{
+			"title": "User Guide",
+			"dir": "user",
+			"articles": [
+				"download",
+				"installation",
+				"setup",
+				"nginx",
+				"framework",
+				"users",
+				"content",
+				"taxonomy"
+			]
+		},
+		{
+			"title": "Developer Guide",
+			"dir": "developer",
+			"articles": [
+				"internationalization",
+				"transforms",
+				"authentication",
+				"authorization",
+				"caching",
+				"rdfa",
+				"contributors"
+			]
+		},
+		{
+			"title": "API Reference",
+			"dir": "api",
+			"articles": [
+				"view"
+			]
+		},
+		{
+			"title": "Design",
+			"dir": "design",
+			"articles": [
+				"origins",
+				"innovating",
+				"nodejs",
+				"datamodel",
+				"transforms",
+				"database",
+				"semantics",
+				"libraries",
+				"ui",
+				"server"
+			]
+		},
+		{
+			"title": "Metadocumentation",
+			"dir": "meta",
+			"articles": [
+				"building",
+				"writing",
+				"api"
+			]
+		}
+	]
+}
