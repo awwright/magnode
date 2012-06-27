@@ -7,3 +7,18 @@
 [submodule "node_modules/jade.src"]
 	path = node_modules/jade.src
 	url = git://github.com/visionmedia/jade.git
+[submodule "node_modules/mongolian"]
+	path = node_modules/mongolian
+	url = git://github.com/marcello3d/node-mongolian.git
+[submodule "node_modules/waiter"]
+	path = node_modules/waiter
+	url = git://github.com/marcello3d/node-waiter.git
+[submodule "node_modules/taxman"]
+	path = node_modules/taxman
+	url = git://github.com/marcello3d/node-taxman.git
+[submodule "node_modules/buffalo"]
+	path = node_modules/buffalo
+	url = git://github.com/marcello3d/node-buffalo.git
+[submodule "node_modules/tosource"]
+	path = node_modules/tosource
+	url = git://github.com/marcello3d/node-tosource.git
