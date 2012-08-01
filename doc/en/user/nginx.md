@@ -24,7 +24,7 @@ You can run Nginx as a load-balancing proxy for Magnode, and to serve static fil
 		open_file_cache_errors on;
 
 		location ~ ^/(css|png|static)/ {
-			root /var/www/magnode.bzfx.net;
+			root /var/www/magnode.org;
 			index index.html;
 			autoindex on;
 		}

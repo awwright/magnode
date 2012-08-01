@@ -2,6 +2,14 @@
 
 Magnode works on the theory that it formats RDF resources as HTML when they are dereferenced, serving RDFa-enabled HTML when HTML is requested. By request, formats that do not embed RDF data can be returned, for instance, PNG images of plots of data.
 
+### Overview
+
+1. An incoming HTTP request triggers an event and is sent to the URL router.
+2. Based on the request headers (but not the requested URL), a target content-type is selected to be generated in response.
+3. All of the modules capable of processing an HTTP request are asked if they can handle the incoming request.
+4. The first module that can do so is given the request details, and creates the relevant resources.
+5. Using the collection of transforms made available to Magnode, the resources for the request are used to craft a response of the target content-type.
+
 ### Application Server
 This is the primary use of Magnode, and the `magnode.js` application that ships with the program connects to a database and looks at an established configuration of how to setup components like databases and content types, instead of being done in source code. Information about the initial database connection is stored in a simple ini file:
 
