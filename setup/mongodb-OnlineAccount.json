@@ -1,0 +1,61 @@
+{ "nodes":
+	[
+		{ "_id": {"$ObjectId": "4fe329bcf23943e90b000001"}
+		, "subject": "http://magnode.org/MongoDBPermissionGroup"
+		, "label": "Permission-granting group member"
+		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://magnode.org/MongoDBPermissionTarget", "http://magnode.org/MongoDBPermissionGroupTable"]
+		, "menu":
+			{ "http://magnode%2Eorg/Menu_ManagementMenu": {"weight": 0}
+			}
+		, "permissions": {}
+		, "ViewTransform": {}
+		, "schema":
+			{ "type": "object"
+			, "properties":
+				{ "_id": { "type": "ObjectId", "readonly": true}
+				, "subject": { "type": "string", "format": "uri"}
+				, "label": { "type": "string", "format": "http://magnode.org/field/line"}
+				, "grant":
+					{ "type": "object"
+					, "format": "json"
+					, "description": "An Object that lists off {ContentType: [Permission...]} where Permission may be one of view, edit, create, delete, viewown, editown, deleteown. For the *own permissions, a field that identifies the owner must be specified in the type's permissions.ownerField property."
+					, "default": null
+					}
+				}
+			}
+		, "tablequery": {}
+		}
+	,
+		{ "_id": {"$ObjectId": "4ec0532933b3110c62000001"}
+		, "label": "User Account"
+		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://magnode.org/OnlineAccountTable"]
+		, "ViewTransform":
+			{ "page":
+				{ "type": "jade"
+				, "file": "template/DocumentHTML_Body_typeOnlineAccount.jade"
+				}
+			}
+		, "menu":
+			{ "http://magnode%2Eorg/Menu_ManagementMenu": {"weight": 0}
+			}
+		, "permissions": {"ownerField": "subject"}
+		, "schema":
+			{ "_schema": "http://json-schema.org/draft-03/schema#"
+			, "_base": "http://xmlns.com/foaf/0.1/"
+			, "type": "object"
+			, "properties":
+				{ "_id": { "type": "ObjectId", "readonly": true}
+				, "subject": { "type": "string", "format": "uri"}
+				, "type": { "type": "json"}
+				, "accountName": { "type": "string", "title": "Username", "format": "http://magnode.org/field/line"}
+				, "password": { "type": "shadow", "title": "Password"}
+				, "name": { "type": "string", "title": "Name", "format": "http://magnode.org/line"}
+				, "email": { "type": "string", "title": "Email", "format": "email"}
+				}
+			}
+		, "subject": "http://magnode.org/OnlineAccount"
+		, "tablequery": {"fields": ["_id","subject", "accountName", "name"]}
+		}
+	]
+}
+

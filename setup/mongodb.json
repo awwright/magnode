@@ -1,0 +1,39 @@
+{ "system.indexes":
+	[ { "collection": "nodes", "key": { "_id": 1 } }
+	, { "collection": "shadow", "key": { "_id": 1 } }
+	, { "collection": "nodes", "key": { "subject": 1 }, "options": {"unique": true}}
+	, { "collection": "cache", "key": { "_id": 1 }}
+	]
+, "nodes":
+	[
+		{ "_id": {"$ObjectId":"4ebd46425bd820c984240d96"}
+		, "subject": "http://magnode.org/MongoDBJSONSchema"
+		, "ViewTransform": {}
+		, "label": "MongoDB JSON Schema"
+		, "menu":
+			{ "http://magnode%2Eorg/Menu_ManagementMenu":
+				{ "title": "MongoDBJSONSchema"
+				, "weight": -1
+				}
+			}
+		, "permissions": {}
+		, "schema":
+			{ "type": "object"
+			, "properties":
+				{ "_id": { "type": "ObjectId", "readonly": true }
+				, "subject": { "type": "string", "format": "uri" }
+				, "type": { "type": "array", "format": "array", "items": { "type": "string", "format": "uri" } }
+				, "label": { "type": "string", "format": "http://magnode.org/field/line" }
+				, "schema": { "type": "object", "format": "json", "default": {} }
+				, "tablequery": { "type": "object", "format": "json", "default": {} }
+				, "ViewTransform": { "type": "object", "format": "json", "default": {} }
+				, "menu": { "type": "object", "format": "json" }
+				, "permissions": { "type": [ "object", "null" ], "format": "json", "default": null }
+				}
+			}
+		, "tablequery": { "fields": [ "_id", "subject", "label" ] }
+		, "type": [ 	"http://magnode.org/MongoDBJSONSchema", 	"http://magnode.org/MongoDBJSONSchemaTable" ]
+		}
+
+	]
+}

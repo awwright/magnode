@@ -1,0 +1,62 @@
+{ "nodes":
+	[
+		{ "ViewTransform": 
+			{ "page-jade": 
+				{ "type": "jade"
+				, "file": "template/DocumentHTML_BodyPage_typePage.jade"
+				}
+			, "page": 
+				{ "type": "module"
+				, "module": "/opt/magnode/sites/smashleague.org/node_modules/magnode/transform.DocumentHTML_Body_typePage.js"
+				}
+			}
+		, "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}
+		, "label": "Plain page"
+		, "menu": 
+			{ "http://magnode%2Eorg/Menu_ManagementMenu": 
+				{ "title": "Pages"
+				, "weight": 0
+				}
+			}
+		, "permissions": null
+		, "schema": 
+			{ "_schema": "http://json-schema.org/draft-03/schema#"
+			, "id": "http://magnode.org/Page"
+			, "type": "object"
+			, "properties": 
+				{ "_id": 
+					{ "type": "ObjectId"
+					, "readonly": true
+					}
+				, "subject": 
+					{ "type": "string"
+					, "format": "uri"
+					}
+				, "type": 
+					{ "type": "array"
+					, "format": "array"
+					, "items": 
+						{ "type": "string"
+						, "format": "uri"
+						}
+					}
+				, "label": 
+					{ "type": "string"
+					, "format": "http://magnode.org/field/line"
+					}
+				, "menu": 
+					{ "type": "json"
+					, "format": "json"
+					}
+				, "body": 
+					{ "type": "string"
+					, "format": "http://magnode.org/field/textarea"
+					}
+				}
+			}
+		, "subject": "http://magnode.org/Page"
+		, "tablequery": {}
+		, "type": ["http://magnode.org/MongoDBJSONSchema","http://magnode.org/PageTable"]
+		}
+	]
+}
