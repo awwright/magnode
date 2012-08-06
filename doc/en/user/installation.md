@@ -13,8 +13,8 @@ Navigate to the directory you wish to place magnode under, then clone the reposi
 
 Setup dependencies:
 
-	git submodules init
-	(cd node_modules/sparql-spin && make)
+	git submodule update --init
+	(cd node_modules/sparql-spin.src && make)
 
 Setup a place to place website resources:
 
