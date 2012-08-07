@@ -7,7 +7,7 @@
 				}
 			, "page": 
 				{ "type": "module"
-				, "module": "/opt/magnode/sites/smashleague.org/node_modules/magnode/transform.DocumentHTML_Body_typePage.js"
+				, "module": "magnode/transform.DocumentHTML_Body_typePage.js"
 				}
 			}
 		, "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}

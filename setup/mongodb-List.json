@@ -1,0 +1,51 @@
+{ "nodes":
+	[
+		{ "_id": {"$ObjectId": "5020deeeff744e9015b16b22"}
+		, "label": "List of content"
+		, "subject": "http://magnode.org/MongoDB_List"
+		, "type": ["http://magnode.org/MongoDBJSONSchema"]
+		, "menu":
+			{ "http://magnode%2Eorg/Menu_ManagementMenu":
+				{ "title": "Lists"
+				, "weight": 0
+				}
+			}
+		, "permissions": null
+		, "schema":
+			{ "_schema": "http://json-schema.org/draft-03/schema#"
+			, "id": "http://magnode.org/Page"
+			, "type": "object"
+			, "properties":
+				{ "_id":
+					{ "type": "ObjectId"
+					, "readonly": true
+					}
+				, "subject":
+					{ "type": "string"
+					, "format": "uri"
+					}
+				, "type":
+					{ "type": "array"
+					, "format": "array"
+					, "items":
+						{ "type": "string"
+						, "format": "uri"
+						}
+					}
+				, "label":
+					{ "type": "string"
+					, "format": "http://magnode.org/field/line"
+					}
+				, "menu":
+					{ "type": "json"
+					, "format": "json"
+					}
+				, "query":
+					{ "type": "string"
+					, "format": "json"
+					}
+				}
+			}
+		}
+	]
+}

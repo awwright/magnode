@@ -1,0 +1,19 @@
+{ "nodes":
+	[
+		{ "_id": {"$ObjectId": "5020dc9708e3feeb3c69e3fb"}
+		, "subject": "http://magnode.org/"
+		, "type": ["http://magnode.org/MongoDB_List","http://magnode.org/MongoDB_ListPosts"]
+		, "label": "Home page"
+		, "menu":
+			{ "http://magnode%2Eorg/Menu_MainMenu":
+				{ "title": "Home"
+				, "weight": 0
+				}
+			}
+		, "query":
+			{ "filter": {"type":{"%24in":["http://magnode.org/Page","http://magnode.org/Story"]}}
+			, "limit": 10
+			}
+		}
+	]
+}
