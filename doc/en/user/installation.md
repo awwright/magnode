@@ -16,11 +16,6 @@ Setup dependencies:
 	git submodule update --init
 	(cd node_modules/sparql-spin.src && make)
 
-Setup a place to place website resources:
-
-	mkdir -p sites/example.com/{node_modules,template}
-	cp bin/blog.js sites/example.com/httpd.js
-
 ### Single-directory usage
 
 Magnode may be run out of a single directory. In this case, the file tree may reside in `/home/username` or may be located under `/opt` such as `/opt/magnode`. It's recommended you create a system-wide directory called `/opt/magnode`.
