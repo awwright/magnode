@@ -7,13 +7,18 @@ var arguments = process.argv.slice(2);
 var dbHost, dbName, dbUsername, dbPassword;
 var file = 'mongodb.json';
 for(var i=0; i<arguments.length; i++){
-	switch(arguments[i]){
+	var flag=arguments[i], value, j=arguments[i].indexOf('=');
+	if(j!==-1){
+		value = flag.substr(j+1);
+		flag = flag.substr(0,j);
+	}
+	switch(flag){
 		case '-?':case '--help': return printHelp();
-		case '-h':case '--host': dbHost=arguments[++i]; continue;
-		case '-d':case '--db': dbName=arguments[++i]; continue;
-		case '-u':case '--username': dbUsername=arguments[++i]; continue;
-		case '-p':case '--password': dbPassword=arguments[++i]; continue;
-		case '-f':case '--file': file=arguments[++i]; continue;
+		case '-h':case '--host': dbHost=value||arguments[++i]; continue;
+		case '-d':case '--db': dbName=value||arguments[++i]; continue;
+		case '-u':case '--db-username': dbUsername=value||arguments[++i]; continue;
+		case '-p':case '--db-password': dbPassword=value||arguments[++i]; continue;
+		case '-f':case '--file': file=value||arguments[++i]; continue;
 	}
 	throw new Error('Unknown argument '+util.inspect(arguments[i]));
 }
@@ -21,12 +26,12 @@ for(var i=0; i<arguments.length; i++){
 function printHelp(){
 	console.log('Load sample/bootstrap Magnode data into MongoDB');
 	console.log('options:');
-	console.log('  -?  --help           produce help message');
-	console.log('  -h, --host arg       mongo host to connect to');
-	console.log('  -d, --db arg         database to use');
-	console.log('  -f, --file arg       collection to use (some commands)');
-	console.log('  -u, --username arg   username');
-	console.log('  -p, --password arg   password (use - to prompt)');
+	console.log('  -?  --help              produce help message');
+	console.log('  -h, --host arg          mongo host to connect to');
+	console.log('  -d, --db arg            database to use');
+	console.log('  -f, --file arg          collection to use (some commands)');
+	console.log('  -u, --db-username arg   username');
+	console.log('  -p, --db-password arg   password (use - to prompt)');
 }
 
 if(dbPassword==='-'){

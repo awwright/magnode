@@ -1,2 +1,2 @@
 # User's Guide
-The User's Guide is targeted at the majority of users, who aren't going to be doing coding, but instead using Magnode as a user, probably through a web browser, but also for other uses like static file generation.
+The User's Guide is targeted at the target audience of Magnode, those who will be using Magnode as a user, and all of it's features, including initial setup, administration, management, and content editing.
