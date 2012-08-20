@@ -12,13 +12,13 @@
 			"title": "User Guide",
 			"dir": "user",
 			"articles": [
+				"content",
 				"download",
 				"installation",
 				"setup",
 				"framework",
 				"nginx",
 				"users",
-				"content",
 				"taxonomy"
 			]
 		},
