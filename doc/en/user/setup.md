@@ -93,14 +93,9 @@ This refers to a file named `template/DocumentHTMLDefault_typeDocumentHTML_Body.
 
 If you're using MongoDB as the primary content store (effectively the only option at the moment), then you'll need to create and populate a database with some data. First, import the collections, indexes, and the critical MongoDBJSONSchema resource. Then, import the schema for user accounts (mongodb-OnlineUser.json).
 
-<pre><code>
-$ cd setup
-$ ./import-mongodb.js [options] -d <i>magnode</i> -f mongodb.json
-$ ./import-mongodb.js [options] -d <i>magnode</i> -f mongodb-OnlineUser.json
-$ ./import-mongodb.js [options] -d <i>magnode</i> -f mongodb-Page.json
-$ ./import-mongodb.js [options] -d <i>magnode</i> -f mongodb-Post.json
-$ ./import-mongodb.js [options] -d <i>magnode</i> -f mongodb-List.json
-$ ./import-mongodb.js [options] -d <i>magnode</i> -f mongodb-frontpage.json
+<pre><code>$ ./setup/import-mongodb.js [options] -d <i>magnode-blog</i> \
+   --base 'http://example.com/' \
+   setup/data/mongodb-{base,OnlineUser,Page,Post,List,frontpage}.json
 </code></pre>
 
 where _options_ may be <code>-h <i>localhost</i></code>, <code>-u <i>username</i></code>, and _magnode_ is the name of the database you wish to import to. Use `-p -` if to supply a password. Use `./import-mongodb.js -?` for the complete list of options.
@@ -110,8 +105,9 @@ where _options_ may be <code>-h <i>localhost</i></code>, <code>-u <i>username</i
 
 After setting up the database, we'll need to fill it with some content, beginning with users who can login.
 
-<pre><code>
-$ ./mongodb-account.js [options] -d <i>magnode</i> --create --resource http://example.com/user/root --username root --random-password
+<pre><code>$ ./setup/mongodb-account.js [options] -d <i>magnode-blog</i> \
+   --create --resource 'http://example.com/user/root' \
+   --username root --random-password
 </code></pre>
 
 

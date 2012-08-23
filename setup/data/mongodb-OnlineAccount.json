@@ -1,11 +1,11 @@
 { "nodes":
 	[
 		{ "_id": {"$ObjectId": "4fe329bcf23943e90b000001"}
-		, "subject": "http://magnode.org/MongoDBPermissionGroup"
+		, "subject": "http://localhost/MongoDBPermissionGroup"
 		, "label": "Permission-granting group member"
-		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://magnode.org/MongoDBPermissionTarget", "http://magnode.org/MongoDBPermissionGroupTable"]
+		, "type": ["http://localhost/MongoDBJSONSchema", "http://localhost/MongoDBPermissionTarget", "http://localhost/MongoDBPermissionGroupTable"]
 		, "menu":
-			{ "http://magnode%2Eorg/Menu_ManagementMenu": {"weight": 0}
+			{ "http://localhost/Menu_ManagementMenu": {"weight": 0}
 			}
 		, "permissions": {}
 		, "ViewTransform": {}
@@ -28,7 +28,7 @@
 	,
 		{ "_id": {"$ObjectId": "4ec0532933b3110c62000001"}
 		, "label": "User Account"
-		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://magnode.org/OnlineAccountTable"]
+		, "type": ["http://localhost/MongoDBJSONSchema", "http://localhost/OnlineAccountTable"]
 		, "ViewTransform":
 			{ "page":
 				{ "type": "jade"
@@ -36,7 +36,7 @@
 				}
 			}
 		, "menu":
-			{ "http://magnode%2Eorg/Menu_ManagementMenu": {"weight": 0}
+			{ "http://localhost/Menu_ManagementMenu": {"weight": 0}
 			}
 		, "permissions": {"ownerField": "subject"}
 		, "schema":
@@ -49,11 +49,11 @@
 				, "type": { "type": "json"}
 				, "accountName": { "type": "string", "title": "Username", "format": "http://magnode.org/field/line"}
 				, "password": { "type": "shadow", "title": "Password"}
-				, "name": { "type": "string", "title": "Name", "format": "http://magnode.org/line"}
+				, "name": { "type": "string", "title": "Name", "format": "http://magnode.org/field/line"}
 				, "email": { "type": "string", "title": "Email", "format": "email"}
 				}
 			}
-		, "subject": "http://magnode.org/OnlineAccount"
+		, "subject": "http://localhost/OnlineAccount"
 		, "tablequery": {"fields": ["_id","subject", "accountName", "name"]}
 		}
 	]

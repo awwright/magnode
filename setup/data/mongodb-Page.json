@@ -1,12 +1,20 @@
 { "nodes":
 	[
-		{ "_id": {"$ObjectId": "5020deeeff744e9015b16b22"}
-		, "label": "List of content"
-		, "subject": "http://magnode.org/MongoDB_List"
-		, "type": ["http://magnode.org/MongoDBJSONSchema"]
+		{ "ViewTransform":
+			{ "page-jade":
+				{ "type": "jade"
+				, "file": "template/DocumentHTML_BodyPage_typePage.jade"
+				}
+			, "page":
+				{ "type": "module"
+				, "module": "magnode/transform.DocumentHTML_Body_typePage.js"
+				}
+			}
+		, "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}
+		, "label": "Plain page"
 		, "menu":
-			{ "http://magnode%2Eorg/Menu_ManagementMenu":
-				{ "title": "Lists"
+			{ "http://localhost/Menu_ManagementMenu":
+				{ "title": "Pages"
 				, "weight": 0
 				}
 			}
@@ -40,12 +48,15 @@
 					{ "type": "json"
 					, "format": "json"
 					}
-				, "query":
+				, "body":
 					{ "type": "string"
-					, "format": "json"
+					, "format": "http://magnode.org/field/textarea"
 					}
 				}
 			}
+		, "subject": "http://magnode.org/Page"
+		, "tablequery": {}
+		, "type": ["http://magnode.org/MongoDBJSONSchema","http://magnode.org/PageTable"]
 		}
 	]
 }
