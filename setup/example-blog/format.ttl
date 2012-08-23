@@ -10,7 +10,7 @@
 Transform:DocumentHTML
 	a view:Jade, view:Transform, view:FormTransform, view:ViewTransform ;
 	view:file "template/DocumentHTMLDefault_typeDocumentHTML_Body.jade" ;
-	view:domain magnode:DocumentHTML_Body, magnode:DocumentHTML_Body_Block_UserMenu, magnode:DocumentHTML_Body_Block_MainMenu ;
+	view:domain magnode:DocumentHTML_Body, magnode:DocumentHTML_Body_Block_UserMenu, magnode:DocumentHTML_Body_Block_MainMenu, magnode:DocumentHTML_Body_Block_ManagementMenu ;
 	view:range magnode:DocumentHTML, magnode:Document .
 
 type:DocumentHTML

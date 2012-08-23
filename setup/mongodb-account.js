@@ -119,6 +119,7 @@ function promptPassword(doc){
 function setPassword(doc){
 	var dbShadow = dbClient.collection('shadow');
 	authpbkdf2.generateRecord({password:userPassword}, function(newdoc){
+		if(!newdoc._id) newdoc._id = doc._id;
 		dbShadow.update({_id:doc._id}, newdoc, true, function(err){
 			rl.close();
 			dbConnect.close();

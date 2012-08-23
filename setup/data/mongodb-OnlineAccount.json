@@ -1,7 +1,7 @@
 { "nodes":
 	[
 		{ "_id": {"$ObjectId": "4fe329bcf23943e90b000001"}
-		, "subject": "http://localhost/MongoDBPermissionGroup"
+		, "subject": "http://magnode.org/MongoDBPermissionGroup"
 		, "label": "Permission-granting group member"
 		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://localhost/MongoDBPermissionTarget", "http://localhost/MongoDBPermissionGroupTable"]
 		, "menu":
@@ -27,8 +27,9 @@
 		}
 	,
 		{ "_id": {"$ObjectId": "4ec0532933b3110c62000001"}
+		, "subject": "http://magnode.org/OnlineAccount"
+		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://localhost/OnlineAccountTable"]
 		, "label": "User Account"
-		, "type": ["http://localhost/MongoDBJSONSchema", "http://localhost/OnlineAccountTable"]
 		, "ViewTransform":
 			{ "page":
 				{ "type": "jade"
@@ -53,7 +54,6 @@
 				, "email": { "type": "string", "title": "Email", "format": "email"}
 				}
 			}
-		, "subject": "http://localhost/OnlineAccount"
 		, "tablequery": {"fields": ["_id","subject", "accountName", "name"]}
 		}
 	]

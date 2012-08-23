@@ -43,7 +43,7 @@ var authz = new (require("magnode/authorization.any"))(
 
 // Provide login form for users to authenticate with
 var passwordHashMethods = [require('magnode/authentication.pbkdf2').compareCredential];
-var httpAuthCredential = new (require("magnode/authentication.mongodb"))(nodesDb, shadowDb, "http://magnode.org/user/", passwordHashMethods);
+var httpAuthCredential = new (require("magnode/authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
 var httpAuthForm = new (require("magnode/authentication.form"))(
 	{ domain: "/"
 	, db: formatDb
