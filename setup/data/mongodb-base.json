@@ -7,8 +7,8 @@
 , "nodes":
 	[
 		{ "_id": {"$ObjectId":"4ebd46425bd820c984240d96"}
-		, "subject": "http://localhost/MongoDBJSONSchema"
-		, "type": [ "http://localhost/MongoDBJSONSchema", "http://localhost/MongoDBJSONSchemaTable" ]
+		, "subject": "http://magnode.org/MongoDBJSONSchema"
+		, "type": [ "http://magnode.org/MongoDBJSONSchema", "http://localhost/MongoDBJSONSchemaTable" ]
 		, "ViewTransform": {}
 		, "label": "MongoDB JSON Schema"
 		, "menu":

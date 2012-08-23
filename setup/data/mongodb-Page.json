@@ -1,16 +1,8 @@
 { "nodes":
 	[
-		{ "ViewTransform":
-			{ "page-jade":
-				{ "type": "jade"
-				, "file": "template/DocumentHTML_BodyPage_typePage.jade"
-				}
-			, "page":
-				{ "type": "module"
-				, "module": "magnode/transform.DocumentHTML_Body_typePage.js"
-				}
-			}
-		, "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}
+		{ "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}
+		, "subject": "http://localhost/Page"
+		, "type": ["http://magnode.org/MongoDBJSONSchema","http://localhost/PageTable"]
 		, "label": "Plain page"
 		, "menu":
 			{ "http://localhost/Menu_ManagementMenu":
@@ -21,7 +13,7 @@
 		, "permissions": null
 		, "schema":
 			{ "_schema": "http://json-schema.org/draft-03/schema#"
-			, "id": "http://magnode.org/Page"
+			, "id": "http://localhost/Page"
 			, "type": "object"
 			, "properties":
 				{ "_id":
@@ -54,9 +46,17 @@
 					}
 				}
 			}
-		, "subject": "http://magnode.org/Page"
 		, "tablequery": {}
-		, "type": ["http://magnode.org/MongoDBJSONSchema","http://magnode.org/PageTable"]
+		, "ViewTransform":
+			{ "page-jade":
+				{ "type": "jade"
+				, "file": "template/DocumentHTML_BodyPage_typePage.jade"
+				}
+			, "page":
+				{ "type": "module"
+				, "module": "magnode/transform.DocumentHTML_Body_typePage.js"
+				}
+			}
 		}
 	]
 }

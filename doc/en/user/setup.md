@@ -24,51 +24,14 @@ Then create the script that will run the HTTP server. See the "Framework Setup" 
 
 We need to provide some data that'll explain how the page is rendered.
 
-Throw this in a file named `sites/example.com/format.ttl`
+Locate `setup/example-blog/format.ttl` and copy it to `sites/example.com/format.ttl`. Open in your favorite editor and edit the @base directive on the first line to match your website:
 
-	@base <http://magnode.org/> .
-	@prefix view: <http://magnode.org/view/> .
-	@prefix Transform: <http://magnode.org/transform/> .
-	@prefix type: <http://magnode.org/> .
+	$ cp setup/example-blog/format.ttl sites/example.com/format.ttl
+	$ $EDITOR sites/example.com/format.ttl
 
+In this example, it would look like:
 
-	# Page theme
-
-	Transform:DocumentHTML
-		a view:Jade, view:Transform, view:FormTransform, view:ViewTransform ;
-		view:file "template/DocumentHTMLDefault_typeDocumentHTML_Body.jade" ;
-		view:domain type:DocumentHTML_Body, type:DocumentHTML_Body_Block_UserMenu, type:DocumentHTML_Body_Block_MainMenu ;
-		view:range type:DocumentHTML, type:Document .
-
-
-	# Main menu
-
-	Transform:DocumentHTML_Body_Block_MainMenu_typeMenu_MainMenu
-		a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-		view:module "magnode/transform.DocumentHTML_BodyBlock_typeMenu" ;
-		view:domain type:Menu_MainMenu ;
-		view:range type:DocumentHTML_Body_Block_MainMenu .
-
-	Transform:Menu_MainMenu_typeDocument
-		a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-		view:menuItemContentTypes type:Raw, type:Page;
-		view:module "magnode/transform.Menu_typeDocument" ;
-		view:range type:Menu_MainMenu .
-
-
-	# User menu
-
-	Transform:DocumentHTML_Body_Block_UserMenu_typeMenu_UserMenu
-		a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-		view:module "magnode/transform.DocumentHTML_BodyBlock_typeMenu" ;
-		view:domain type:Menu_UserMenu ;
-		view:range type:DocumentHTML_Body_Block_UserMenu .
-
-	Transform:Menu_UserMenu_typeUserSession
-		a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-		view:module "magnode/transform.Menu_typeUserSession" ;
-		view:domain type:UserSession ;
-		view:range type:Menu_UserMenu .
+	@base <http://example.com/> .
 
 This refers to a file named `template/DocumentHTMLDefault_typeDocumentHTML_Body.jade` that'll render the complete HTML page out of an HTML body. It is specified relative to the `httpd.js` script. Fill it with some content:
 

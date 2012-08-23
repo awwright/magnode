@@ -2,10 +2,10 @@
 	[
 		{ "_id": {"$ObjectId": "5020dc9708e3feeb3c69e3fb"}
 		, "subject": "http://localhost/"
-		, "type": ["http://localhost/MongoDB_List","http://localhost/MongoDB_ListPosts"]
+		, "type": ["http://magnode.org/MongoDB_List","http://magnode.org/MongoDB_ListPosts"]
 		, "label": "Home page"
 		, "menu":
-			{ "http://magnode%2Eorg/Menu_MainMenu":
+			{ "http://localhost/Menu_MainMenu":
 				{ "title": "Home"
 				, "weight": 0
 				}

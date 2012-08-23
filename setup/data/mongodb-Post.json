@@ -57,13 +57,9 @@
 			}
 		, "tablequery": {"fields":["_id","subject","label"]}
 		, "ViewTransform":
-			{ "page-jade":
+			{ "page":
 				{ "type": "jade"
 				, "file": "template/DocumentHTML_Body_typePost.jade"
-				}
-			, "page":
-				{ "type": "module"
-				, "module": "magnode/transform.DocumentHTML_Body_typePost.js"
 				}
 			}
 		}

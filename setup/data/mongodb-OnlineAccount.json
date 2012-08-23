@@ -3,7 +3,7 @@
 		{ "_id": {"$ObjectId": "4fe329bcf23943e90b000001"}
 		, "subject": "http://localhost/MongoDBPermissionGroup"
 		, "label": "Permission-granting group member"
-		, "type": ["http://localhost/MongoDBJSONSchema", "http://localhost/MongoDBPermissionTarget", "http://localhost/MongoDBPermissionGroupTable"]
+		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://localhost/MongoDBPermissionTarget", "http://localhost/MongoDBPermissionGroupTable"]
 		, "menu":
 			{ "http://localhost/Menu_ManagementMenu": {"weight": 0}
 			}
