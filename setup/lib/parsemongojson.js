@@ -58,7 +58,7 @@ module.exports.importData = function importData(collections, dbClient, callback)
 		if(!(records instanceof Array)) throw new Error('Collection '+c+' not an Array');
 		records.forEach(function(record){
 			waitingQueries++;
-			collection.insert(record, done);
+			collection.save(record, done);
 		});
 	}
 

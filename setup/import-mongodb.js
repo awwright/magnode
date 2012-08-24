@@ -16,7 +16,7 @@ for(var i=0; i<arguments.length; i++){
 	}
 	switch(flag){
 		case '-?':case '--help': return printHelp();
-		case '-h':case '--host': dbHost=value||arguments[++i]; continue;
+		case '-h':case '--db-host': dbHost=value||arguments[++i]; continue;
 		case '-d':case '--db-name': dbName=value||arguments[++i]; continue;
 		case '-u':case '--db-username': dbUsername=value||arguments[++i]; continue;
 		case '-p':case '--db-password': dbPassword=value||arguments[++i]; continue;
@@ -32,7 +32,7 @@ function printHelp(){
 	console.log('Load sample/bootstrap Magnode data into MongoDB');
 	console.log('options:');
 	console.log('  -?  --help              produce help message');
-	console.log('  -h, --host arg          mongo host to connect to');
+	console.log('  -h, --db-host arg       mongo host to connect to');
 	console.log('  -d, --db-name arg       database to use');
 	console.log('  -u, --db-username arg   username');
 	console.log('  -p, --db-password arg   password (use - to prompt)');

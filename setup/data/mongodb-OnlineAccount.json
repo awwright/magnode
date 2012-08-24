@@ -12,8 +12,9 @@
 		, "schema":
 			{ "type": "object"
 			, "properties":
-				{ "_id": { "type": "ObjectId", "readonly": true}
-				, "subject": { "type": "string", "format": "uri"}
+				{ "_id": { "type": "ObjectId", "readonly": true }
+				, "subject": { "type": "string", "format": "uri" }
+				, "type": { "type": "array", "format": "array", "items": { "type": "string", "format": "uri" } }
 				, "label": { "type": "string", "format": "http://magnode.org/field/line"}
 				, "grant":
 					{ "type": "object"
@@ -47,7 +48,7 @@
 			, "properties":
 				{ "_id": { "type": "ObjectId", "readonly": true}
 				, "subject": { "type": "string", "format": "uri"}
-				, "type": { "type": "json"}
+				, "type": { "type": "object", "format": "array" }
 				, "accountName": { "type": "string", "title": "Username", "format": "http://magnode.org/field/line"}
 				, "password": { "type": "shadow", "title": "Password"}
 				, "name": { "type": "string", "title": "Name", "format": "http://magnode.org/field/line"}
