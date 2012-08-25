@@ -50,7 +50,7 @@
 				, "subject": { "type": "string", "format": "uri"}
 				, "type": { "type": "object", "format": "array" }
 				, "accountName": { "type": "string", "title": "Username", "format": "http://magnode.org/field/line"}
-				, "password": { "type": "shadow", "title": "Password"}
+				, "password": { "type": "shadow", "title": "Password", "format":"http://magnode.org/field/shadow"}
 				, "name": { "type": "string", "title": "Name", "format": "http://magnode.org/field/line"}
 				, "email": { "type": "string", "title": "Email", "format": "email"}
 				}

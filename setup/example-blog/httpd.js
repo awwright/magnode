@@ -43,6 +43,7 @@ var authz = new (require("magnode/authorization.any"))(
 
 // Provide login form for users to authenticate with
 var passwordHashMethods = [require('magnode/authentication.pbkdf2').compareCredential];
+var passwordGenerateRecord = require('magnode/authentication.pbkdf2').generateRecord;
 var httpAuthCredential = new (require("magnode/authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
 var httpAuthForm = new (require("magnode/authentication.form"))(
 	{ domain: "/"
@@ -77,9 +78,11 @@ var resources = {
 	"db": nodesDb,
 	"db-mongodb": nodesDb,
 	"db-mongodb-schema": nodesDb,
+	"db-mongodb-shadow": shadowDb,
 	"db-transforms": transformDb,
 	"db-rdfa": formatDb,
 	"http://magnode.org/Auth": httpAuthCookie,
+	"password-hash": passwordGenerateRecord,
 	"rdf": rdf.environment
 };
 
@@ -96,4 +99,8 @@ httpAuthForm.routeForm(route, resources, renders, "/login");
 // Handle HTTP requests
 require('http').createServer(route.listener()).listen(listenPort);
 
+// This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
+process.on('uncaughtException', function (err) {
+  console.error((new Date).toISOString()+' - Uncaught Exception: ' + err.stack||err.toString());
+});
 

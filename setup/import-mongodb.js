@@ -5,6 +5,7 @@ var util=require('util');
 
 var arguments = process.argv.slice(2);
 var dbHost, dbName, dbUsername, dbPassword;
+var verbose = true; // TODO implement this
 var base = "http://magnode.org/";
 var files = [];
 for(var i=0; i<arguments.length; i++){

@@ -15,8 +15,8 @@ for(var i=0; i<arguments.length; i++){
 	}
 	switch(flag){
 		case '-?':case '--help': return printHelp();
-		case '-h':case '--host': dbHost=arguments[++i]; continue;
-		case '-d':case '--db': dbName=arguments[++i]; continue;
+		case '-h':case '--db-host': dbHost=arguments[++i]; continue;
+		case '-d':case '--db-name': dbName=arguments[++i]; continue;
 		case '-u':case '--db-username': dbUsername=value||arguments[++i]; continue;
 		case '-p':case '--db-password': dbPassword=value||arguments[++i]; continue;
 		case '--resource': userResource=value||arguments[++i]; if(!userResource) throw new Error('Must specify --resource=URI'); continue;
@@ -32,8 +32,8 @@ var accountType = 'http://magnode.org/OnlineAccount';
 
 function printHelp(){
 	console.log('Reset a password in a Magnode MongoDB database');
-	console.log('  -h, --host arg          mongo host to connect to');
-	console.log('  -d, --db arg            database to use');
+	console.log('  -h, --db-host arg       mongo host to connect to');
+	console.log('  -d, --db-name arg       database to use');
 	console.log('  -u, --db-username arg   username');
 	console.log('  -p, --db-password arg   password (use - to prompt)');
 	console.log('      --create            Create a new OnlineAccount');
@@ -51,7 +51,7 @@ promptDBPassword();
 
 function promptDBPassword(){
 	if(dbPassword==='-'){
-		rl.question('Password for '+userAccountName+'@'+dbHost+': ', function(v){ dbPassword=v; promptAccountResource(); });
+		rl.question('Password for '+dbUsername+'@'+dbHost+': ', function(v){ dbPassword=v; promptAccountResource(); });
 	}else{
 		promptAccountResource();
 	}
@@ -116,15 +116,20 @@ function promptPassword(doc){
 	}
 }
 
-function setPassword(doc){
+function setPassword(user){
 	var dbShadow = dbClient.collection('shadow');
+	var dbNodes = dbClient.collection('nodess');
 	authpbkdf2.generateRecord({password:userPassword}, function(newdoc){
-		if(!newdoc._id) newdoc._id = doc._id;
-		dbShadow.update({_id:doc._id}, newdoc, true, function(err){
-			rl.close();
-			dbConnect.close();
+		if(!newdoc._id) newdoc._id = new mongodb.ObjectId();
+		dbShadow.save(newdoc, function(err){
 			if(err) throw err;
-			//console.log('Done');
+			dbNodes.update({_id:user._id}, {$set:{password:newdoc._id}}, function(err, updated){
+				// TODO maybe remove the old shadow entry here?
+				rl.close();
+				dbConnect.close();
+				if(err) throw err;
+				//console.log('Done');
+			});
 		});
 	});
 }
