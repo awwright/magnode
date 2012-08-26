@@ -48,13 +48,9 @@
 			}
 		, "tablequery": {}
 		, "ViewTransform":
-			{ "page-jade":
+			{ "page":
 				{ "type": "jade"
-				, "file": "template/DocumentHTML_BodyPage_typePage.jade"
-				}
-			, "page":
-				{ "type": "module"
-				, "module": "magnode/transform.DocumentHTML_Body_typePage.js"
+				, "file": "template/DocumentHTML_Body_typePost.jade"
 				}
 			}
 		}

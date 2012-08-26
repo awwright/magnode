@@ -61,16 +61,17 @@ var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	} );
 
 var transformDb = new (require('magnode/db.memory'));
-require('magnode/transform.ModuleTransform').scanDirectorySync(__dirname+'/../../lib', transformDb);
 formatDb.filter().forEach(function(v){transformDb.add(v);});
-//transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
-require('magnode/transform.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, transformDb);
 
 var transformTypes =
 	[ require('magnode/transform.Jade')
 	, require('magnode/transform.ModuleTransform')
 	];
 var renders = new (require("magnode/view"))(transformDb, transformTypes);
+
+require('magnode/scan.ModuleTransform').scanDirectorySync(__dirname+'/../../lib', renders);
+//transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
+require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
 
 var route = new (require("magnode/route"));
 
