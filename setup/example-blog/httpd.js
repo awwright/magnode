@@ -67,7 +67,7 @@ var transformTypes =
 	[ require('magnode/transform.Jade')
 	, require('magnode/transform.ModuleTransform')
 	];
-var renders = new (require("magnode/view"))(transformDb, transformTypes);
+var renders = new (require("magnode/render"))(transformDb, transformTypes);
 
 require('magnode/scan.ModuleTransform').scanDirectorySync(__dirname+'/../../lib', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
