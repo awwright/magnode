@@ -1,8 +1,8 @@
 { "nodes":
 	[
 		{ "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}
-		, "subject": "http://localhost/Page"
-		, "type": ["http://magnode.org/MongoDBJSONSchema","http://localhost/PageTable"]
+		, "subject": "http://magnode.org/Page"
+		, "type": ["http://magnode.org/MongoDBJSONSchema","http://magnode.org/PageTable"]
 		, "label": "Plain page"
 		, "menu":
 			{ "http://localhost/Menu_ManagementMenu":
@@ -13,7 +13,7 @@
 		, "permissions": null
 		, "schema":
 			{ "_schema": "http://json-schema.org/draft-03/schema#"
-			, "id": "http://localhost/Page"
+			, "id": "http://magnode.org/Page"
 			, "type": "object"
 			, "properties":
 				{ "_id":
