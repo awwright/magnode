@@ -1,0 +1,35 @@
+-// The Transform resource for this template goes something like:
+-// 	Transform:DocumentHTML
+-// 		a view:Jade, view:Transform, view:FormTransform, view:ViewTransform ;
+-// 		view:file "template/DocumentHTML_Body_typePost.jade" ;
+-// 		view:domain type:Page ;
+-// 		view:range type:DocumentHTML_Body .
+
+- var types = {};
+- types['http://magnode.org/Post']={class:'post', author:true, created:true};
+- types['http://magnode.org/Page']={class:'page', author:false, created:false};
+- var type;
+- var post;
+- for(var t in types) if(input[t]){ type=t; post=input[t]; break; }
+- if(!post) throw new Error('Compatible input format not found');
+- var showAuthor = types[type].author;
+- var showCreated = types[type].created;
+
+div(class=types[type].class)
+	- if(post.subject)
+		h1.title
+			a(href=post.subject) #{post.label}
+	- else
+		h1.title #{post.label}
+	- if(showAuthor||showCreated)
+		div.submitted
+			| Submitted
+			- if(showAuthor)
+				|  by
+				a.author(href=post.author)=post.author
+			- if(showCreated)
+				|  on
+				span.created #{post.created}
+	div.content!=post.body
+	- if(post.comments)
+		div.comments (comments go here)

@@ -5,16 +5,14 @@
 @prefix Transform: <http://magnode.org/transform/> .
 
 
-# Page theme
+# Enable page theme
 
-Transform:DocumentHTML
-	a view:Jade, view:Transform, view:FormTransform, view:ViewTransform ;
-	view:file "template/DocumentHTMLDefault_typeDocumentHTML_Body.jade" ;
-	view:domain magnode:DocumentHTML_Body, magnode:DocumentHTML_Body_Block_UserMenu, magnode:DocumentHTML_Body_Block_MainMenu, magnode:DocumentHTML_Body_Block_ManagementMenu ;
-	view:range magnode:DocumentHTML, magnode:Document .
-
-type:DocumentHTML
-	rdfs:subClassOf type:Document .
+<http://magnode.org/theme/twentyonetwelve/DocumentHTML_typeHTMLBody>
+	a view:ViewTransform, view:FormTransform .
+<http://magnode.org/theme/twentyonetwelve/HTMLBody_typePost>
+	a view:ViewTransform .
+<http://magnode.org/theme/twentyonetwelve/HTMLBody_typePage>
+	a view:ViewTransform .
 
 
 # Main menu

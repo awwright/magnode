@@ -75,6 +75,9 @@ require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, 
 
 var route = new (require("magnode/route"));
 
+// FIXME what's this, an exact path? Too many dots
+require('./../../theme/twentyonetwelve').importTheme(renders, route);
+
 var resources = {
 	"db": nodesDb,
 	"db-mongodb": nodesDb,

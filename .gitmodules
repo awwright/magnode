@@ -1,24 +1,59 @@
 [submodule "node_modules/rdf.src"]
 	path = node_modules/rdf.src
 	url = git://github.com/Acubed/node-rdf.git
+	semver = 1.0.1
+	npm = rdf
 [submodule "node_modules/sparql-spin.src"]
 	path = node_modules/sparql-spin.src
 	url = git://github.com/Acubed/sparql-spin-js3.git
+	semver = *
 [submodule "node_modules/jade.src"]
 	path = node_modules/jade.src
 	url = git://github.com/visionmedia/jade.git
+	semver = 0.15
+	npm = jade
 [submodule "node_modules/mongolian"]
 	path = node_modules/mongolian
 	url = git://github.com/marcello3d/node-mongolian.git
+	semver = *
+	npm = mongolian
 [submodule "node_modules/waiter"]
 	path = node_modules/waiter
 	url = git://github.com/marcello3d/node-waiter.git
+	npm = waiter
 [submodule "node_modules/taxman"]
 	path = node_modules/taxman
 	url = git://github.com/marcello3d/node-taxman.git
+	npm = taxman
 [submodule "node_modules/buffalo"]
 	path = node_modules/buffalo
 	url = git://github.com/marcello3d/node-buffalo.git
+	npm = buffalo
 [submodule "node_modules/tosource"]
 	path = node_modules/tosource
 	url = git://github.com/marcello3d/node-tosource.git
+	npm = tosource
+[submodule "node_modules/send"]
+	path = node_modules/send
+	url = git://github.com/visionmedia/send.git
+	semver = *
+[submodule "node_modules/debug"]
+	path = node_modules/debug
+	url = git://github.com/visionmedia/debug.git
+	npm = debug
+[submodule "node_modules/mime"]
+	path = node_modules/mime
+	url = git://github.com/broofa/node-mime
+	npm = mime
+[submodule "node_modules/fresh"]
+	path = node_modules/fresh
+	url = git://github.com/visionmedia/node-fresh.git
+	npm = fresh
+[submodule "node_modules/range-parser"]
+	path = node_modules/range-parser
+	url = git://github.com/visionmedia/node-range-parser.git
+	npm = range-parser
+[submodule "theme/codemirror"]
+	path = theme/codemirror
+	url = http://marijnhaverbeke.nl/git/codemirror
+	url = git://github.com/marijnh/CodeMirror

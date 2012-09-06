@@ -1,0 +1,26 @@
+!!!strict
+html(lang="en")
+	head
+		//- meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+		title Magnode
+		- for(var n in stylesheets)
+			link(rel="stylesheet",href=stylesheets[n].src)
+		- for(var n in scripts)
+			script(type=scripts[n].type,src=scripts[n].src)
+	body
+		.head-base
+		.wrapper
+			.body!=input["http://magnode.org/DocumentHTML_Body"]
+			.head
+			.panel
+				div!=input["http://magnode.org/DocumentHTML_Body_Block_MainMenu"]
+				div!=input["http://magnode.org/DocumentHTML_Body_Block_UserMenu"]
+				div!=input["http://magnode.org/DocumentHTML_Body_Block_ManagementMenu"]
+			.foot
+				//pre=util.inspect(input)
+				div(style="margin:10px 0;")
+					hr
+					div.grid_12
+						//- div.footer(style="float:right;") <img src="/public-domain.png"/>
+						div.footer <a href="http://magnode.org/" style="color:#ddf;">Magnode</a>
+					div.clear
