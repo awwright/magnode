@@ -2,7 +2,7 @@
 html(lang="en")
 	head
 		//- meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
-		title Magnode
+		title #{input.node&&input.node.title?(input.node.title+' - '):''}#{input.title||'Magnode'}
 		- for(var n in stylesheets)
 			link(rel="stylesheet",href=stylesheets[n].src)
 		- for(var n in scripts)
@@ -13,6 +13,9 @@ html(lang="en")
 			.body!=input["http://magnode.org/DocumentHTML_Body"]
 			.head
 			.panel
+				- if(input.logo)
+					div#head-logo
+						a(style="background-image: url("+input.logo+");", href="/", title="Visit the main page")
 				div!=input["http://magnode.org/DocumentHTML_Body_Block_MainMenu"]
 				div!=input["http://magnode.org/DocumentHTML_Body_Block_UserMenu"]
 				div!=input["http://magnode.org/DocumentHTML_Body_Block_ManagementMenu"]

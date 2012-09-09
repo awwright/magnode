@@ -29,16 +29,10 @@ div.head {
 	width: 100%;
 	font-size: 85%;
 }
-div#head-logo {
-	float: left;
-	/*background: url() center center no-repeat;*/
-	width: 12em;
-	height: 5em;
-}
 div#head-logo a {
 	display: block;
 	width: 12em;
-	height: 160px;
+	height: 130px;
 	background-repeat: no-repeat;
 	background-position: center center;
 	text-decoration: none;
@@ -143,7 +137,7 @@ textarea {
 /* Menu styles */
 div.menu {
 	border: solid 1px #AAA;
-	margin: 0 0 20px;
+	margin: 20px 0;
 	padding: 1em;
 	font-size: 85%;
 }
