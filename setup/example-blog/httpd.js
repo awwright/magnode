@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 
 var dbHost = undefined;
 var dbName = undefined;
