@@ -33,6 +33,7 @@ function printHelp(){
 	console.log('Load sample/bootstrap Magnode data into MongoDB');
 	console.log('options:');
 	console.log('  -?  --help              produce help message');
+	console.log('  -b  --base              URL to resolve relative paths against');
 	console.log('  -h, --db-host arg       mongo host to connect to');
 	console.log('  -d, --db-name arg       database to use');
 	console.log('  -u, --db-username arg   username');

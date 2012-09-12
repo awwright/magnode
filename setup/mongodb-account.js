@@ -118,7 +118,7 @@ function promptPassword(doc){
 
 function setPassword(user){
 	var dbShadow = dbClient.collection('shadow');
-	var dbNodes = dbClient.collection('nodess');
+	var dbNodes = dbClient.collection('nodes');
 	authpbkdf2.generateRecord({password:userPassword}, function(newdoc){
 		if(!newdoc._id) newdoc._id = new mongodb.ObjectId();
 		dbShadow.save(newdoc, function(err){

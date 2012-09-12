@@ -11,7 +11,7 @@
 				}
 			}
 		, "query":
-			{ "filter": {"type":{"%24in":["http://localhost/Page","http://localhost/Post"]}}
+			{ "filter": {"type":{"%24in":["http://magnode.org/Page","http://magnode.org/Post"]}}
 			, "limit": 10
 			}
 		}
