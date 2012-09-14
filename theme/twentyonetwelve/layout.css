@@ -267,6 +267,32 @@ a.new {
 	border-left: none;
 }
 
+/* Pager */
+div#paginator {
+	display:block;
+	padding:2em 0 1em 0;
+	font-size:1em;
+	text-align:center;
+	font-weight:bold;
+	clear:both;
+}
+div#paginator a {
+	margin:0 3px;
+	padding:2px 6px;
+	font-weight:normal;
+	border:1px solid #8899af;
+	background:#ccddee;
+	color:#092146;
+}
+div#paginator a:hover {
+	border:1px solid #8899af;
+	background:#99bbdd;
+}
+div#paginator span {
+	margin:0 3px;
+	padding:2px 6px;
+}
+
 
 /* Form fields */
 input.field-uri {

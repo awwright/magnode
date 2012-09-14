@@ -11,8 +11,9 @@
 				}
 			}
 		, "query":
-			{ "filter": {"type":{"%24in":["http://magnode.org/Page","http://magnode.org/Post"]}}
+			{ "filter": {"type": "http://magnode.org/Post"}
 			, "limit": 10
+			, "sort": "posted"
 			}
 		}
 	]
