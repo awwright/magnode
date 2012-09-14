@@ -7,6 +7,7 @@ var fs=require('fs');
 
 var rdf=require('rdf');
 var jade = require('jade');
+var relativeuri=require('magnode/relativeuri');
 
 /* To enable this theme, you probably want to add this to your format.ttl:
 
@@ -90,7 +91,8 @@ module.exports.importTheme = function(render, router){
 	var renderPostFn = jade.compile(contents, {filename:templateFilename});
 	function renderPost(db, transform, input, render, callback){
 		var outputType = db.filter({subject:transform,predicate:"http://magnode.org/view/range"}).map(function(v){return v.object;});
-		var locals = {input:input};
+		function localurl(url){ console.log(input); return relativeuri(input.rdf, url); }
+		var locals = {input:input, localurl:localurl};
 		var result = renderPostFn(locals);
 		var output = {};
 		for(var i=0;i<outputType.length;i++) output[outputType[i]] = result;

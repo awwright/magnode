@@ -18,7 +18,7 @@
 div(class=types[type].class)
 	- if(post.subject)
 		h1.title
-			a(href=post.subject) #{post.label}
+			a(href=localurl(post.subject)) #{post.label}
 	- else
 		h1.title #{post.label}
 	- if(showAuthor||showCreated)
@@ -26,7 +26,7 @@ div(class=types[type].class)
 			| Submitted
 			- if(showAuthor)
 				|  by
-				a.author(href=post.author)=post.author
+				a.author(href=localurl(post.author))=post.author
 			- if(showCreated)
 				|  on
 				span.created #{post.created}
