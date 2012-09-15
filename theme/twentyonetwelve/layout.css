@@ -303,6 +303,10 @@ input.field-label {
 	width: 100%;
 	box-sizing: border-box;
 }
+input.field-date {
+	width: 100%;
+	box-sizing: border-box;
+}
 pre.field-default {
 	white-space: normal;
 }

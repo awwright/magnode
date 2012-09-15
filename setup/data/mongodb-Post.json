@@ -50,7 +50,7 @@
 					}
 				, "posted":
 					{ "type": "Date"
-					, "format": "http://magnode.org/field/line"
+					, "format": "http://magnode.org/field/date"
 					}
 				}
 			}

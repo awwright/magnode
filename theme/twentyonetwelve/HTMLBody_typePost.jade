@@ -29,7 +29,7 @@ div(class=types[type].class)
 				a.author(href=localurl(post.author))=post.author
 			- if(showCreated)
 				|  on
-				span.created #{post.created}
+				span.created #{post.posted}
 	div.content!=post.body
 	- if(post.comments)
 		div.comments (comments go here)
