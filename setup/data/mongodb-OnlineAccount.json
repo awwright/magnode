@@ -34,7 +34,7 @@
 		, "ViewTransform":
 			{ "page":
 				{ "type": "jade"
-				, "file": "template/DocumentHTML_Body_typeOnlineAccount.jade"
+				, "file": "template/HTMLBody_typeOnlineAccount.jade"
 				}
 			}
 		, "menu":

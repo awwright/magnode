@@ -17,11 +17,11 @@
 
 # Main menu
 
-Transform:DocumentHTML_Body_Block_MainMenu_typeMenu_MainMenu
+Transform:HTMLBody_Block_MainMenu_typeMenu_MainMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:module "magnode/transform.DocumentHTML_BodyBlock_typeMenu" ;
+	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain type:Menu_MainMenu ;
-	view:range magnode:DocumentHTML_Body_Block_MainMenu .
+	view:range magnode:HTMLBody_Block_MainMenu .
 
 Transform:Menu_MainMenu_typeDocument
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
@@ -32,11 +32,11 @@ Transform:Menu_MainMenu_typeDocument
 
 # User menu
 
-Transform:DocumentHTML_Body_Block_UserMenu_typeMenu_UserMenu
+Transform:HTMLBody_Block_UserMenu_typeMenu_UserMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:module "magnode/transform.DocumentHTML_BodyBlock_typeMenu" ;
+	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain type:Menu_UserMenu ;
-	view:range magnode:DocumentHTML_Body_Block_UserMenu .
+	view:range magnode:HTMLBody_Block_UserMenu .
 
 Transform:Menu_UserMenu_typeUserSession
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
@@ -47,11 +47,11 @@ Transform:Menu_UserMenu_typeUserSession
 
 # Management menu
 
-Transform:DocumentHTML_Body_Block_ManagementMenu_typeMenu_ManagementMenu
+Transform:HTMLBody_Block_ManagementMenu_typeMenu_ManagementMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:module "magnode/transform.DocumentHTML_BodyBlock_typeMenu" ;
+	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain type:Menu_ManagementMenu ;
-	view:range magnode:DocumentHTML_Body_Block_ManagementMenu .
+	view:range magnode:HTMLBody_Block_ManagementMenu .
 
 Transform:Menu_ManagementMenu_ManagementMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;

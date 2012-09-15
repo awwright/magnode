@@ -50,7 +50,7 @@
 		, "ViewTransform":
 			{ "page":
 				{ "type": "jade"
-				, "file": "template/DocumentHTML_Body_typePost.jade"
+				, "file": "template/HTMLBody_typePost.jade"
 				}
 			}
 		}

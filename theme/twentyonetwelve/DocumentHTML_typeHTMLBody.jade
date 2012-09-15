@@ -10,15 +10,15 @@ html(lang="en")
 	body
 		.head-base
 		.wrapper
-			.body!=input["http://magnode.org/DocumentHTML_Body"]
+			.body!=input["http://magnode.org/HTMLBody"]
 			.head
 			.panel
 				- if(input.logo)
 					div#head-logo
 						a(style="background-image: url("+input.logo+");", href="/", title="Visit the main page")
-				div!=input["http://magnode.org/DocumentHTML_Body_Block_MainMenu"]
-				div!=input["http://magnode.org/DocumentHTML_Body_Block_UserMenu"]
-				div!=input["http://magnode.org/DocumentHTML_Body_Block_ManagementMenu"]
+				div!=input["http://magnode.org/HTMLBody_Block_MainMenu"]
+				div!=input["http://magnode.org/HTMLBody_Block_UserMenu"]
+				div!=input["http://magnode.org/HTMLBody_Block_ManagementMenu"]
 			.foot
 				//pre=util.inspect(input)
 				div(style="margin:10px 0;")

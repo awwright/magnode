@@ -76,10 +76,10 @@ module.exports.importTheme = function(render, router){
 	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/view/Transform');
 	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/theme/twentyonetwelve/Transform');
 
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/DocumentHTML_Body');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/DocumentHTML_Body_Block_UserMenu');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/DocumentHTML_Body_Block_MainMenu');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/DocumentHTML_Body_Block_ManagementMenu');
+	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody');
+	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody_Block_UserMenu');
+	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody_Block_MainMenu');
+	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody_Block_ManagementMenu');
 
 	addTriple(template,'http://magnode.org/view/range','http://magnode.org/DocumentHTML');
 	addTriple(template,'http://magnode.org/view/range','http://magnode.org/Document');
@@ -104,14 +104,14 @@ module.exports.importTheme = function(render, router){
 	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/view/Transform');
 	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/theme/twentyonetwelve/Transform');
 	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/Post');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/DocumentHTML_Body');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/DocumentHTML_BodyPost');
+	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBody');
+	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBodyPost');
 
 	var template = "http://magnode.org/theme/twentyonetwelve/HTMLBody_typePage";
 	render.renders[template] = renderPost;
 	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/view/Transform');
 	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/theme/twentyonetwelve/Transform');
 	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/Page');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/DocumentHTML_Body');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/DocumentHTML_BodyPage');
+	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBody');
+	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBodyPage');
 }
