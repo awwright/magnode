@@ -91,7 +91,7 @@ module.exports.importTheme = function(render, router){
 	var renderPostFn = jade.compile(contents, {filename:templateFilename});
 	function renderPost(db, transform, input, render, callback){
 		var outputType = db.filter({subject:transform,predicate:"http://magnode.org/view/range"}).map(function(v){return v.object;});
-		function localurl(url){ console.log(input); return relativeuri(input.rdf, url); }
+		function localurl(url){ return relativeuri(input.rdf, url); }
 		var locals = {input:input, localurl:localurl};
 		var result = renderPostFn(locals);
 		var output = {};
