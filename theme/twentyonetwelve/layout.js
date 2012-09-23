@@ -26,5 +26,28 @@ function populateForms(){
 			});
 		}catch(e){}
 	}
+
+	var es = document.getElementsByClassName('field-array');
+	for(var i=0; i<es.length; i++) (function(field){
+		try {
+			var blank = field.lastElementChild.cloneNode(true);
+			field.removeChild(field.lastElementChild);
+			var additem_li = document.createElement('li');
+			var additem_a = document.createElement('a');
+			additem_a.href="javascript:;";
+			additem_a.appendChild(document.createTextNode('Add new'));
+			additem_li.appendChild(additem_a);
+			additem_a.onclick = function(){
+				var e = field.nextElementSibling.nextElementSibling;
+				if(!e || e.name.substr(0,7)!='length.') throw new Error('No length element to modify?');
+				var clone = blank.cloneNode(true);
+				clone.firstElementChild.name = clone.firstElementChild.name.replace('new', e.value);
+				field.insertBefore(clone, additem_li);
+				e.value = parseInt(e.value)+1;
+			};
+			field.appendChild(additem_li);
+		}catch(e){throw e;}
+	})(es[i]);
+
 };
 document.addEventListener("DOMContentLoaded", populateForms, false);
