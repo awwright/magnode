@@ -98,7 +98,8 @@ httpAuthCookie.routeSession(route, httpAuthForm);
 (require("magnode/route.routes"))(route);
 (require("magnode/route.transforms"))(route, resources, renders);
 httpAuthForm.routeForm(route, resources, renders, "/login");
-(require("magnode/route.resource.mongodb"))(route, resources, authz, renders);
+(require("magnode/route.resource.mongodb.id"))(route, resources, authz, renders);
+(require("magnode/route.resource.mongodb.subject"))(route, resources, authz, renders);
 
 // Handle HTTP requests
 require('http').createServer(route.listener()).listen(listenPort);
