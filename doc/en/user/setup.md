@@ -49,9 +49,9 @@ Then create the script that will run the HTTP server. See the "Framework Setup" 
 	$ $EDITOR sites/example.com/httpd.js
 
 
-### Setting up the theme
+### Using a theme
 
-We need to provide some data that'll explain how the page is rendered.
+A theme is a set of transforms/templates that handles the final step of assembling the finished HTML document, and provides auxiliary files like CSS and JS files for web browsers. In order to use the default theme that ships with Magnode, you must enable it with some statements on how to use it.
 
 Locate `setup/example-blog/format.ttl` and copy it to `sites/example.com/format.ttl`. Open in your favorite editor and edit the @base directive on the first line to match your website:
 
@@ -62,25 +62,6 @@ In this example, it would look like:
 
 	@base <http://example.com/> .
 
-This refers to a file named `template/DocumentHTMLDefault_typeDocumentHTML_Body.jade` that'll render the complete HTML page out of an HTML body. It is specified relative to the `httpd.js` script. Fill it with some content:
-
-	!!!strict
-	html(lang="en")
-		head
-			meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
-			title Magnode: Power Over Data
-			link(rel="stylesheet",href="http://magnode.org/theme/fixed/theme/theme.css")
-		body
-			.head-base
-			.wrapper
-				.body!=input["http://magnode.org/DocumentHTML_Body"]
-				.head
-				.panel
-					div!=input["http://magnode.org/DocumentHTML_Body_Block_MainMenu"]
-					div!=input["http://magnode.org/DocumentHTML_Body_Block_UserMenu"]
-					div!=input["http://magnode.org/DocumentHTML_Body_Block_ManagementMenu"]
-				.foot
-					hr
 
 ### Import content to MongoDB
 
