@@ -1,5 +1,5 @@
-[submodule "node_modules/rdf.src"]
-	path = node_modules/rdf.src
+[submodule "node_modules/rdf"]
+	path = node_modules/rdf
 	url = git://github.com/Acubed/node-rdf.git
 	semver = 1.0.1
 	npm = rdf

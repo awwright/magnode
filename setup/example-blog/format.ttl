@@ -20,13 +20,14 @@
 Transform:HTMLBody_Block_MainMenu_typeMenu_MainMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
-	view:domain type:Menu_MainMenu ;
+	view:domain ( type:Menu_MainMenu );
 	view:range magnode:HTMLBody_Block_MainMenu .
 
 Transform:Menu_MainMenu_typeDocument
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:menuItemContentTypes type:Raw, type:Page;
 	view:module "magnode/transform.Menu_typeDocument" ;
+	view:menuItemContentTypes type:Raw, type:Page;
+	view:domain ();
 	view:range type:Menu_MainMenu .
 
 
@@ -35,13 +36,13 @@ Transform:Menu_MainMenu_typeDocument
 Transform:HTMLBody_Block_UserMenu_typeMenu_UserMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
-	view:domain type:Menu_UserMenu ;
+	view:domain ( type:Menu_UserMenu );
 	view:range magnode:HTMLBody_Block_UserMenu .
 
 Transform:Menu_UserMenu_typeUserSession
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.Menu_typeUserSession" ;
-	view:domain magnode:UserSession ;
+	view:domain ( magnode:UserSession );
 	view:range type:Menu_UserMenu .
 
 
@@ -50,13 +51,14 @@ Transform:Menu_UserMenu_typeUserSession
 Transform:HTMLBody_Block_ManagementMenu_typeMenu_ManagementMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
-	view:domain type:Menu_ManagementMenu ;
+	view:domain ( type:Menu_ManagementMenu );
 	view:range magnode:HTMLBody_Block_ManagementMenu .
 
 Transform:Menu_ManagementMenu_ManagementMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.Menu_typeDocument" ;
 	view:menuItemContentTypes magnode:MongoDBJSONSchema, type:Page;
+	view:domain ();
 	view:range type:Menu_ManagementMenu .
 
 

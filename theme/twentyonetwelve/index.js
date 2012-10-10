@@ -36,11 +36,12 @@ module.exports.importTheme = function(render, router){
 	});
 
 	// Add theme data to the render database
-	var triples = [];
 	function addTriple(s,p,o){
 		var f = rdf.environment.createTriple(s,p,o);
-		triples.push(f);
 		render.db.add(f);
+	}
+	function addResource(s,o){
+		o.ref(s).graphify().forEach(function(t){render.db.add(t);});
 	}
 
 	// Register the transform to handle the theme stuff
@@ -50,7 +51,7 @@ module.exports.importTheme = function(render, router){
 	var contents = fs.readFileSync(templateFilename, 'utf8');
 	var renderDocumentFn = jade.compile(contents, {filename:templateFilename});
 	function renderDocument(db, transform, input, render, callback){
-		var outputType = db.filter({subject:transform,predicate:"http://magnode.org/view/range"}).map(function(v){return v.object;});
+		var outputType = db.match(transform,"http://magnode.org/view/range").map(function(v){return v.object;});
 		var theme = input.theme||{};
 		// Add us some presentation
 		var stylesheets = [{src:p+'codemirror.css'}, {src:p+'layout.css'}];
@@ -73,24 +74,19 @@ module.exports.importTheme = function(render, router){
 
 	var template = "http://magnode.org/theme/twentyonetwelve/DocumentHTML_typeHTMLBody";
 	render.renders[template] = renderDocument;
-	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/view/Transform');
-	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/theme/twentyonetwelve/Transform');
-
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody_Block_UserMenu');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody_Block_MainMenu');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/HTMLBody_Block_ManagementMenu');
-
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/DocumentHTML');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/Document');
+	addResource(template,
+		{ a: ['http://magnode.org/view/Transform', 'http://magnode.org/theme/twentyonetwelve/Transform']
+		, 'http://magnode.org/view/domain': {$list:['http://magnode.org/HTMLBody', 'http://magnode.org/HTMLBody_Block_UserMenu', 'http://magnode.org/HTMLBody_Block_MainMenu', 'http://magnode.org/HTMLBody_Block_ManagementMenu']}
+		, 'http://magnode.org/view/range': ['http://magnode.org/DocumentHTML', 'http://magnode.org/Document']
+		} );
 
 
-	// And the function for Posts
+	// And the function for Posts/Pages
 	var templateFilename = __dirname+'/HTMLBody_typePost.jade';
 	var contents = fs.readFileSync(templateFilename, 'utf8');
 	var renderPostFn = jade.compile(contents, {filename:templateFilename});
 	function renderPost(db, transform, input, render, callback){
-		var outputType = db.filter({subject:transform,predicate:"http://magnode.org/view/range"}).map(function(v){return v.object;});
+		var outputType = db.match(transform,"http://magnode.org/view/range").map(function(v){return v.object;});
 		function localurl(url){ return relativeuri(input.rdf, url); }
 		var locals = {input:input, localurl:localurl};
 		var result = renderPostFn(locals);
@@ -101,17 +97,18 @@ module.exports.importTheme = function(render, router){
 
 	var template = "http://magnode.org/theme/twentyonetwelve/HTMLBody_typePost";
 	render.renders[template] = renderPost;
-	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/view/Transform');
-	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/theme/twentyonetwelve/Transform');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/Post');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBody');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBodyPost');
+	addResource(template,
+		{ a: ['http://magnode.org/view/Transform', 'http://magnode.org/theme/twentyonetwelve/Transform']
+		, 'http://magnode.org/view/domain': {$list:['http://magnode.org/Post']}
+		, 'http://magnode.org/view/range': ['http://magnode.org/HTMLBody', 'http://magnode.org/HTMLBodyPost']
+		} );
+
 
 	var template = "http://magnode.org/theme/twentyonetwelve/HTMLBody_typePage";
 	render.renders[template] = renderPost;
-	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/view/Transform');
-	addTriple(template, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://magnode.org/theme/twentyonetwelve/Transform');
-	addTriple(template,'http://magnode.org/view/domain','http://magnode.org/Page');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBody');
-	addTriple(template,'http://magnode.org/view/range','http://magnode.org/HTMLBodyPage');
+	addResource(template,
+		{ a: ['http://magnode.org/view/Transform', 'http://magnode.org/theme/twentyonetwelve/Transform']
+		, 'http://magnode.org/view/domain': {$list:['http://magnode.org/Page']}
+		, 'http://magnode.org/view/range': ['http://magnode.org/HTMLBody', 'http://magnode.org/HTMLBodyPage']
+		} );
 }

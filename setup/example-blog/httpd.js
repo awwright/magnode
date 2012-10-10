@@ -60,8 +60,8 @@ var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	, secret: siteSecretKey
 	} );
 
-var transformDb = new (require('magnode/db.memory'));
-formatDb.filter().forEach(function(v){transformDb.add(v);});
+var transformDb = new rdf.IndexedGraph;
+formatDb.forEach(function(v){transformDb.add(v);});
 
 var transformTypes =
 	[ require('magnode/transform.Jade')
