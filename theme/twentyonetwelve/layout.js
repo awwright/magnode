@@ -38,8 +38,8 @@ function populateForms(){
 			additem_a.appendChild(document.createTextNode('Add new'));
 			additem_li.appendChild(additem_a);
 			additem_a.onclick = function(){
-				var e = field.nextElementSibling.nextElementSibling;
-				if(!e || e.name.substr(0,7)!='length.') throw new Error('No length element to modify?');
+				var e = field.nextElementSibling;
+				if(!e || e.name.substr(-7)!='length.') throw new Error('No length element to modify?');
 				var clone = blank.cloneNode(true);
 				clone.firstElementChild.name = clone.firstElementChild.name.replace('new', e.value);
 				field.insertBefore(clone, additem_li);
