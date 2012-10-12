@@ -29,7 +29,7 @@ for(var i=0; i<arguments.length; i++){
 		case '--database': database=arguments[++i]; continue;
 		case '--profile': profile=arguments[++i]; continue;
 		case '--setup':
-			database = 'file+n3://'+__dirname+'/data/setup.n3';
+			database = __dirname+'/data/setup.n3';
 			profile = '_:setup';
 			var port = 8080;
 			if(arguments[i+1] && arguments[i+1].match(/^\d+$/)) port=arguments[++i];
@@ -74,12 +74,12 @@ if(scanInstanceTransform && scanInstanceTransform.length){
 
 if(!profile){
 	// This is _supposed_ to ask the database for the default profile to use but this may not work
-	var m = db.filter({subject:database,predicate:"rdf:value"}).map(function(v){return v.object;});
+	var m = db.match(database,"rdf:value").map(function(v){return v.object;});
 	console.log(db);
 	if(m[0]) profile=m[0];
 }
 console.log("Load profile: %s", profile);
-var o = db.filter({subject:profile,predicate:"http://magnode.org/services"}).map(function(v){return v.object;});
+var o = db.match(profile,"http://magnode.org/services").map(function(v){return v.object;});
 
 var transformTypes =
 	[ require('magnode/transform.ModuleTransform')
@@ -92,12 +92,12 @@ renders.cache = {};
 var list = db.getCollection(o[0]);
 var instances = {};
 for(var i=0; i<list.length; i++){
-	var properties = db.filter({subject:list[i]});
+	var properties = db.match(list[i]);
 	console.log("Generating service: %s", list[i]);
 	console.log(properties);
 	var resources = {db:db};
 	// Type the input with the resource's types
-	var resourceTypes = db.filter({subject:list[i], predicate:"rdf:type"}).map(function(v){return v.object});
+	var resourceTypes = db.match(list[i], "rdf:type").map(function(v){return v.object});
 	for(var j=0;j<resourceTypes.length;j++) resources[resourceTypes[j]]=list[i];
 	renders.render('http://magnode.org/Service_Instance', resources, [], function(res){
 		if(!res || !res['http://magnode.org/Service_Instance']) throw new Error('Service <'+list[i]+'> could not be created');
