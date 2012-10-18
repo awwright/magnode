@@ -23,6 +23,8 @@
 				, "subject":
 					{ "type": "string"
 					, "format": "uri"
+					, "widget": "http://magnode.org/field/token"
+					, "pattern": "/#{posted.Y}/#{posted.m}/#{posted.d}/#{label.formatURL}"
 					}
 				, "type":
 					{ "type": "array"
