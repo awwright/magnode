@@ -40,8 +40,16 @@ function populateForms(){
 			additem_a.onclick = function(){
 				var e = field.nextElementSibling;
 				if(!e || e.name.substr(-7)!='.length') throw new Error('No length element to modify?');
+				var prefix = e.name.substr(0,e.name.length-7)+'.new';
 				var clone = blank.cloneNode(true);
-				clone.firstElementChild.name = clone.firstElementChild.name.replace('new', e.value);
+				function updateNames(ele){
+					if(typeof ele.name=='string' && ele.name.substr(0,prefix.length)==prefix){
+						ele.name = ele.name.substr(0,prefix.length-4)+'.'+e.value+ele.name.substr(prefix.length);
+					}else if(ele.hasChildNodes && ele.hasChildNodes()){
+						for(var i=0; i<ele.childNodes.length; i++) updateNames(ele.childNodes[i]);
+					}
+				}
+				updateNames(clone);
 				field.insertBefore(clone, additem_li);
 				e.value = parseInt(e.value)+1;
 			};
