@@ -49,6 +49,10 @@
 				, "author":
 					{ "type": "string"
 					, "format": "uri"
+					, "widget": "http://magnode.org/field/selectresource"
+					, "range": "http://localhost/usergroup/Author"
+					, "selectLabel": "accountName"
+					, "selectNull": true
 					}
 				, "posted":
 					{ "type": "Date"
