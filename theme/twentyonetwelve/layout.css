@@ -269,28 +269,39 @@ a.new {
 
 /* Pager */
 div#paginator {
-	display:block;
-	padding:2em 0 1em 0;
-	font-size:1em;
-	text-align:center;
-	font-weight:bold;
-	clear:both;
+	text-align: center;
+	padding: 2em 0 1em 0;
 }
-div#paginator a {
-	margin:0 3px;
-	padding:2px 6px;
-	font-weight:normal;
-	border:1px solid #8899af;
-	background:#ccddee;
-	color:#092146;
+div.pagination {
+	display: block;
+	font-size: 1em;
+	font-weight: bold;
+	clear: both;
 }
-div#paginator a:hover {
-	border:1px solid #8899af;
-	background:#99bbdd;
+div.pagination ul {
+	padding: 0;
 }
-div#paginator span {
-	margin:0 3px;
-	padding:2px 6px;
+div.pagination li {
+	display: inline;
+}
+div.pagination a {
+	margin: 0 3px;
+	padding: 2px 6px;
+	font-weight: normal;
+	border: 1px solid #8899af;
+	background: #ccddee;
+	color: #092146;
+}
+div.pagination a:hover {
+	border: 1px solid #8899af;
+	background: #99bbdd;
+}
+div.pagination .current {
+	font-weight: bold;
+}
+div.pagination span {
+	margin: 0 3px;
+	padding: 2px 6px;
 }
 
 
