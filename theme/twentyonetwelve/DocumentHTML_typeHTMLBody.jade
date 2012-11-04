@@ -12,13 +12,15 @@ html(lang="en")
 		.wrapper
 			.body!=input["http://magnode.org/HTMLBody"]
 			.head
+				div!=input["http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_Header"]
 			.panel
 				- if(input.logo)
 					div#head-logo
 						a(style="background-image: url("+input.logo+");", href="/", title="Visit the main page")
-				div!=input["http://magnode.org/HTMLBody_Block_MainMenu"]
-				div!=input["http://magnode.org/HTMLBody_Block_UserMenu"]
-				div!=input["http://magnode.org/HTMLBody_Block_ManagementMenu"]
+				div!=input["http://magnode.org/HTMLBodyBlock_MainMenu"]
+				div!=input["http://magnode.org/HTMLBodyBlock_UserMenu"]
+				div!=input["http://magnode.org/HTMLBodyBlock_ManagementMenu"]
+				div!=input["http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_Panel"]
 			.foot
 				//pre=util.inspect(input)
 				div(style="margin:10px 0;")
@@ -26,4 +28,5 @@ html(lang="en")
 					div.grid_12
 						//- div.footer(style="float:right;") <img src="/public-domain.png"/>
 						div.footer <a href="http://magnode.org/" style="color:#ddf;">Magnode</a>
+						div!=input["http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_Footer"]
 					div.clear

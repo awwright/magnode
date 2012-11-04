@@ -15,6 +15,7 @@ if(!siteBase) throw new Error('Need siteBase');
 var rdf=require('rdf');
 rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setDefaultPrefix(siteBase);
+rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 
 var listenPort=8080;
 var arguments = process.argv.slice(2);
@@ -87,7 +88,10 @@ var resources = {
 	"db-rdfa": formatDb,
 	"http://magnode.org/Auth": httpAuthCookie,
 	"password-hash": passwordGenerateRecord,
-	"rdf": rdf.environment
+	"rdf": rdf.environment,
+	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header",
+	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Panel",
+	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer"
 };
 
 // Post-auth

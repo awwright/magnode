@@ -13,15 +13,21 @@
 	a view:ViewTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBody_typePage>
 	a view:ViewTransform .
+<http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_typeRegion_Header>
+	a view:ViewTransform, view:FormTransform .
+<http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_typeRegion_Panel>
+	a view:ViewTransform, view:FormTransform .
+<http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_typeRegion_Footer>
+	a view:ViewTransform, view:FormTransform .
 
 
 # Main menu
 
-Transform:HTMLBody_Block_MainMenu_typeMenu_MainMenu
+Transform:HTMLBodyBlock_MainMenu_typeMenu_MainMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain ( type:Menu_MainMenu );
-	view:range magnode:HTMLBody_Block_MainMenu .
+	view:range magnode:HTMLBodyBlock, magnode:HTMLBodyBlock_MainMenu .
 
 Transform:Menu_MainMenu_typeDocument
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
@@ -33,11 +39,11 @@ Transform:Menu_MainMenu_typeDocument
 
 # User menu
 
-Transform:HTMLBody_Block_UserMenu_typeMenu_UserMenu
+Transform:HTMLBodyBlock_UserMenu_typeMenu_UserMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain ( type:Menu_UserMenu );
-	view:range magnode:HTMLBody_Block_UserMenu .
+	view:range magnode:HTMLBodyBlock, magnode:HTMLBodyBlock_UserMenu .
 
 Transform:Menu_UserMenu_typeUserSession
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
@@ -48,11 +54,11 @@ Transform:Menu_UserMenu_typeUserSession
 
 # Management menu
 
-Transform:HTMLBody_Block_ManagementMenu_typeMenu_ManagementMenu
+Transform:HTMLBodyBlock_ManagementMenu_typeMenu_ManagementMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain ( type:Menu_ManagementMenu );
-	view:range magnode:HTMLBody_Block_ManagementMenu .
+	view:range magnode:HTMLBodyBlock, magnode:HTMLBodyBlock_ManagementMenu .
 
 Transform:Menu_ManagementMenu_ManagementMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;

@@ -1,0 +1,64 @@
+{ "nodes":
+	[
+		{ "_id": {"$ObjectId": "5093ed74dca36e48377e5bad"}
+		, "subject": "http://magnode.org/Block"
+		, "type": ["http://magnode.org/MongoDBJSONSchema"]
+		, "label": "Block"
+		, "description": "A block to be placed in a region of another Document"
+		, "menu":
+			{ "http://localhost/Menu_ManagementMenu":
+				{ "title": "Blocks"
+				, "weight": 0
+				}
+			}
+		, "permissions": null
+		, "schema":
+			{ "_schema": "http://json-schema.org/draft-03/schema#"
+			, "type": "object"
+			, "properties":
+				{ "_id":
+					{ "type": "ObjectId"
+					, "readonly": true
+					}
+				, "subject":
+					{ "type": "string"
+					, "format": "uri"
+					}
+				, "type":
+					{ "type": "array"
+					, "format": "array"
+					, "items":
+						{ "type": "string"
+						, "format": "uri"
+						}
+					}
+				, "label":
+					{ "type": "string"
+					, "format": "http://magnode.org/field/line"
+					}
+				, "body":
+					{ "type": "string"
+					, "format": "http://magnode.org/field/textarea"
+					}
+				, "region":
+					{ "type": "string"
+					, "format": "uri"
+					, "description": "The region the block will be placed in"
+					}
+				, "block":
+					{ "type": "string"
+					, "format": "uri"
+					, "description": "The block to be rendered out"
+					}
+				}
+			}
+		, "tablequery": {"fields":["_id","subject","label"]}
+		, "ViewTransform":
+			{ "page-example":
+				{ "type": "jade"
+				, "file": "template/HTMLBody_typePost.jade"
+				}
+			}
+		}
+	]
+}

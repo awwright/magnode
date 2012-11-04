@@ -1,0 +1,71 @@
+{ "nodes":
+	[
+		{ "_id": {"$ObjectId": "5096739d5f7c227a6bbcae3c"}
+		, "subject": "http://magnode.org/DocumentRegion"
+		, "type": ["http://magnode.org/MongoDBJSONSchema"]
+		, "label": "DocumentRegion"
+		, "description": "A region of a document where content may be placed"
+		, "menu":
+			{ "http://localhost/Menu_ManagementMenu":
+				{ "title": "Document Regions"
+				, "weight": 0
+				}
+			}
+		, "permissions": null
+		, "schema":
+			{ "_schema": "http://json-schema.org/draft-03/schema#"
+			, "type": "object"
+			, "properties":
+				{ "_id":
+					{ "type": "ObjectId"
+					, "readonly": true
+					}
+				, "subject":
+					{ "type": "string"
+					, "format": "uri"
+					}
+				, "type":
+					{ "type": "array"
+					, "widget": "array"
+					, "items":
+						{ "type": "string"
+						, "format": "uri"
+						}
+					}
+				, "label":
+					{ "type": "string"
+					, "format": "http://magnode.org/field/line"
+					}
+				, "blocks":
+					{ "type": "array"
+					, "widget": "array"
+					, "items": { "type":"string", "format":"uri", "range":"http://magnode.org/Block" }
+					, "description": "The block to be rendered out"
+					}
+				}
+			}
+		, "tablequery": {"fields":["_id","subject","label"]}
+		}
+	,
+		{ "_id": {"$ObjectId": "50967cc8c80240af9203758f"}
+		, "subject": "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Header"
+		, "type": ["http://magnode.org/DocumentRegion", "http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header"]
+		, "label": "Header"
+		, "blocks": []
+		}
+	,
+		{ "_id": {"$ObjectId": "50967e93cb6d3c9dbc8f5c60"}
+		,  "subject": "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Panel"
+		, "type": ["http://magnode.org/DocumentRegion", "http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"]
+		, "label": "Panel"
+		, "blocks": ["http://localhost/Menu_MainMenu", "http://localhost/Menu_UserMenu", "http://localhost/Menu_ManagementMenu"]
+		}
+	,
+		{ "_id": {"$ObjectId": "50967f20f491ea256f341bff"}
+		,  "subject": "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Footer"
+		, "type": ["http://magnode.org/DocumentRegion", "http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer"]
+		, "label": "Footer"
+		, "blocks": []
+		}
+	]
+}

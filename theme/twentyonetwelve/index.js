@@ -74,9 +74,11 @@ module.exports.importTheme = function(render, router){
 
 	var template = "http://magnode.org/theme/twentyonetwelve/DocumentHTML_typeHTMLBody";
 	render.renders[template] = renderDocument;
+	var menus = ['http://magnode.org/HTMLBody_Block_UserMenu', 'http://magnode.org/HTMLBody_Block_MainMenu', 'http://magnode.org/HTMLBody_Block_ManagementMenu'];
+	var regions = ['Header','Panel','Footer'].map(function(v){return 'http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_'+v});
 	addResource(template,
 		{ a: ['http://magnode.org/view/Transform', 'http://magnode.org/theme/twentyonetwelve/Transform']
-		, 'http://magnode.org/view/domain': {$list:['http://magnode.org/HTMLBody', 'http://magnode.org/HTMLBody_Block_UserMenu', 'http://magnode.org/HTMLBody_Block_MainMenu', 'http://magnode.org/HTMLBody_Block_ManagementMenu']}
+		, 'http://magnode.org/view/domain': {$list:['http://magnode.org/HTMLBody','http://magnode.org/HTMLBodyBlock_UserMenu'].concat(regions)}
 		, 'http://magnode.org/view/range': ['http://magnode.org/DocumentHTML', 'http://magnode.org/Document']
 		} );
 
@@ -111,4 +113,19 @@ module.exports.importTheme = function(render, router){
 		, 'http://magnode.org/view/domain': {$list:['http://magnode.org/Page']}
 		, 'http://magnode.org/view/range': ['http://magnode.org/HTMLBody', 'http://magnode.org/HTMLBodyPage']
 		} );
+
+	// Add the region listings
+	function addRegion(name){
+		var template = "http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_typeRegion_"+name;
+		render.renders[template] = render.renders['http://magnode.org/transform/HTMLBodyRegion_typeRegion'];
+		addResource(template,
+			{ a: ['http://magnode.org/view/Transform', 'http://magnode.org/theme/twentyonetwelve/Transform']
+			, 'http://magnode.org/view/domain': {$list:['http://magnode.org/theme/twentyonetwelve/DocumentRegion_'+name]}
+			, 'http://magnode.org/view/range': ['http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_'+name]
+			, 'http://magnode.org/view/regionLabel': name.l()
+			} );
+	}
+	addRegion('Header');
+	addRegion('Panel');
+	addRegion('Footer');
 }
