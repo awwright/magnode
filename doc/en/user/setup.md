@@ -1,6 +1,6 @@
 ## Setup
 
-Currently Magnode demands some knowledge of ECMAScript/Javascript coding, MongoDB databases, website design, and webserver setup. These needs should be reduced down to the bare minimum as development proceeds (configuration of the webserver).
+Currently Magnode demands some knowledge of ECMAScript/Javascript coding, MongoDB, website design, and webserver setup. These needs should be reduced down to the bare minimum as development proceeds (configuration of the webserver).
 
 This will demonstrate how to setup Magnode to host a basic blog-like website with static pages, and named and dated posts. This involves setting up user accounts and authentication, the site theme, the database, and navigation menus.
 
@@ -31,8 +31,6 @@ You'll now want to add a user. Run;
 
 Where <i>db-options</i> is <code>-d <i>database</i></code> and (if necessary) <code>-h user@pass:host:port</code>, and where superuser-id is the Superuser id from the setup program. You may also provide <code>--random-password</code> to generate some random password. If not, enter a password for the new account when prompted.
 
-Finally, you'll need to setup the theme. See "Setting up the theme" below.
-
 The webserver can now be started by running <code>./sites/localhost/httpd.js</code>.
 
 
@@ -47,20 +45,6 @@ After Magnode has been installed, setup a place to place website resources:
 Then create the script that will run the HTTP server. See the "Framework Setup" section for a sample script. Paste it into a new file and edit as necessary with your favorite editor:
 
 	$ $EDITOR sites/example.com/httpd.js
-
-
-### Using a theme
-
-A theme is a set of transforms/templates that handles the final step of assembling the finished HTML document, and provides auxiliary files like CSS and JS files for web browsers. In order to use the default theme that ships with Magnode, you must enable it with some statements on how to use it.
-
-Locate `setup/example-blog/format.ttl` and copy it to `sites/example.com/format.ttl`. Open in your favorite editor and edit the @base directive on the first line to match your website:
-
-	$ cp setup/example-blog/format.ttl sites/example.com/format.ttl
-	$ $EDITOR sites/example.com/format.ttl
-
-In this example, it would look like:
-
-	@base <http://example.com/> .
 
 
 ### Import content to MongoDB

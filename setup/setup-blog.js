@@ -107,8 +107,8 @@ function importData(options){
 	var dbClient = dbConnect.db(options.dbName);
 
 	var remaining = 1;
-	var files = ['mongodb-base.json', 'mongodb-List.json', 'mongodb-OnlineAccount.json', 'mongodb-Page.json', 'mongodb-Post.json', 'mongodb-frontpage.json'];
-	var paths = files.map(function(v){return path.resolve(__dirname+'/data', v);});
+	var files = ['base', 'List', 'OnlineAccount', 'Page', 'Post', 'frontpage', 'DocumentRegion', 'Block', 'ThemeData'];
+	var paths = files.map(function(v){return path.resolve(__dirname+'/data', 'mongodb-'+v+'.json');});
 	// FIXME Workaround to make sure we only execute dbConnect.close() after we've connected
 	dbClient.collectionNames(function(){
 		parseMongoJSON.importFiles(paths, dbClient, options.siteBase, function(){ dbConnect.close(); rl.close(); });

@@ -23,26 +23,15 @@ You can run Nginx as a load-balancing proxy for Magnode, and to serve static fil
 		open_file_cache_min_uses 2;
 		open_file_cache_errors on;
 
-		location ~ ^/(css|png|static)/ {
-			root /var/www/magnode.org;
-			index index.html;
-			autoindex on;
-		}
-
-		location ~ \.(png|css|html|ico)$ {
-			root /var/www/magnode.bzfx.net;
-			index index.html;
-			autoindex on;
-		}
-
 		access_log /var/log/nginx/nodetest.log;
 
-		location / {
+		try_files $uri $uri.html @magnode;
+
+		location @magnode {
 			proxy_set_header X-Real-IP $remote_addr;
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			proxy_set_header Host $http_host;
 			proxy_set_header X-NginX-Proxy true;
-			#proxy_set_header X-Client-Cert $ssl_client_cert;
 
 			proxy_pass http://magnode_www_cluster_1;
 			proxy_redirect off;
