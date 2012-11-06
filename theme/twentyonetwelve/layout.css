@@ -135,22 +135,34 @@ textarea {
 
 
 /* Menu styles */
-div.menu {
+div.head div.menu h5 {
+	display: none;
+}
+div.head div.menu ul {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+div.head div.menu > ul > li {
+	display: inline-block;
+	margin: 1em;
+}
+div.panel div.menu {
 	border: solid 1px #AAA;
 	margin: 20px 0;
 	padding: 1em;
 	font-size: 85%;
 }
-div.menu h5 {
+div.panel div.menu h5 {
 	font-size: 85%;
 	margin: 0 0 0.5em;
 	border-bottom: 1px solid #d6d6d6;
 }
-div.menu ul {
+div.panel div.menu ul {
 	margin: 0;
 	padding: 0 0 0.25em 1em;
 }
-div.menu li {
+div.panel div.menu li {
 	margin: 0;
 }
 ul li.leaf {
