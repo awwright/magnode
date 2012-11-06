@@ -1,8 +1,8 @@
 @base <http://localhost/> .
 @prefix type: </> .
+@prefix tf: </transform/> .
 @prefix magnode: <http://magnode.org/> .
 @prefix view: <http://magnode.org/view/> .
-@prefix Transform: <http://magnode.org/transform/> .
 
 
 # Enable page theme
@@ -21,50 +21,16 @@
 	a view:ViewTransform, view:FormTransform .
 
 
-# Main menu
-
-Transform:HTMLBodyBlock_MainMenu_typeMenu_MainMenu
-	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
-	view:domain ( type:Menu_MainMenu );
-	view:range magnode:HTMLBodyBlock, magnode:HTMLBodyBlock_MainMenu .
-
-Transform:Menu_MainMenu_typeDocument
-	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:module "magnode/transform.Menu_typeDocument" ;
-	view:menuItemContentTypes type:Raw, type:Page;
-	view:domain ();
-	view:range type:Menu_MainMenu .
-
-
 # User menu
 
-Transform:HTMLBodyBlock_UserMenu_typeMenu_UserMenu
+tf:HTMLBodyBlock_UserMenu_typeMenu_UserMenu
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain ( type:Menu_UserMenu );
-	view:range magnode:HTMLBodyBlock, magnode:HTMLBodyBlock_UserMenu .
+	view:range magnode:HTMLBodyBlock_UserMenu .
 
-Transform:Menu_UserMenu_typeUserSession
+tf:Menu_UserMenu_typeUserSession
 	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
 	view:module "magnode/transform.Menu_typeUserSession" ;
 	view:domain ( magnode:UserSession );
 	view:range type:Menu_UserMenu .
-
-
-# Management menu
-
-Transform:HTMLBodyBlock_ManagementMenu_typeMenu_ManagementMenu
-	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
-	view:domain ( type:Menu_ManagementMenu );
-	view:range magnode:HTMLBodyBlock, magnode:HTMLBodyBlock_ManagementMenu .
-
-Transform:Menu_ManagementMenu_ManagementMenu
-	a view:Transform, view:FormTransform, view:ViewTransform, view:ModuleTransform ;
-	view:module "magnode/transform.Menu_typeDocument" ;
-	view:menuItemContentTypes magnode:MongoDBJSONSchema, type:Page;
-	view:domain ();
-	view:range type:Menu_ManagementMenu .
-
-
