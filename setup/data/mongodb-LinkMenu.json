@@ -1,13 +1,13 @@
 { "nodes":
 	[
 		{ "_id": {"$ObjectId": "5093ed74dca36e48377e5bad"}
-		, "subject": "http://magnode.org/Block"
+		, "subject": "http://magnode.org/LinkMenu"
 		, "type": ["http://magnode.org/MongoDBJSONSchema"]
-		, "label": "Block"
-		, "description": "A block to be placed in a region of another Document"
+		, "label": "Link Menu"
+		, "description": "A menu of links"
 		, "menu":
 			{ "http://localhost/Menu_ManagementMenu":
-				{ "title": "Blocks"
+				{ "title": "Link Menus"
 				, "weight": 0
 				}
 			}
@@ -36,29 +36,17 @@
 					{ "type": "string"
 					, "format": "http://magnode.org/field/line"
 					}
-				, "body":
+				, "scan":
 					{ "type": "string"
-					, "format": "http://magnode.org/field/textarea"
-					}
-				, "region":
-					{ "type": "string"
-					, "format": "uri"
-					, "description": "The region the block will be placed in"
-					}
-				, "block":
-					{ "type": "string"
-					, "format": "uri"
-					, "description": "The block to be rendered out"
+					, "format": "array"
+					, "items":
+						{ "type": "string"
+						, "format": "uri"
+						}
 					}
 				}
 			}
 		, "tablequery": {"fields":["_id","subject","label"]}
-		, "ViewTransform":
-			{ "page-example":
-				{ "type": "jade"
-				, "file": "template/HTMLBody_typePost.jade"
-				}
-			}
 		}
 	]
 }
