@@ -87,11 +87,12 @@ var resources = {
 	"db-transforms": transformDb,
 	"db-rdfa": formatDb,
 	"http://magnode.org/Auth": httpAuthCookie,
+	"authz": authz,
 	"password-hash": passwordGenerateRecord,
 	"rdf": rdf.environment,
 	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header",
 	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Panel",
-	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer"
+	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer",
 };
 
 // Post-auth
@@ -102,8 +103,8 @@ httpAuthCookie.routeSession(route, httpAuthForm);
 (require("magnode/route.routes"))(route);
 (require("magnode/route.transforms"))(route, resources, renders);
 httpAuthForm.routeForm(route, resources, renders, "/login");
-(require("magnode/route.resource.mongodb.id"))(route, resources, authz, renders);
-(require("magnode/route.resource.mongodb.subject"))(route, resources, authz, renders);
+(require("magnode/route.resource.mongodb.id"))(route, resources, renders);
+(require("magnode/route.resource.mongodb.subject"))(route, resources, renders);
 
 // Handle HTTP requests
 require('http').createServer(route.listener()).listen(listenPort);
