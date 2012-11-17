@@ -39,8 +39,9 @@
 					, "format": "http://magnode.org/field/line"
 					}
 				, "menu":
-					{ "type": "json"
+					{ "type": "object"
 					, "format": "json"
+					, "default": {}
 					}
 				, "body":
 					{ "type": "string"
