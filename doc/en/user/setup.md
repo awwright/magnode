@@ -1,16 +1,14 @@
 ## Setup
 
-Currently Magnode demands some knowledge of ECMAScript/Javascript coding, MongoDB, website design, and webserver setup. These needs should be reduced down to the bare minimum as development proceeds (configuration of the webserver).
+Magnode is designed to be setup with the provided setup script. It can also be setup by hand. For details, consult the developer documentation, API documentation, and the database installer source code.
 
-This will demonstrate how to setup Magnode to host a basic blog-like website with static pages, and named and dated posts. This involves setting up user accounts and authentication, the site theme, the database, and navigation menus.
+The installer sets up a basic blog-like website with static pages, users, and named and dated posts.
 
 Remember to replace `example.com` with the name of your own site. If you're just testing, you can call it `localhost`.
 
+After you have installed the files to the system, navigate to the main directory and run the following command at a prompt:
 
-### Installer setup
-
-The easiest way to get setup is to use the installer. After you have followed the installation, navigate to the main directory and run the following command:
-
+	$ mkdir sites
 	$ ./setup/setup-blog.js
 
 This will ask you a few questions about the site you want to create:
@@ -25,41 +23,22 @@ This will ask you a few questions about the site you want to create:
 
 Accepting the final prompt will install files to the sites directory, and import content into the database.
 
-You'll now want to add a user. Run;
-
-<pre><code>$ ./setup/mongodb-account.js <i>&lt;options&gt;</i> --create --resource <i>&lt;superuser&gt;</i> --username root</code></pre>
-
-Where <i>db-options</i> is <code>-d <i>database</i></code> and (if necessary) <code>-h user@pass:host:port</code>, and where superuser-id is the Superuser id from the setup program. You may also provide <code>--random-password</code> to generate some random password. If not, enter a password for the new account when prompted.
-
-The webserver can now be started by running <code>./sites/localhost/httpd.js</code>.
-
-
-### File setup
-
-Magnode should already be installed on your system. For instructions on how to perform setup, see the Installation chapter above.
-
-After Magnode has been installed, setup a place to place website resources:
-
-	$ mkdir -p sites/example.com/{node_modules,template,www}
-
-Then create the script that will run the HTTP server. See the "Framework Setup" section for a sample script. Paste it into a new file and edit as necessary with your favorite editor:
-
-	$ $EDITOR sites/example.com/httpd.js
+The webserver can now be started by running <code>./sites/localhost/httpd.js</code>. Visit http://localhost:8080/login and login with username "root" and the password displayed at the end of the setup.
 
 
 ### Import content to MongoDB
 
-If you're using MongoDB as the primary content store (effectively the only option at the moment), then you'll need to create and populate a database with some data. First, import the collections, indexes, and the critical MongoDBJSONSchema resource. Then, import the schema for user accounts (mongodb-OnlineUser.json).
+If you want to install or reset content in the database, the import-mongodb script can do this. At a prompt run, for example:
 
 <pre><code>$ ./setup/import-mongodb.js [options] -d <i>magnode-blog</i> \
    --base 'http://example.com/' \
-   setup/data/mongodb-{base,OnlineUser,Page,Post,List,frontpage}.json
+   setup/data/mongodb-{Post,Page}.json
 </code></pre>
 
 where _options_ may be <code>-h <i>localhost</i></code>, <code>-u <i>username</i></code>, and _magnode_ is the name of the database you wish to import to. Use `-p -` if to supply a password. Use `./import-mongodb.js -?` for the complete list of options.
 
 
-### Setting up users
+### Creating more users
 
 After setting up the database, we'll need to fill it with some content, beginning with users who can login.
 

@@ -15,6 +15,7 @@ module.exports.parser = function parser(k, v, base){
 	if(typeof v=='object'){
 		for(var n in v){
 			if(n.substr(0,prefix.length)==prefix){
+				// urlencode [%.$]
 				var key = (base+n.substr(prefix.length)).replace(/%/g,'%25').replace(/\x2E/g, '%2E').replace(/\x24/g, '%24');
 				v[key] = v[n];
 				delete n[v];

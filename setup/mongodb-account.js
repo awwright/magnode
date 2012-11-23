@@ -119,11 +119,11 @@ function promptPassword(doc){
 function setPassword(user){
 	var dbShadow = dbClient.collection('shadow');
 	var dbNodes = dbClient.collection('nodes');
-	authpbkdf2.generateRecord({password:userPassword}, function(newdoc){
-		if(!newdoc._id) newdoc._id = new mongodb.ObjectId();
-		dbShadow.save(newdoc, function(err){
+	authpbkdf2.generateRecord({password:userPassword}, function(shadow){
+		if(!shadow._id) shadow._id = new mongodb.ObjectId();
+		dbShadow.save(shadow, function(err){
 			if(err) throw err;
-			dbNodes.update({_id:user._id}, {$set:{password:newdoc._id}}, function(err, updated){
+			dbNodes.update({_id:user._id}, {$set:{password:shadow._id}}, function(err, updated){
 				// TODO maybe remove the old shadow entry here?
 				rl.close();
 				dbConnect.close();
