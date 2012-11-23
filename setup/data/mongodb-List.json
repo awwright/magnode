@@ -36,11 +36,11 @@
 					, "format": "http://magnode.org/field/line"
 					}
 				, "menu":
-					{ "type": "json"
+					{ "type": "object"
 					, "format": "json"
 					}
 				, "query":
-					{ "type": "string"
+					{ "type": "object"
 					, "format": "json"
 					}
 				}
