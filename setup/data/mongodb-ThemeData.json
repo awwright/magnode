@@ -11,7 +11,7 @@
 		,  "subject": "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Panel"
 		, "type": ["http://magnode.org/DocumentRegion", "http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"]
 		, "label": "Panel"
-		, "blocks": ["http://localhost/Menu_MainMenu", "http://localhost/Menu_ManagementMenu"]
+		, "blocks": ["http://localhost/Menu_MainMenu", "http://localhost/Menu_ManagementMenu", "http://localhost/Menu_SettingsMenu"]
 		}
 	,
 		{ "_id": {"$ObjectId": "50967f20f491ea256f341bff"}
@@ -24,14 +24,20 @@
 		{ "_id": {"$ObjectId": "5098c30cbc6ea70b61255f0f"}
 		,  "subject": "http://localhost/Menu_MainMenu"
 		, "type": ["http://magnode.org/LinkMenu"]
-		, "scan": ["http://magnode.org/Raw", "http://magnode.org/Page", "http://magnode.org/Post"]
+		, "scan": ["http://magnode.org/Raw", "http://magnode.org/Page", "http://magnode.org/Post", "http://magnode.org/MongoDB_List"]
 		, "label": "Main Menu"
 		}
 	,
 		{ "_id": {"$ObjectId": "5098c30d29ff7a3e29a1f06b"}
 		,  "subject": "http://localhost/Menu_ManagementMenu"
 		, "type": ["http://magnode.org/LinkMenu"]
-		, "label": "Management"
+		, "label": "Content Management"
+		}
+	,
+		{ "_id": {"$ObjectId": "50b079ebd0c1e5642ac0c791"}
+		,  "subject": "http://localhost/Menu_SettingsMenu"
+		, "type": ["http://magnode.org/LinkMenu"]
+		, "label": "Settings"
 		}
 	]
 }

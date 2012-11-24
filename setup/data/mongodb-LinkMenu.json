@@ -6,7 +6,7 @@
 		, "label": "Link Menu"
 		, "description": "A menu of links"
 		, "menu":
-			{ "http://localhost/Menu_ManagementMenu":
+			{ "http://localhost/Menu_SettingsMenu":
 				{ "title": "Link Menus"
 				, "weight": 0
 				}

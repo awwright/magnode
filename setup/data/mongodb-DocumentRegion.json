@@ -6,7 +6,7 @@
 		, "label": "DocumentRegion"
 		, "description": "A region of a document where content may be placed"
 		, "menu":
-			{ "http://localhost/Menu_ManagementMenu":
+			{ "http://localhost/Menu_SettingsMenu":
 				{ "title": "Document Regions"
 				, "weight": 0
 				}
