@@ -66,9 +66,7 @@ module.exports.importTheme = function(render, router){
 		var locals = {input:input, stylesheets:stylesheets, scripts:scripts};
 		var result = renderDocumentFn(locals);
 		var output = {};
-		for(var i=0;i<outputType.length;i++){
-			output[outputType[i]] = result;
-		}
+		outputType.forEach(function(v){output[v]=result;});
 		callback(null, output);
 	}
 
