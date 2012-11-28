@@ -72,11 +72,11 @@ module.exports.importTheme = function(render, router){
 
 	var template = "http://magnode.org/theme/twentyonetwelve/DocumentHTML_typeHTMLBody";
 	render.renders[template] = renderDocument;
-	var menus = ['http://magnode.org/HTMLBody_Block_UserMenu', 'http://magnode.org/HTMLBody_Block_MainMenu', 'http://magnode.org/HTMLBody_Block_ManagementMenu'];
 	var regions = ['Header','Panel','Footer'].map(function(v){return 'http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_'+v});
+	var blocks = ['HTMLBody','HTMLBodyBlock_UserMenu','HTMLBodyBlock_ResourceMenu'].map(function(v){return 'http://magnode.org/'+v});
 	addResource(template,
 		{ a: ['http://magnode.org/view/Transform', 'http://magnode.org/theme/twentyonetwelve/Transform']
-		, 'http://magnode.org/view/domain': {$list:['http://magnode.org/HTMLBody','http://magnode.org/HTMLBodyBlock_UserMenu'].concat(regions)}
+		, 'http://magnode.org/view/domain': {$list:[].concat(blocks,regions)}
 		, 'http://magnode.org/view/range': ['http://magnode.org/DocumentHTML', 'http://magnode.org/Document']
 		} );
 

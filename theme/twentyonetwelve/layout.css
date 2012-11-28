@@ -26,8 +26,9 @@ div.head-base {
 div.head {
 	position: absolute;
 	top: 0;
-	width: 100%;
-	font-size: 85%;
+	left: 12em;
+	right: 0;
+	padding-left: 1em;
 }
 div#head-logo a {
 	display: block;
@@ -135,6 +136,10 @@ textarea {
 
 
 /* Menu styles */
+div.head div.menu {
+	font-size: 85%;
+	float: right;
+}
 div.head div.menu h5 {
 	display: none;
 }
@@ -314,6 +319,12 @@ div.pagination .current {
 div.pagination span {
 	margin: 0 3px;
 	padding: 2px 6px;
+}
+div.head div.pagination {
+	float: left;
+}
+div.head div.pagination h5 {
+	display: none;
 }
 
 
