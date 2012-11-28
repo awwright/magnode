@@ -37,7 +37,8 @@ var formatDb = new (require("magnode/db.lazy"))(
 		} );
 
 var authz = new (require("magnode/authorization.any"))(
-	[ new (require("magnode/authorization.read"))
+	[ new (require("magnode/authorization.read"))(['get'], [siteBase+'Published','http://magnode.org/Post','http://magnode.org/Page'])
+	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [siteBase+'Published'])
 	, new (require("magnode/authorization.superuser"))(siteSuperuser)
 	, new (require("magnode/authorization.usergroups.mongodb"))
 	] );
