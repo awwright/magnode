@@ -26,7 +26,7 @@
 					}
 				, "type":
 					{ "type": "array"
-					, "format": "array"
+					, "widget": "array"
 					, "items":
 						{ "type": "string"
 						, "format": "uri"
@@ -34,16 +34,16 @@
 					}
 				, "label":
 					{ "type": "string"
-					, "format": "http://magnode.org/field/line"
+					, "widget": "http://magnode.org/field/line"
 					}
 				, "menu":
 					{ "type": "object"
-					, "format": "json"
+					, "widget": "json"
 					, "default": {}
 					}
 				, "body":
 					{ "type": "string"
-					, "format": "http://magnode.org/field/textarea"
+					, "widget": "http://magnode.org/field/textarea"
 					}
 				}
 			}

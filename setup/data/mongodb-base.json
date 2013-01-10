@@ -23,13 +23,13 @@
 			, "properties":
 				{ "_id": { "type": "ObjectId", "readonly": true }
 				, "subject": { "type": "string", "format": "uri" }
-				, "type": { "type": "array", "format": "array", "items": { "type": "string", "format": "uri" } }
-				, "label": { "type": "string", "format": "http://magnode.org/field/line" }
-				, "schema": { "type": "object", "format": "json", "default": {} }
-				, "tablequery": { "type": "object", "format": "json", "default": {} }
-				, "ViewTransform": { "type": "object", "format": "json", "default": {} }
-				, "menu": { "type": "object", "format": "json" }
-				, "permissions": { "type": [ "object", "null" ], "format": "json", "default": null }
+				, "type": { "type": "array", "widget": "array", "items": { "type": "string", "format": "uri" } }
+				, "label": { "type": "string", "widget": "http://magnode.org/field/line" }
+				, "schema": { "type": "object", "widget": "json", "default": {} }
+				, "tablequery": { "type": "object", "widget": "json", "default": {} }
+				, "ViewTransform": { "type": "object", "widget": "json", "default": {} }
+				, "menu": { "type": "object", "widget": "json" }
+				, "permissions": { "type": [ "object", "null" ], "widget": "json", "default": null }
 				}
 			}
 		, "tablequery": { "fields": [ "_id", "subject", "label" ] }

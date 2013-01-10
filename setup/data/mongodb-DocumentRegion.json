@@ -34,7 +34,7 @@
 					}
 				, "label":
 					{ "type": "string"
-					, "format": "http://magnode.org/field/line"
+					, "widget": "http://magnode.org/field/line"
 					}
 				, "blocks":
 					{ "type": "array"

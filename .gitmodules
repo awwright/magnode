@@ -7,6 +7,11 @@
 	path = node_modules/sparql-spin.src
 	url = git://github.com/Acubed/sparql-spin-js3.git
 	semver = *
+[submodule "node_modules/jsonschema"]
+	path = node_modules/jsonschema
+	url = git://github.com/Acubed/jsonschema.git
+	semver = *
+	npm = jsonschema
 [submodule "node_modules/jade.src"]
 	path = node_modules/jade.src
 	url = git://github.com/visionmedia/jade.git

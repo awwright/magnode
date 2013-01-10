@@ -24,11 +24,11 @@
 					{ "type": "string"
 					, "format": "uri"
 					, "widget": "http://magnode.org/field/token"
-					, "pattern": "/#{posted.Y}/#{posted.m}/#{posted.d}/#{label.formatURL}"
+					, "tokenPattern": "/#{posted.Y}/#{posted.m}/#{posted.d}/#{label.formatURL}"
 					}
 				, "type":
 					{ "type": "array"
-					, "format": "array"
+					, "widget": "array"
 					, "items":
 						{ "type": "string"
 						, "format": "uri"
@@ -36,16 +36,16 @@
 					}
 				, "label":
 					{ "type": "string"
-					, "format": "http://magnode.org/field/line"
+					, "widget": "http://magnode.org/field/line"
 					}
 				, "menu":
 					{ "type": "object"
-					, "format": "json"
+					, "widget": "json"
 					, "default": {}
 					}
 				, "body":
 					{ "type": "string"
-					, "format": "http://magnode.org/field/textarea"
+					, "widget": "http://magnode.org/field/textarea"
 					}
 				, "author":
 					{ "type": "string"
@@ -57,7 +57,7 @@
 					}
 				, "posted":
 					{ "type": "Date"
-					, "format": "http://magnode.org/field/date"
+					, "widget": "http://magnode.org/field/date"
 					, "default": "now"
 					}
 				}
