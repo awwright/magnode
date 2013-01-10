@@ -1,10 +1,15 @@
 #!/usr/bin/env node
 
-var dbHost = undefined;
-var dbName = undefined;
-var siteSuperuser = undefined;
-var siteBase = undefined;
-var siteSecretKey = undefined;
+var configuration = require('./server.json');
+var dbHost = configuration.dbHost;
+var dbName = configuration.dbName;
+var siteSuperuser = configuration.siteSuperuser;
+var siteBase = configuration.siteBase;
+// If none is specified, one will be generated randomly at startup
+var siteSecretKey = configuration.siteSecretKey;
+if(siteSecretKey && siteSecretKey.file){
+	siteSecretKey = require('fs').readFileSync(require('path').resolve(__dirname, siteSecretKey.file));
+}
 
 //console.log=function(){}
 

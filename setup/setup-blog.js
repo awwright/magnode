@@ -38,7 +38,7 @@ function printHelp(){
 var questions =
 	{ name: {label:'Machine name (create directory in sites/)', default:'localhost', post:function(q,v){
 		q.dbName.default='magnode-'+v.name;
-		q.siteBase.default='http://'+v.siteBase+'/';
+		q.siteBase.default='http://'+v.name+'/';
 		}}
 	, dbHost: {label:'MongoDB connection [user:password@]hostname[:port]', default:undefined}
 	, dbName: {label:'MongoDB database', default:'magnode-blog'}
@@ -88,22 +88,26 @@ function confirmData(err){
 function setupDirectory(){
 	fs.mkdirSync(values.target);
 
+	// session.key
+	var bytes = require('crypto').randomBytes(64);
+	fs.writeFileSync(values.target+'/session.key', bytes);
+	fs.chmodSync(values.target+'/session.key', parseInt('600',8));
+	var encodedBytes = "";
+	for(var i=0; i<bytes.length; i++) encodedBytes += '\\x'+('00'+bytes[i].toString(16)).substr(-2);
+
+	// server.json
+	var config = {};
+	config.dbHost = values.dbHost;
+	config.dbName = values.dbName;
+	config.siteBase = values.siteBase;
+	config.siteSuperuser = values.siteSuperuser;
+	config.siteSecretKey = {file: 'session.key'};
+	fs.writeFileSync(values.target+'/server.json', JSON.stringify(config, undefined, "\t"));
+
 	// httpd.js
 	var contents = fs.readFileSync(path.join(__dirname, 'example-blog/httpd.js'), 'utf8');
-	function setValue(name, value){
-		if(value===undefined) return;
-		contents = contents.replace('var '+name+' = undefined;', 'var '+name+' = '+JSON.stringify(value)+';');
-	}
-	setValue('dbHost', values.dbHost);
-	setValue('dbName', values.dbName);
-	setValue('siteBase', values.siteBase);
-	setValue('siteSuperuser', values.siteSuperuser);
-	var bytes = require('crypto').randomBytes(64);
-	var encoding = "";
-	for(var i=0; i<bytes.length; i++) encoding += '\\x'+('00'+bytes[i].toString(16)).substr(-2);
-	contents = contents.replace('var siteSecretKey = undefined;', 'var siteSecretKey = "'+encoding+'";');
 	fs.writeFileSync(values.target+'/httpd.js', contents);
-	fs.chmodSync(values.target+'/httpd.js', parseInt('775',8));
+	fs.chmodSync(values.target+'/httpd.js', parseInt('755',8));
 
 	// format.ttl
 	var contents = fs.readFileSync(path.join(__dirname, 'example-blog/format.ttl'), 'utf8');
