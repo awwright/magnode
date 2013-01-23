@@ -1,7 +1,7 @@
 { "system.indexes":
 	[ { "collection": "nodes", "key": { "_id": 1 } }
 	, { "collection": "shadow", "key": { "_id": 1 } }
-	, { "collection": "nodes", "key": { "subject": 1 }, "options": {"unique": true}}
+	, { "collection": "nodes", "key": { "subject": 1 }, "options": {"unique": true, "sparse": true}}
 	, { "collection": "cache", "key": { "_id": 1 }}
 	]
 , "nodes":
