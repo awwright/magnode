@@ -20,6 +20,10 @@
 					{ "type": "ObjectId"
 					, "readonly": true
 					}
+				, "_parent":
+					{ "type": "ObjectId"
+					, "readonly": true
+					}
 				, "subject":
 					{ "type": "string"
 					, "format": "uri"
