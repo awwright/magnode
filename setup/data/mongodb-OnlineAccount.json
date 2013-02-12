@@ -23,6 +23,9 @@
 					, "default": null
 					}
 				}
+			, "put":
+				{ "storeRevision": true
+				}
 			}
 		, "tablequery": {"fields": ["_id","subject", "label"]}
 		}
@@ -53,6 +56,9 @@
 				, "password": { "type": "shadow", "title": "Password", "widget":"http://magnode.org/field/shadow"}
 				, "name": { "type": "string", "title": "Name", "widget": "http://magnode.org/field/line"}
 				, "email": { "type": "string", "title": "Email", "format": "email"}
+				}
+			, "put":
+				{ "storeRevision": true
 				}
 			}
 		, "tablequery": {"fields": ["_id","subject", "accountName", "name"]}

@@ -72,7 +72,6 @@
 				, "file": "template/HTMLBody_typePost.jade"
 				}
 			}
-		, "storeRevision": true
 		}
 	]
 }

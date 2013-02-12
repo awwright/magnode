@@ -43,6 +43,9 @@
 					, "description": "The block to be rendered out"
 					}
 				}
+			, "put":
+				{ "storeRevision": true
+				}
 			}
 		, "tablequery": {"fields":["_id","subject","label"]}
 		}

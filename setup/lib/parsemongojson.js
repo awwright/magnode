@@ -59,11 +59,19 @@ module.exports.importData = function importData(collections, dbClient, callback)
 		if(!(records instanceof Array)) throw new Error('Collection '+c+' not an Array');
 		records.forEach(function(record){
 			waitingQueries++;
-			collection.save(record, done);
+			var where = {};
+			if(record.subject){
+				where.subject=record.subject;
+				delete record._id;
+			}else{
+				where._id=record._id;
+			}
+			collection.upsert(where, record, done);
 		});
 	}
 
-	function done(){
+	function done(err){
+		if(err) console.log(err.stack||err.toString());
 		if(waitingQueries && --waitingQueries===0){
 			waitingQueries = false;
 			callback();

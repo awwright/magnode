@@ -45,6 +45,9 @@
 						}
 					}
 				}
+			, "put":
+				{ "storeRevision": true
+				}
 			}
 		, "tablequery": {"fields":["_id","subject","label"]}
 		}

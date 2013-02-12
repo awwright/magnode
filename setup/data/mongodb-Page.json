@@ -46,6 +46,9 @@
 					, "widget": "http://magnode.org/field/textarea"
 					}
 				}
+			, "put":
+				{ "storeRevision": true
+				}
 			}
 		, "tablequery": {}
 		, "ViewTransform":

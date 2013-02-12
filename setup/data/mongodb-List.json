@@ -44,6 +44,9 @@
 					, "widget": "json"
 					}
 				}
+			, "put":
+				{ "storeRevision": true
+				}
 			}
 		}
 	]
