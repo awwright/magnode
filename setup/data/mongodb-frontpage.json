@@ -13,7 +13,7 @@
 		, "query":
 			{ "filter": {"type": "http://magnode.org/Post"}
 			, "limit": 10
-			, "sort": {"key":"posted", "dir":-1}
+			, "sort": [{"key":"posted", "dir":-1}, {"key":"_id", "dir":-1}]
 			}
 		}
 	]
