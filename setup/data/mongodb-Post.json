@@ -28,7 +28,7 @@
 					{ "type": "string"
 					, "format": "uri"
 					, "widget": "http://magnode.org/field/token"
-					, "tokenPattern": "/#{posted.Y}/#{posted.m}/#{posted.d}/#{label.formatURL}"
+					, "tokenPattern": "/{posted.Y}/{posted.m}/{posted.d}/{label.formatURL}"
 					}
 				, "type":
 					{ "type": "array"
