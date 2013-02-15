@@ -67,7 +67,7 @@ var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	, secret: siteSecretKey
 	} );
 
-var transformDb = new rdf.IndexedGraph;
+var transformDb = new rdf.TripletGraph;
 formatDb.forEach(function(v){transformDb.add(v);});
 
 var transformTypes =
@@ -76,6 +76,7 @@ var transformTypes =
 	];
 var renders = new (require("magnode/render"))(transformDb, transformTypes);
 
+require('magnode/scan.widget').scanDirectorySync(__dirname+'/../../lib', renders);
 require('magnode/scan.ModuleTransform').scanDirectorySync(__dirname+'/../../lib', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
