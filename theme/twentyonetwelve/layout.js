@@ -7,7 +7,7 @@ function populateForms(){
 		}catch(e){}
 	}
 
-	var es = document.getElementsByClassName('field-textarea');
+	var es = document.getElementsByClassName('field-html');
 	for(var i=0; i<es.length; i++){
 		try {
 			var editor = CodeMirror.fromTextArea(es[i], {lineNumbers:true, lineWrapping:true, mode:'text/html'});

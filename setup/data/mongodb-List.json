@@ -37,15 +37,15 @@
 					}
 				, "label":
 					{ "type": "string"
-					, "widget": "http://magnode.org/field/line"
+					, "widget": "http://magnode.org/field/Label"
 					}
 				, "menu":
 					{ "type": "object"
-					, "widget": "json"
+					, "widget": "http://magnode.org/field/JSON"
 					}
 				, "query":
 					{ "type": "object"
-					, "widget": "json"
+					, "widget": "http://magnode.org/field/JSON"
 					}
 				}
 			, "put":

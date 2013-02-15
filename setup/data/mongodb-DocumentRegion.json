@@ -38,7 +38,7 @@
 					}
 				, "label":
 					{ "type": "string"
-					, "widget": "http://magnode.org/field/line"
+					, "widget": "http://magnode.org/field/Label"
 					}
 				, "blocks":
 					{ "type": "array"

@@ -16,10 +16,10 @@
 				, "_parent": { "type": "ObjectId", "readonly": true }
 				, "subject": { "type": "string", "format": "uri" }
 				, "type": { "type": "array", "widget": "array", "items": { "type": "string", "format": "uri" } }
-				, "label": { "type": "string", "widget": "http://magnode.org/field/line"}
+				, "label": { "type": "string", "widget": "http://magnode.org/field/Label"}
 				, "grant":
 					{ "type": "object"
-					, "widget": "json"
+					, "widget": "http://magnode.org/field/JSON"
 					, "description": "The permissions being granted to this user"
 					, "default": null
 					}
@@ -53,9 +53,9 @@
 				{ "_id": { "type": "ObjectId", "readonly": true}
 				, "subject": { "type": "string", "format": "uri"}
 				, "type": { "type": "array", "widget": "array", "items": { "type": "string", "format": "uri" } }
-				, "accountName": { "type": "string", "title": "Username", "widget": "http://magnode.org/field/line"}
+				, "accountName": { "type": "string", "title": "Username", "widget": "http://magnode.org/field/Label"}
 				, "password": { "type": "shadow", "title": "Password", "widget":"http://magnode.org/field/shadow"}
-				, "name": { "type": "string", "title": "Name", "widget": "http://magnode.org/field/line"}
+				, "name": { "type": "string", "title": "Name", "widget": "http://magnode.org/field/Label"}
 				, "email": { "type": "string", "title": "Email", "format": "email"}
 				}
 			, "put":

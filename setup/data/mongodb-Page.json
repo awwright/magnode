@@ -38,16 +38,16 @@
 					}
 				, "label":
 					{ "type": "string"
-					, "widget": "http://magnode.org/field/line"
+					, "widget": "http://magnode.org/field/Label"
 					}
 				, "menu":
 					{ "type": "object"
-					, "widget": "json"
+					, "widget": "http://magnode.org/field/JSON"
 					, "default": {}
 					}
 				, "body":
 					{ "type": "string"
-					, "widget": "http://magnode.org/field/textarea"
+					, "widget": "http://magnode.org/field/HTML"
 					}
 				}
 			, "put":
