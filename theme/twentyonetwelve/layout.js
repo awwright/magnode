@@ -2,6 +2,7 @@
 function populateForms(){
 	var es = document.getElementsByClassName('field-json');
 	for(var i=0; i<es.length; i++){
+		if(es[i].tagName.toLowerCase()!=='textarea') continue;
 		try{
 			var editor = CodeMirror.fromTextArea(es[i], {lineNumbers:true, mode:'application/json'});
 		}catch(e){}
@@ -9,6 +10,7 @@ function populateForms(){
 
 	var es = document.getElementsByClassName('field-html');
 	for(var i=0; i<es.length; i++){
+		if(es[i].tagName.toLowerCase()!=='textarea') continue;
 		try {
 			var editor = CodeMirror.fromTextArea(es[i], {lineNumbers:true, lineWrapping:true, mode:'text/html'});
 		}catch(e){}
