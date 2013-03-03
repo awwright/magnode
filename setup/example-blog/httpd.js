@@ -36,10 +36,7 @@ var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
 
 // The transforms database
-var formatDb = new (require("magnode/db.lazy"))(
-		{ file: __dirname+"/format.ttl"
-		, format: "n3"
-		} );
+var transformDb = new rdf.TripletGraph;
 
 var authz = new (require("magnode/authorization.any"))(
 	[ new (require("magnode/authorization.read"))(['get'], [siteBase+'Published','http://magnode.org/Post','http://magnode.org/Page'])
@@ -54,7 +51,6 @@ var passwordGenerateRecord = require('magnode/authentication.pbkdf2').generateRe
 var httpAuthCredential = new (require("magnode/authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
 var httpAuthForm = new (require("magnode/authentication.form"))(
 	{ domain: "/"
-	, db: formatDb
 	, action: "/createSession"
 	, credentials: httpAuthCredential
 	} );
@@ -67,9 +63,6 @@ var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	, secret: siteSecretKey
 	} );
 
-var transformDb = new rdf.TripletGraph;
-formatDb.forEach(function(v){transformDb.add(v);});
-
 var transformTypes =
 	[ require('magnode/transform.Jade')
 	, require('magnode/transform.ModuleTransform')
@@ -78,6 +71,7 @@ var renders = new (require("magnode/render"))(transformDb, transformTypes);
 
 require('magnode/scan.widget').scanDirectorySync(__dirname+'/../../lib', renders);
 require('magnode/scan.ModuleTransform').scanDirectorySync(__dirname+'/../../lib', renders);
+require('magnode/scan.turtle').scanDirectorySync(__dirname+'/format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
 
@@ -92,7 +86,7 @@ var resources = {
 	"db-mongodb-schema": nodesDb,
 	"db-mongodb-shadow": shadowDb,
 	"db-transforms": transformDb,
-	"db-rdfa": formatDb,
+	"db-rdfa": transformDb,
 	"http://magnode.org/Auth": httpAuthCookie,
 	"authz": authz,
 	"password-hash": passwordGenerateRecord,
