@@ -9,15 +9,21 @@
 			"articles": []
 		},
 		{
-			"title": "User Guide",
-			"dir": "user",
+			"title": "Setup",
+			"dir": "setup",
 			"articles": [
-				"content",
 				"download",
 				"installation",
 				"setup",
 				"framework",
-				"nginx",
+				"nginx"
+			]
+		},
+		{
+			"title": "User Guide",
+			"dir": "user",
+			"articles": [
+				"content",
 				"users",
 				"taxonomy"
 			]

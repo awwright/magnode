@@ -38,10 +38,9 @@ You can run Nginx as a load-balancing proxy for Magnode, and to serve static fil
 		}
 	}
 
-Caching may be enabled:
+Caching may be enabled, add this block to the "server" block:
 
 		proxy_cache magnode_www;
 		proxy_cache_valid  200 302  10m;
 		proxy_cache_valid  404      1m;
 		proxy_cache_bypass $http_authorization $cookie_authtoken;
-

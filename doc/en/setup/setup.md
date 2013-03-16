@@ -26,21 +26,23 @@ Accepting the final prompt will install files to the sites directory, and import
 The webserver can now be started by running <code>./sites/localhost/httpd.js</code>. Visit http://localhost:8080/login and login with username "root" and the password displayed at the end of the setup.
 
 
-### Import content to MongoDB
+### Reset or import additional content to MongoDB
 
 If you want to install or reset content in the database, the import-mongodb script can do this. At a prompt run, for example:
 
 <pre><code>$ ./setup/import-mongodb.js [options] -d <i>magnode-blog</i> \
    --base 'http://example.com/' \
-   setup/data/mongodb-{Post,Page}.json
+   setup/data/mongodb-{<i>Post,Page</i>}.json
 </code></pre>
 
 where _options_ may be <code>-h <i>localhost</i></code>, <code>-u <i>username</i></code>, and _magnode_ is the name of the database you wish to import to. Use `-p -` if to supply a password. Use `./import-mongodb.js -?` for the complete list of options.
 
+<i>setup/data/mongodb-Post.json</i> and <i>setup/data/mongodb-Page.json</i> are two examples of content that you may wish to re-import. Files from this directory represent lists of documents and/or indexes to be created in MongoDB. Any string beginning with "http://localhost/" is converted to the URL specified by the --base argument. Objects of the form `{"$ObjectId":"(hex)"}` are converted to a MongoDB ObjectId.
+
 
 ### Creating more users
 
-After setting up the database, we'll need to fill it with some content, beginning with users who can login.
+The installer will have created a root user with a random password. More users may be created, or password reset, using the mongodb-account script:
 
 <pre><code>$ ./setup/mongodb-account.js [options] -d <i>magnode-blog</i> \
    --create --resource 'http://example.com/user/root' \

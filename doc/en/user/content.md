@@ -14,11 +14,13 @@ Notice that the type of Page itself is listed as <http://magnode.org/MongoDBJSON
 
 When you want to create a new instance of a class, you can navigate to the page with ?new: <http://magnode.org/Page?new>. This creates a new instance of a resource in memory, and brings up a form to edit it, to submit and save in the database.
 
+
 ### Retreiving Content
 
-Magnode is a framework that formats RDF resources, which are identified by URIs. When your web browser dereferences these resources (that is, accesses them over the network), the web browser eventually contacts the Magnode HTTP server, which then uses a series of _transforms_ to convert the RDF resource of whatever type it is, into a content type requested by the browser (usually HTML). In some cases you may want Magnode to format a resource that it is not the server for, for instance, the `rdfs:Class` resource which has a uri of `http://www.w3.org/2000/01/rdf-schema#Class`. If the URI were to be dereferenced, it would make an HTTP GET request to `www.w3.org` for the resource `/2000/01/rdf-schema`. If you want to ask `example.com` how it would format the resource, you can specify the shortened URL after the domain name part of the URI like so: `http://example.com/rdfs:Class`. URIs with hashes can be formatted in the same manner.
+Magnode is a framework that formats resources, which are identified by URIs. When your web browser dereferences these resources (that is, accesses them over the network), the web browser eventually contacts the Magnode HTTP server, which then uses a series of _transforms_ to convert the resource of whatever type it is natively, into a content type requested by the browser (usually HTML). In some cases you may want Magnode to format a resource that it is not the server for, for instance, the `rdfs:Class` resource which has a URI of `http://www.w3.org/2000/01/rdf-schema#Class`. If the URI were to be dereferenced directly, it would make an HTTP GET request to `www.w3.org` for the resource `/2000/01/rdf-schema`. If you want to ask `example.com` how it would format the resource, you can specify the shortened URL after the domain name part of the URI like so: `http://example.com/rdfs:Class`. Hash URIs (containing the "#" character) can be formatted in the same manner.
 
-Which transforms are applied can be controlled with the `?apply=` paramater, which can be used any number of times, each with a different value that specifies the transform to apply to the requested resource.
+Which transforms are applied can be controlled with the `?apply=` paramater, which can be used any number of times, each with a different value that specifies the transform to apply to the requested resource. Specific representations may be requested to be formatted using the `?view=(type)` parameter, e.g. `http://example.com/post?view=magnode:DocumentHTML`.
+
 
 ### How resources are applied
 
@@ -35,6 +37,7 @@ Magnode keeps a list of objects with their content types, and uses transforms to
 ### Editing Content
 
 Passing the `?edit` parameter will change the transforms allowed to be applied from readonly transforms to editable-form transforms (transforms that can process both types, like HTTP, are members of both types). This will cause an editable form to be displayed.
+
 
 ### Creating Content
 
