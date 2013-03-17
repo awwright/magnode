@@ -65,11 +65,11 @@ function importData(){
 	dbConnect.log = {};
 	dbConnect.log.debug = dbConnect.log.info = dbConnect.log.warn = function(){};
 	dbConnect.log.error = console.error;
-	var dbClient = dbConnect.db(dbName);
+	var dbClient = dbName?dbConnect.db(dbName):dbConnect;
 	if(dbUsername) dbClient.auth(dbUsername, dbPassword);
 	// FIXME Workaround to make sure we only execute dbConnect.close() after we've connected
 	dbClient.collectionNames(function(){
-		parseMongoJSON.importFiles(files, dbClient, base, function(){ dbConnect.close(); });
+		parseMongoJSON.importFiles(files, dbClient, base, function(){ dbClient.server.close(); });
 	});
 }
 

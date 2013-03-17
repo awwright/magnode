@@ -14,7 +14,7 @@ if(siteSecretKey && siteSecretKey.file){
 //console.log=function(){}
 
 // The two required options
-if(!dbName) throw new Error('Need dbName');
+if(!dbName && !dbHost) throw new Error('Need dbName or dbHost');
 if(!siteBase) throw new Error('Need siteBase');
 
 var rdf=require('rdf');
@@ -31,7 +31,7 @@ for(var i=0; i<arguments.length; i++){
 // Load the database of webpages
 var mongodb = require('mongolian');
 var dbClient = new mongodb(dbHost);
-var dbInstance = dbClient.db(dbName);
+var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
 
