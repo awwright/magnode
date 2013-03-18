@@ -1,10 +1,9 @@
-
 function populateForms(){
 	var es = document.getElementsByClassName('field-json');
 	for(var i=0; i<es.length; i++){
 		if(es[i].tagName.toLowerCase()!=='textarea') continue;
 		try{
-			var editor = CodeMirror.fromTextArea(es[i], {lineNumbers:true, mode:'application/json'});
+			var editor = CodeMirror.fromTextArea(es[i], {lineNumbers:true, indentWithTabs:true, tabSize: 4, indentUnit:4, mode:'application/json'});
 		}catch(e){}
 	}
 
@@ -12,7 +11,7 @@ function populateForms(){
 	for(var i=0; i<es.length; i++){
 		if(es[i].tagName.toLowerCase()!=='textarea') continue;
 		try {
-			var editor = CodeMirror.fromTextArea(es[i], {lineNumbers:true, lineWrapping:true, mode:'text/html'});
+			var editor = CodeMirror.fromTextArea(es[i], {lineNumbers:true, lineWrapping:true, indentWithTabs:true, tabSize: 4, indentUnit:4, mode:'text/html'});
 		}catch(e){}
 	}
 
@@ -22,7 +21,7 @@ function populateForms(){
 			es[i].className.split(/\s+/g).some(function(v){
 				var p = 'type:';
 				if(v.substr(0,p.length)==p){
-					CodeMirror.fromTextArea(es[i], {lineNumbers:true, lineWrapping:true, mode:v.substr(p.length)});
+					CodeMirror.fromTextArea(es[i], {lineNumbers:true, lineWrapping:true, indentWithTabs:true, tabSize: 4, indentUnit:4, mode:v.substr(p.length)});
 					return true;
 				}
 			});
