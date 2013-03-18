@@ -1,6 +1,33 @@
 #!/usr/bin/env node
 
-var configuration = require('./server.json');
+var path = require('path');
+var fs = require('fs');
+var configFile = process.env.MAGNODE_CONF || './server.json';
+var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
+
+function bail(){
+	var route = new (require("magnode/route"));
+	(require("magnode/route.setup"))(route, configFile);
+	require('http').createServer(route.listener()).listen(listenPort);
+}
+
+var arguments = process.argv.slice(2);
+for(var i=0; i<arguments.length; i++){
+	if(arguments[i]=='--conf') configFile=arguments[++i];
+	if(arguments[i]=='--port') listenPort=parseInt(arguments[++i]);
+	if(arguments[i]=='--setup'){ bail(); return; }
+}
+configFile = require('path').resolve(process.cwd(), configFile);
+
+if(process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0') return bail();
+
+try{
+	var configuration = require(configFile);
+}catch(e){
+	console.error(e.stack||e.toString());
+	return bail();
+}
+
 var dbHost = configuration.dbHost;
 var dbName = configuration.dbName;
 var siteSuperuser = configuration.siteSuperuser;
@@ -8,25 +35,27 @@ var siteBase = configuration.siteBase;
 // If none is specified, one will be generated randomly at startup
 var siteSecretKey = configuration.siteSecretKey;
 if(siteSecretKey && siteSecretKey.file){
-	siteSecretKey = require('fs').readFileSync(require('path').resolve(__dirname, siteSecretKey.file));
+	siteSecretKey = fs.readFileSync(path.resolve(path.dirname(configFile), siteSecretKey.file));
+}
+if(configuration.chdir){
+	process.chdir(configuration.chdir);
 }
 
 //console.log=function(){}
 
 // The two required options
-if(!dbName && !dbHost) throw new Error('Need dbName or dbHost');
-if(!siteBase) throw new Error('Need siteBase');
+try{
+	if(!dbName && !dbHost) throw new Error('Need dbName or dbHost');
+	if(!siteBase) throw new Error('Need siteBase');
+}catch(e){
+	console.error(e.stack||e.toString());
+	return bail();
+}
 
 var rdf=require('rdf');
 rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setDefaultPrefix(siteBase);
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
-
-var listenPort=8080;
-var arguments = process.argv.slice(2);
-for(var i=0; i<arguments.length; i++){
-	if(arguments[i]=='--port') listenPort=parseInt(arguments[++i]);
-}
 
 // Load the database of webpages
 var mongodb = require('mongolian');
@@ -69,16 +98,17 @@ var transformTypes =
 	];
 var renders = new (require("magnode/render"))(transformDb, transformTypes);
 
-require('magnode/scan.widget').scanDirectorySync(__dirname+'/../../lib', renders);
-require('magnode/scan.ModuleTransform').scanDirectorySync(__dirname+'/../../lib', renders);
-require('magnode/scan.turtle').scanDirectorySync(__dirname+'/format.ttl', renders);
+var libDir = path.dirname(require.resolve('magnode/render'));
+require('magnode/scan.widget').scanDirectorySync(libDir, renders);
+require('magnode/scan.ModuleTransform').scanDirectorySync(libDir, renders);
+require('magnode/scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
 
 var route = new (require("magnode/route"));
 
-// FIXME what's this, an exact path? Too many dots
-require('./../../theme/twentyonetwelve').importTheme(renders, route);
+// Sets a default theme to use, may be removed for a custom theme specified in format.ttl
+require('./theme/twentyonetwelve').importTheme(renders, route);
 
 var resources = {
 	"db": nodesDb,

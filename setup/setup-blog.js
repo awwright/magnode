@@ -89,11 +89,11 @@ function setupDirectory(){
 	fs.mkdirSync(values.target);
 
 	// session.key
+	var fileAbs = values.target+'/session.key';
 	var bytes = require('crypto').randomBytes(64);
-	fs.writeFileSync(values.target+'/session.key', bytes);
-	fs.chmodSync(values.target+'/session.key', parseInt('600',8));
-	var encodedBytes = "";
-	for(var i=0; i<bytes.length; i++) encodedBytes += '\\x'+('00'+bytes[i].toString(16)).substr(-2);
+	var mode = parseInt('600',8);
+	fs.writeFileSync(fileAbs, bytes);
+	fs.chmodSync(fileAbs, mode);
 
 	// server.json
 	var config = {};
@@ -108,11 +108,16 @@ function setupDirectory(){
 	var contents = fs.readFileSync(path.join(__dirname, 'example-blog/httpd.js'), 'utf8');
 	fs.writeFileSync(values.target+'/httpd.js', contents);
 	fs.chmodSync(values.target+'/httpd.js', parseInt('755',8));
+	// hardlink?
+	//fs.linkSync(path.join(__dirname, 'example-blog/httpd.js'), values.target+'/httpd.js');
 
 	// format.ttl
 	var contents = fs.readFileSync(path.join(__dirname, 'example-blog/format.ttl'), 'utf8');
 	contents = contents.replace('@base <http://localhost/> .', '@base <'+values.siteBase+'> .');
 	fs.writeFileSync(values.target+'/format.ttl', contents);
+
+	// theme symlink
+	fs.symlinkSync('../../theme', values.target+'/theme');
 
 	// Database
 	importData();
