@@ -7,7 +7,9 @@ var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
 
 function bail(){
 	var route = new (require("magnode/route"));
-	(require("magnode/route.setup"))(route, configFile);
+	var p = (require("magnode/route.setup"))(route, configFile);
+	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
+	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
 	require('http').createServer(route.listener()).listen(listenPort);
 }
 
@@ -138,6 +140,7 @@ httpAuthForm.routeForm(route, resources, renders, "/login");
 (require("magnode/route.resource.mongodb.subject"))(route, resources, renders);
 
 // Handle HTTP requests
+console.log('HTTP server listening on port '+listenPort);
 require('http').createServer(route.listener()).listen(listenPort);
 
 // This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
