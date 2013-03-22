@@ -12,8 +12,8 @@
 - var post;
 - for(var t in types) if(input[t]){ type=t; post=input[t]; break; }
 - if(!post) throw new Error('Compatible input format not found');
-- var showAuthor = types[type].author;
-- var showCreated = types[type].created;
+- var showAuthor = types[type].author && post.author;
+- var showCreated = types[type].created && post.posted;
 
 div(class=types[type].class)
 	- if(post.subject)
