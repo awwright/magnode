@@ -51,6 +51,7 @@
 			, "type": "object"
 			, "properties":
 				{ "_id": { "type": "ObjectId", "readonly": true}
+				, "_parent": { "type": "ObjectId", "readonly": true }
 				, "subject": { "type": "string", "format": "uri"}
 				, "type": { "type": "array", "widget": "array", "items": { "type": "string", "format": "uri" } }
 				, "accountName": { "type": "string", "title": "Username", "widget": "http://magnode.org/field/Label"}
