@@ -2,7 +2,8 @@
 html(lang="en")
 	head
 		//- meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
-		title #{input.node&&input.node.title?(input.node.title+' - '):''}#{input.title||'Magnode'}
+		- var title = input['http://magnode.org/HTMLTitle'] || (input.node&&(input.node.label||input.node.title))
+		title #{title?(title+' - '):''}#{input.title||'Magnode'}
 		- for(var n in stylesheets)
 			link(rel="stylesheet",href=stylesheets[n].src)
 		- for(var n in scripts)
