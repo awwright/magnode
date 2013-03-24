@@ -47,6 +47,10 @@
 					{ "type": "object"
 					, "widget": "http://magnode.org/field/JSON"
 					}
+				, "targetType":
+					{ "type": "string"
+					, "format": "uri"
+					}
 				}
 			, "put":
 				{ "storeRevision": true
