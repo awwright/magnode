@@ -12,6 +12,11 @@
 	url = git://github.com/Acubed/jsonschema.git
 	semver = *
 	npm = jsonschema
+[submodule "node_modules/contenttype"]
+	path = node_modules/contenttype
+	url = git://github.com/Acubed/contenttype.git
+	semver = ~1
+	npm = contenttype
 [submodule "node_modules/jade.src"]
 	path = node_modules/jade.src
 	url = git://github.com/visionmedia/jade.git
