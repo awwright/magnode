@@ -55,7 +55,7 @@ function nextPrompt(questions, prompts, values, cb){
 	if(!prompts) prompts=Object.keys(questions);
 	if(!values) values={};
 	var option = prompts.shift();
-	if(!option) return cb(null, values);
+	if(!option) return void cb(null, values);
 	var prompt = questions[option];
 	var label = prompt.label+(prompt.default?(' ['+prompt.default+']'):'');
 	if(values[option]!==undefined){

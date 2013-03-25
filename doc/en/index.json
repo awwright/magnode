@@ -38,6 +38,7 @@
 				"authorization",
 				"caching",
 				"rdfa",
+				"patterns",
 				"contributors"
 			]
 		},

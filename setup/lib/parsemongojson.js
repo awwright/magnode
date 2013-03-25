@@ -31,7 +31,7 @@ module.exports.readFileSync = function readFileSync(filename, base){
 }
 
 module.exports.importData = function importData(collections, dbClient, callback){
-	//console.log(require('util').inspect(collections,true,null,true)); return callback();
+	//console.log(require('util').inspect(collections,true,null,true)); return void callback();
 	var waitingQueries = 1;
 	var indexes = {};
 	if(collections['system.indexes'] instanceof Array){
@@ -82,11 +82,11 @@ module.exports.importData = function importData(collections, dbClient, callback)
 
 module.exports.importFiles = function importFiles(files, dbClient, base, cb){
 	var filename = files.shift();
-	if(!filename) return cb(null);
+	if(!filename) return void cb(null);
 	console.log('Load: '+filename);
 	var collections = module.exports.readFileSync(filename, base);
 	module.exports.importData(collections, dbClient, function(err){
-		if(err) return cb(err);
+		if(err) return void cb(err);
 		module.exports.importFiles(files, dbClient, base, cb);
 	});
 }
