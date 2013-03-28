@@ -23,6 +23,13 @@ function renderDocument(db, transform, input, render, callback){
 	var result = renderDocumentFn(locals);
 	var output = {};
 	outputType.forEach(function(v){output[v]=result;});
+	var accept = input.request.headers.accept || '';
+	// Detect support for XML and respond accordingly
+	if(accept.indexOf('application/xhtml+xml')>=0){
+		input.response.setHeader('Content-Type', 'application/xhtml+xml;charset=utf-8');
+	}else{
+		input.response.setHeader('Content-Type', 'text/html;charset=utf-8');
+	}
 	callback(null, output);
 }
 
