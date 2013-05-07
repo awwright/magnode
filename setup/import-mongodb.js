@@ -17,6 +17,7 @@ for(var i=0; i<arguments.length; i++){
 	}
 	switch(flag){
 		case '-?':case '--help': return printHelp();
+		case '-c':case '--conf': importConf(value||arguments[++i]); continue;
 		case '-h':case '--db-host': dbHost=value||arguments[++i]; continue;
 		case '-d':case '--db-name': dbName=value||arguments[++i]; continue;
 		case '-u':case '--db-username': dbUsername=value||arguments[++i]; continue;
@@ -29,11 +30,22 @@ for(var i=0; i<arguments.length; i++){
 }
 for(i++; i<arguments.length; i++) files.push(arguments[i]);
 
+function importConf(file){
+	console.log('Read: '+file);
+	try{
+		var conf = JSON.parse(require('fs').readFileSync(file, 'utf8'));
+	}catch(e){ console.error(e.stack||e.toString()); }
+	if(conf.dbHost) dbHost=conf.dbHost;
+	if(conf.dbName) dbName=conf.dbName;
+	if(conf.siteBase) base=conf.siteBase;
+}
+
 function printHelp(){
 	console.log('Load sample/bootstrap Magnode data into MongoDB');
 	console.log('options:');
-	console.log('  -?  --help              produce help message');
-	console.log('  -b  --base              URL to resolve relative paths against');
+	console.log('  -?, --help              produce help message');
+	console.log('  -c, --conf              import server.json configuration');
+	console.log('  -b, --base              URL to resolve relative paths against');
 	console.log('  -h, --db-host arg       mongo host to connect to');
 	console.log('  -d, --db-name arg       database to use');
 	console.log('  -u, --db-username arg   username');
@@ -58,6 +70,7 @@ function importData(){
 	console.error('Username: %s', dbUsername);
 	//console.error('Password: %s', dbPassword);
 	console.error('Database: %s', dbName);
+	console.error('URI Base: %s', base);
 	console.error('Importing: %s', files.join('  '));
 
 
