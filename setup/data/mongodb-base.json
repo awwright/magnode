@@ -29,7 +29,31 @@
 				, "schema": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
 				, "tablequery": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
 				, "ViewTransform": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
-				, "menu": { "type": "object", "widget": "http://magnode.org/field/JSON" }
+				, "menu":
+					{ "type": "object"
+					, "additionalProperties":
+						{ "type": "object"
+						, "properties":
+							{ "title": {"type": "string"}
+							, "href": {"type":"string", "format":"uriref"}
+							, "weight": {"type":"integer"}
+							}
+						, "additionalProperties": false
+						, "default": {"title":"", "href":"", "weight":0}
+						}
+					, "additionalPropertiesName":
+						{ "type": "string"
+						, "format": "uri"
+						, "widget": "http://magnode.org/field/selectresource"
+						, "range": "http://magnode.org/LinkMenu"
+						, "selectLabel": "label"
+						, "selectNull": true
+						, "undefinedIf": ["", null]
+						, "default": ""
+						, "escape": "mongodb"
+						}
+					, "default": {}
+					}
 				, "permissions": { "type": [ "object", "null" ], "widget": "http://magnode.org/field/JSON", "default": null }
 				}
 			, "put":
@@ -38,6 +62,5 @@
 			}
 		, "tablequery": { "fields": [ "_id", "subject", "label" ] }
 		}
-
 	]
 }

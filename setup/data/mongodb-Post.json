@@ -44,7 +44,27 @@
 					}
 				, "menu":
 					{ "type": "object"
-					, "widget": "http://magnode.org/field/JSON"
+					, "additionalProperties":
+						{ "type": "object"
+						, "properties":
+							{ "title": {"type": "string"}
+							, "href": {"type":"string", "format":"uriref"}
+							, "weight": {"type":"integer"}
+							}
+						, "additionalProperties": false
+						, "default": {"title":"", "href":"", "weight":0}
+						}
+					, "additionalPropertiesName":
+						{ "type": "string"
+						, "format": "uri"
+						, "widget": "http://magnode.org/field/selectresource"
+						, "range": "http://magnode.org/LinkMenu"
+						, "selectLabel": "label"
+						, "selectNull": true
+						, "undefinedIf": ["", null]
+						, "default": ""
+						, "escape": "mongodb"
+						}
 					, "default": {}
 					}
 				, "body":
