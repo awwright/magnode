@@ -22,6 +22,7 @@ div.head-base {
 	background-color: #FFF;
 	background-image: -webkit-linear-gradient(top, #EDF3FF 0%, #FFF 100%);
 	background-image: linear-gradient(top, #EDF3FF 0%, #FFF 100%);
+	z-index: -1;
 }
 div.head {
 	position: absolute;
