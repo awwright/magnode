@@ -84,7 +84,11 @@ module.exports.importFiles = function importFiles(files, dbClient, base, cb){
 	var filename = files.shift();
 	if(!filename) return void cb(null);
 	console.log('Load: '+filename);
-	var collections = module.exports.readFileSync(filename, base);
+	try {
+		var collections = module.exports.readFileSync(filename, base);
+	}catch(e){
+		return void cb(e);
+	}
 	module.exports.importData(collections, dbClient, function(err){
 		if(err) return void cb(err);
 		module.exports.importFiles(files, dbClient, base, cb);
