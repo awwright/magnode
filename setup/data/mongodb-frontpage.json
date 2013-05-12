@@ -2,7 +2,7 @@
 	[
 		{ "_id": {"$ObjectId": "5020dc9708e3feeb3c69e3fb"}
 		, "subject": "http://localhost/"
-		, "type": ["http://magnode.org/MongoDB_List","http://magnode.org/MongoDB_ListPosts"]
+		, "type": ["http://magnode.org/MongoDB_List","http://magnode.org/MongoDB_ListPosts", "http://localhost/Published"]
 		, "label": "Home page"
 		, "menu":
 			{ "http://localhost/Menu_MainMenu":

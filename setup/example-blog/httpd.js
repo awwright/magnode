@@ -70,10 +70,8 @@ var shadowDb = dbInstance.collection('shadow');
 var transformDb = new rdf.TripletGraph;
 
 // The Authorizers grant permissions to users
-var authz = new (require("magnode/authorization.any"))(
-	[ new (require("magnode/authorization.read"))(['get'], [siteBase+'Published','http://magnode.org/Post','http://magnode.org/Page'])
-	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [siteBase+'Published'])
-	, new (require("magnode/authorization.superuser"))(siteSuperuser)
+var userAuthz = new (require("magnode/authorization.any"))(
+	[ new (require("magnode/authorization.superuser"))(siteSuperuser)
 	, new (require("magnode/authorization.usergroups.mongodb"))
 	] );
 
@@ -85,11 +83,11 @@ var httpAuthForm = new (require("magnode/authentication.form"))(
 	{ domain: "/"
 	, action: "/createSession"
 	, credentials: httpAuthCredential
-	}, authz );
+	}, userAuthz );
 var httpAuthSession = new (require("magnode/authentication.session"))(
 	{ expires: 1000*60*60*24*14
 	, secret: siteSecretKey
-	}, authz);
+	}, userAuthz);
 var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	{ domain: "/"
 	, redirect: "/?from=login"
@@ -97,7 +95,14 @@ var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 
 // Method authentication defines the various schemes in which a user may pass credentials to the application
 // Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
-var authenticators = new (require("magnode/authorization.any"))( [httpAuthForm, httpAuthCookie, httpAuthSession] );
+var authz = new (require("magnode/authorization.any"))(
+	[ httpAuthForm
+	, httpAuthCookie
+	, httpAuthSession
+	// Anonymous authorization
+	, new (require("magnode/authorization.read"))(['get'], [siteBase+'Published','http://magnode.org/Post','http://magnode.org/Page'])
+	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [siteBase+'Published'])
+	] );
 
 var transformTypes =
 	[ require('magnode/transform.Jade')
@@ -125,7 +130,7 @@ var resources = {
 	"db-transforms": transformDb,
 	"db-rdfa": transformDb,
 	"http://magnode.org/Auth": httpAuthCookie,
-	"authz": authenticators,
+	"authz": authz,
 	"password-hash": passwordGenerateRecord,
 	"rdf": rdf.environment,
 	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header",
