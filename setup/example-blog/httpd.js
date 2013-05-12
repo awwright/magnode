@@ -69,6 +69,7 @@ var shadowDb = dbInstance.collection('shadow');
 // The transforms database
 var transformDb = new rdf.TripletGraph;
 
+// The Authorizers grant permissions to users
 var authz = new (require("magnode/authorization.any"))(
 	[ new (require("magnode/authorization.read"))(['get'], [siteBase+'Published','http://magnode.org/Post','http://magnode.org/Page'])
 	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [siteBase+'Published'])
@@ -84,15 +85,19 @@ var httpAuthForm = new (require("magnode/authentication.form"))(
 	{ domain: "/"
 	, action: "/createSession"
 	, credentials: httpAuthCredential
-	} );
-
-// Cookies authenticate users after they've logged in
+	}, authz );
+var httpAuthSession = new (require("magnode/authentication.session"))(
+	{ expires: 1000*60*60*24*14
+	, secret: siteSecretKey
+	}, authz);
 var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	{ domain: "/"
 	, redirect: "/?from=login"
-	, expires: 1000*60*60*24*14
-	, secret: siteSecretKey
-	} );
+	}, httpAuthSession);
+
+// Method authentication defines the various schemes in which a user may pass credentials to the application
+// Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
+var authenticators = new (require("magnode/authorization.any"))( [httpAuthForm, httpAuthCookie, httpAuthSession] );
 
 var transformTypes =
 	[ require('magnode/transform.Jade')
@@ -120,7 +125,7 @@ var resources = {
 	"db-transforms": transformDb,
 	"db-rdfa": transformDb,
 	"http://magnode.org/Auth": httpAuthCookie,
-	"authz": authz,
+	"authz": authenticators,
 	"password-hash": passwordGenerateRecord,
 	"rdf": rdf.environment,
 	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header",
