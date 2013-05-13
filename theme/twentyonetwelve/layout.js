@@ -28,11 +28,12 @@ function populateForms(){
 		}catch(e){}
 	}
 
-	var es = document.getElementsByClassName('field-array');
+	var es = document.getElementsByClassName('field-array-new');
 	for(var i=0; i<es.length; i++) (function(field){
 		try {
 			var eLength = field.nextElementSibling;
-			if(!eLength || eLength.name.substr(-7)!='.length') return;
+			// FIXME this should be '.length' if we know there's always going to be a name of the root instance
+			if(!eLength || eLength.name.substr(-6)!='length') return;
 			var fieldName = eLength.name.substr(0, eLength.name.length-7)+'.new';
 			var blank = field.lastElementChild.cloneNode(true);
 			field.removeChild(field.lastElementChild);
@@ -59,11 +60,11 @@ function populateForms(){
 		}catch(e){throw e;}
 	})(es[i]);
 
-	var es = document.getElementsByClassName('field-object');
+	var es = document.getElementsByClassName('field-object-new');
 	for(var i=0; i<es.length; i++) (function(field){
 		try {
 			var eLength = field.nextElementSibling;
-			if(!eLength || eLength.name.substr(-7)!='.length') return;
+			if(!eLength || eLength.name.substr(-6)!='length') return;
 			var fieldName = eLength.name.substr(0, eLength.name.length-7)+'.new';
 			var blankDt = field.lastElementChild.previousElementSibling.cloneNode(true);
 			var blankDd = field.lastElementChild.cloneNode(true);
