@@ -138,6 +138,11 @@ var resources = {
 	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer",
 };
 
+// Import other configuration options if any, like "title" and "logo"
+for(var f in (configuration&&configuration.option||{})){
+	resources[f] = configuration.option[f];
+}
+
 // Post-auth
 httpAuthCookie.routeSession(route, httpAuthForm);
 

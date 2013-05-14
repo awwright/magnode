@@ -33,11 +33,13 @@ div.head {
 }
 div#head-logo a {
 	display: block;
-	width: 12em;
-	height: 130px;
+	/*width: 12em;
+	height: 130px;*/
 	background-repeat: no-repeat;
 	background-position: center center;
 	text-decoration: none;
+	font-size: 150%;
+	text-align: center;
 }
 div#head-name  {
 	float: left;

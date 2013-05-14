@@ -19,7 +19,11 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en")
 			.panel
 				- if(input.logo)
 					div#head-logo
-						a(style="background-image: url("+input.logo+");", href="/", title="Visit the main page")
+						a(href="/", title="Visit the main page")
+							img(src=input.logo)
+				- else if(input.title)
+					div#head-logo
+						a( href="/", title="Visit the main page") #{input.title}
 				div!=input["http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_Panel"]
 			.foot
 				//pre=util.inspect(input)
