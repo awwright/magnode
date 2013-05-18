@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var configFile = process.env.MAGNODE_CONF || './server.json';
 var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
+var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 
 function bail(){
 	var route = new (require("magnode/route"));
@@ -17,17 +18,18 @@ var arguments = process.argv.slice(2);
 for(var i=0; i<arguments.length; i++){
 	if(arguments[i]=='--conf') configFile=arguments[++i];
 	if(arguments[i]=='--port') listenPort=parseInt(arguments[++i]);
-	if(arguments[i]=='--setup'){ bail(); return; }
+	if(arguments[i]=='--setup'){ runSetup=true; }
+	if(arguments[i]=='--no-setup'){ runSetup=false; }
 }
 configFile = require('path').resolve(process.cwd(), configFile);
 
-if(process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0') return bail();
+if(runSetup) return void bail();
 
 try{
 	var configuration = require(configFile);
 }catch(e){
-	console.error(e.stack||e.toString());
-	return bail();
+	console.error(e.toString());
+	return void bail();
 }
 
 var dbHost = configuration.dbHost;
