@@ -13,14 +13,14 @@ theme:HTMLBody_typePage
 	view:file <HTMLBody_typePost.jade> ;
 	view:titleProperty "label" ;
 	view:domain ( type:Page ) ;
-	view:range type:HTMLBody, type:HTMLBodyPage, type:DocumenTitle .
+	view:range type:HTMLBody, type:HTMLBodyPage, type:DocumentTitle .
 
 theme:HTMLBody_typePost
 	a view:Transform, theme:Transform, view:Jade ;
 	view:file <HTMLBody_typePost.jade> ;
 	view:titleProperty "label" ;
 	view:domain ( type:Post ) ;
-	view:range type:HTMLBody, type:HTMLBodyPost, type:DocumenTitle .
+	view:range type:HTMLBody, type:HTMLBodyPost, type:DocumentTitle .
 
 theme:HTMLBodyRegion_typeRegion_Header
 	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion> ;
