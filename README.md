@@ -1,17 +1,21 @@
 # Magnode
 
-Welcome to Magnode, the semantic, event-driven content management system.
+Magnode is a framework and application that manages and formats dereferenced resources. In layman's terms, it's a content management system.
 
-Magnode is a framework and application that formats and edits resources.
-
+It's designed to cover a broad spectrum of use cases, including blogs, wikis, databases, user accounts, custom resource types, Content-Type negotiation, full HTTP support, static websites, and more.
 
 ## Information
 
-The place to get information is <http://magnode.org/>.
+The place to get information is <https://magnode.org/>.
 
-Information on new releases is published on <http://groups.google.com/group/magnode>. You should subscribe to that mailing list to get updates on the latest releases and upgrade information.
+Information on new releases is published on <https://groups.google.com/group/magnode>. You should subscribe to that mailing list to get updates on the latest releases and upgrade information.
 
 
 ## Installation
 
-For complete documentation, see the documentation in docs/ or online at <http://magnode.org/doc/setup>
+For complete documentation, see the documentation in docs/ or online at <https://magnode.org/doc/setup>.
+
+Assuming dependencies are already configured, you can begin with:
+
+	$ cp -a setup/example-blog/* ./
+	$ ./httpd.js

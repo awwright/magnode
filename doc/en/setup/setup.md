@@ -16,7 +16,7 @@ Then run the following command at a prompt:
 
 If the configuration file `server.json` does not exist, the setup process will begin to write it. A custom configuration file may be provided with `-c server.json`.
 
-Aim your web browser at the provided setup URL, and don't forget to replace 'localhost:8080' with the appropriate authority, if you have setup Magnode behind a gateway or on a different host.
+Aim your web browser at the provided setup URL, and don't forget to replace `localhost:8080` with the appropriate authority, if you have setup Magnode behind a gateway or on a different host.
 
 This will ask you a few questions about the site you want to create. When prompted, stop the process with `^C`, a.k.a. `Ctrl+C` (on most shells), and restart it. Then proceed to the front page or login page.
 
