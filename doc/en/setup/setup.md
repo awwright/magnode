@@ -6,37 +6,32 @@ The installer sets up a basic blog-like website with static pages, users, and na
 
 Remember to replace `example.com` with the name of your own site. If you're just testing, you can call it `localhost`.
 
-After you have installed the files to the system, navigate to the main directory and run the following command at a prompt:
+After you have installed the files to the system, navigate to the main directory. If `httpd.js` and `format.ttl` do not exist, copy them:
 
-	$ mkdir sites
-	$ ./setup/setup-blog.js
+	$ cp -a setup/example-blog/* ./
 
-This will ask you a few questions about the site you want to create:
+Then run the following command at a prompt:
 
-<dl>
-<dt>Machine name</dt><dd><p>The short name. This should be lowercase, without any spaces. Perhaps you want to use the domain name of the website, (e.g. <code>magnode.org</code>), or accept the default of <code>localhost</code>. This name will be used to copy files into <code>sites/<i>name</i></code></p></dd>
-<dt>MongoDB connection</dt><dd><p>The login information to connect to the MongoDB server. This may include a username and password in the format of <code>username:password@hostname:port</code>. Or just press enter to accept the default of <code>localhost</code>.</p></dd>
-<dt>Mongodb database</dt><dd><p>The name of the database on the MongoDB server to use. This will be created and loaded with data.</p></dd>
-<dt>Website Base URL</dt><dd><p>The base HTTP URL of the website you'll be using. This must be an absolute URL, must contain a trailing <code>/</code>, and should start with <code>http://</code>, even if you're using https.</p></dd>
-<dt>Superuser id</dt><dd><p>The resource identifying the site superuser. You should accept the default of <code>/user/root</code>.</p></dd>
-</dl>
+	$ ./httpd.js
 
-Accepting the final prompt will install files to the sites directory, and import content into the database.
+If the configuration file `server.json` does not exist, the setup process will begin to write it. A custom configuration file may be provided with `-c server.json`.
 
-The webserver can now be started by running <code>./sites/localhost/httpd.js</code>. Visit http://localhost:8080/login and login with username "root" and the password displayed at the end of the setup.
+Aim your web browser at the provided setup URL, and don't forget to replace 'localhost:8080' with the appropriate authority, if you have setup Magnode behind a gateway or on a different host.
+
+This will ask you a few questions about the site you want to create. When prompted, stop the process with `^C`, a.k.a. `Ctrl+C` (on most shells), and restart it. Then proceed to the front page or login page.
+
+For running a public website, you will probably wish to run `httpd.js` as a service. Consult your operating system distribution for information on doing this.
 
 
 ### Reset or import additional content to MongoDB
 
 If you want to install or reset content in the database, the import-mongodb script can do this. At a prompt run, for example:
 
-<pre><code>$ ./setup/import-mongodb.js [options] -d <i>magnode-blog</i> \
-   --base 'http://example.com/' \
+<pre><code>$ ./setup/import-mongodb.js [options] -c <i>server.json</i> \
    setup/data/mongodb-{<i>Post,Page</i>}.json
 </code></pre>
 
-where _options_ may be <code>-h <i>localhost</i></code>, <code>-u <i>username</i></code>, and _magnode_ is the name of the database you wish to import to. Use `-p -` if to supply a password. Use `./import-mongodb.js -?` for the complete list of options.
-
+where _options_ may be a number of command line arguments, use `./import-mongodb.js -?` to see the complete list. To read from the configuration file, use `-c _server.json_` where _server.json_ is the location of your configuration file.
 <i>setup/data/mongodb-Post.json</i> and <i>setup/data/mongodb-Page.json</i> are two examples of content that you may wish to re-import. Files from this directory represent lists of documents and/or indexes to be created in MongoDB. Any string beginning with "http://localhost/" is converted to the URL specified by the --base argument. Objects of the form `{"$ObjectId":"(hex)"}` are converted to a MongoDB ObjectId.
 
 
@@ -48,12 +43,3 @@ The installer will have created a root user with a random password. More users m
    --create --resource 'http://example.com/user/root' \
    --username root --random-password
 </code></pre>
-
-
-### Running the server
-
-In the main directory, run:
-
-	$ node sites/example.com/httpd.js --port 8080
-
-Then pull up http://localhost:8080/ in your favorite web browser.

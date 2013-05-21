@@ -5,10 +5,9 @@ Magnode can be used as a framework, where most of a website's functionality is d
 You will need to setup the library calls to get Magnode functioning as an application. This will need to include:
 
 * Database connection
-* RDF environment
-* Authentication
-* Authorization
-* Create render and import transforms
+* RDF/URI environment
+* Authentication and authorization
+* Create the render and import transforms
 * Routing URLs
 * Listening to ports
 

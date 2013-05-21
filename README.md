@@ -2,7 +2,7 @@
 
 Welcome to Magnode, the semantic, event-driven content management system.
 
-Magnode is a framework and an application designed to format and edit data. It represents data using RDF, Resource Description Framework, and formats those resources when they are dereferenced (meaning, requested).
+Magnode is a framework and application that formats and edits resources.
 
 
 ## Information
@@ -14,4 +14,4 @@ Information on new releases is published on <http://groups.google.com/group/magn
 
 ## Installation
 
-For complete documentation, see the documentation in docs/ or online at <http://magnode.org/doc#user.installation>
+For complete documentation, see the documentation in docs/ or online at <http://magnode.org/doc/setup>
