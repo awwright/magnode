@@ -121,9 +121,6 @@ require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, 
 
 var route = new (require("magnode/route"));
 
-// Sets a default theme to use, may be removed for a custom theme specified in format.ttl
-require('./theme/twentyonetwelve').importTheme(renders, route);
-
 var resources = {
 	"db": nodesDb,
 	"db-mongodb": nodesDb,
@@ -144,6 +141,9 @@ var resources = {
 for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
 }
+
+// Sets a default theme to use, may be removed for a custom theme specified in format.ttl
+require('./theme/twentyonetwelve').importTheme(route, resources, renders);
 
 // Post-auth
 httpAuthCookie.routeSession(route, httpAuthForm);

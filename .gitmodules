@@ -43,26 +43,10 @@
 	path = node_modules/tosource
 	url = git://github.com/marcello3d/node-tosource.git
 	npm = tosource
-[submodule "node_modules/send"]
-	path = node_modules/send
-	url = git://github.com/visionmedia/send.git
-	semver = *
-[submodule "node_modules/debug"]
-	path = node_modules/debug
-	url = git://github.com/visionmedia/debug.git
-	npm = debug
 [submodule "node_modules/mime"]
 	path = node_modules/mime
 	url = git://github.com/broofa/node-mime
 	npm = mime
-[submodule "node_modules/fresh"]
-	path = node_modules/fresh
-	url = git://github.com/visionmedia/node-fresh.git
-	npm = fresh
-[submodule "node_modules/range-parser"]
-	path = node_modules/range-parser
-	url = git://github.com/visionmedia/node-range-parser.git
-	npm = range-parser
 [submodule "theme/codemirror"]
 	path = theme/codemirror
 	url = http://marijnhaverbeke.nl/git/codemirror
