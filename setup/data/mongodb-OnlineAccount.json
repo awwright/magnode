@@ -15,7 +15,7 @@
 				{ "_id": { "type": "ObjectId", "readonly": true }
 				, "_parent": { "type": "ObjectId", "readonly": true }
 				, "subject": { "type": "string", "format": "uri" }
-				, "type": { "type": "array", "widget": "array", "items": { "type": "string", "format": "uri" } }
+				, "type": { "type": "array", "widget": "http://magnode.org/field/Taxonomy", "items": { "type": "string", "format": "uri" } }
 				, "label": { "type": "string", "widget": "http://magnode.org/field/Label"}
 				, "grant":
 					{ "type": "object"
@@ -53,7 +53,7 @@
 				{ "_id": { "type": "ObjectId", "readonly": true}
 				, "_parent": { "type": "ObjectId", "readonly": true }
 				, "subject": { "type": "string", "format": "uri"}
-				, "type": { "type": "array", "widget": "array", "items": { "type": "string", "format": "uri" } }
+				, "type": { "type": "array", "widget": "http://magnode.org/field/Taxonomy", "items": { "type": "string", "format": "uri" } }
 				, "accountName": { "type": "string", "title": "Username", "widget": "http://magnode.org/field/Label"}
 				, "password": { "type": "shadow", "title": "Password", "widget":"http://magnode.org/field/shadow"}
 				, "name": { "type": "string", "title": "Name", "widget": "http://magnode.org/field/Label"}

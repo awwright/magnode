@@ -24,7 +24,7 @@
 				{ "_id": { "type": "ObjectId", "readonly": true }
 				, "_parent": { "type": "ObjectId", "readonly": true }
 				, "subject": { "type": "string", "format": "uri" }
-				, "type": { "type": "array", "widget": "array", "items": { "type": "string", "format": "uri" } }
+				, "type": { "type": "array", "widget": "http://magnode.org/field/Taxonomy", "items": { "type": "string", "format": "uri" } }
 				, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
 				, "schema": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
 				, "tablequery": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }

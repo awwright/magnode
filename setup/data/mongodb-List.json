@@ -29,7 +29,7 @@
 					}
 				, "type":
 					{ "type": "array"
-					, "widget": "array"
+					, "widget": "http://magnode.org/field/Taxonomy"
 					, "items":
 						{ "type": "string"
 						, "format": "uri"
