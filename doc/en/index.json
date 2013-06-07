@@ -40,7 +40,8 @@
 				"caching",
 				"rdfa",
 				"patterns",
-				"contributors"
+				"contributors",
+				"tests"
 			]
 		},
 		{
