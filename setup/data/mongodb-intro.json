@@ -2,7 +2,7 @@
 	[
 		{ "_id": {"$ObjectId": "518bf4f54227f36aa2a2b64d"}
 		, "subject": "http://localhost/2013/04/01/welcome-to-magnode"
-		, "type": ["http://magnode.org/Post"]
+		, "type": ["http://magnode.org/Post", "http://localhost/Promoted"]
 		, "label": "Welcome to Magnode"
 		, "menu": {}
 		, "body": "<p>Welcome to Magnode, the semantic content management system. By default the front page will show list of published Posts, in reverse chronological order.</p>\n<p>If you haven't already logged in, click the \"Log in\" link at the top of the page and log in with the credentials you provided at setup time. If you need to reset these credentials, re-start the setup process and go to \"Setup root user\". This installer may also be used to install or re-install schema data.</p>\n<p>After you are logged in, you can create your first post by navigating to \"Posts\" under the \"Content Management\" menu, and click \"New\".</p>\n<p>You can edit or delete this post by navigating to its page and selecting \"Edit\" or \"Delete\" at the top.</p>"

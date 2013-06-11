@@ -11,7 +11,7 @@
 				}
 			}
 		, "query":
-			{ "filter": {"type": "http://magnode.org/Post", "subject": {"$exists": true}}
+			{ "filter": {"type": "http://localhost/Promoted", "subject": {"$exists": true}}
 			, "limit": 10
 			, "sort": [{"key":"posted", "dir":-1}, {"key":"_id", "dir":-1}]
 			}
