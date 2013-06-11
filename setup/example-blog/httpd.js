@@ -53,7 +53,7 @@ try{
 	if(!siteBase) throw new Error('Need siteBase');
 }catch(e){
 	console.error(e.stack||e.toString());
-	return bail();
+	return void bail();
 }
 
 var rdf=require('rdf');
@@ -101,9 +101,8 @@ var authz = new (require("magnode/authorization.any"))(
 	[ httpAuthForm
 	, httpAuthCookie
 	, httpAuthSession
-	// Anonymous authorization
-	, new (require("magnode/authorization.read"))(['get'], [siteBase+'Published','http://magnode.org/Post','http://magnode.org/Page'])
-	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [siteBase+'Published'])
+	// Anonymous authorization which requires no authorization
+	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
 	] );
 
 var transformTypes =
