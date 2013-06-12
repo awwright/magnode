@@ -95,7 +95,7 @@
 				{ "storeRevision": true
 				}
 			}
-		, "tablequery": {}
+		, "tablequery": {"fields":["_id","subject","label"]}
 		, "ViewTransform":
 			{ "page":
 				{ "type": "jade"
