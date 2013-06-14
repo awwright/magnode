@@ -89,6 +89,7 @@
 				, "body":
 					{ "type": "string"
 					, "widget": "http://magnode.org/field/HTML"
+					, "default": ""
 					}
 				}
 			, "put":
