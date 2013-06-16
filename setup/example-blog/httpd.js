@@ -121,8 +121,8 @@ require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, 
 var route = new (require("magnode/route"));
 
 var resources = {
-	"db": nodesDb,
-	"db-mongodb": nodesDb,
+	"db-mongodb": dbInstance,
+	"db-mongodb-nodes": nodesDb,
 	"db-mongodb-schema": nodesDb,
 	"db-mongodb-shadow": shadowDb,
 	"db-transforms": transformDb,

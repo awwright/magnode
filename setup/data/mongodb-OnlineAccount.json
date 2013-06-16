@@ -5,7 +5,7 @@
 		, "type": ["http://magnode.org/MongoDBJSONSchema", "http://localhost/OnlineAccountTable"]
 		, "label": "User Account"
 		, "ViewTransform":
-			{ "page":
+			{ "page-example":
 				{ "type": "jade"
 				, "file": "template/HTMLBody_typeOnlineAccount.jade"
 				}
