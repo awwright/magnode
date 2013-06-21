@@ -152,12 +152,12 @@ httpAuthCookie.routeSession(route, httpAuthForm);
 (require("magnode/route.routes"))(route);
 (require("magnode/route.transforms"))(route, resources, renders);
 httpAuthForm.routeForm(route, resources, renders, "/login");
-(require("magnode/route.resource.mongodb.id"))(route, resources, renders);
-(require("magnode/route.resource.mongodb.subject"))(route, resources, renders);
+(require("magnode/route.mongodb.id"))(route, resources, renders);
+(require("magnode/route.mongodb.subject"))(route, resources, renders);
 
 // Handle HTTP requests
 console.log('HTTP server listening on port '+listenPort);
-require('http').createServer(route.listener()).listen(listenPort);
+require('http').createServer(require('magnode/http').createListener(route, resources, renders)).listen(listenPort);
 
 // This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
 process.on('uncaughtException', function (err) {
