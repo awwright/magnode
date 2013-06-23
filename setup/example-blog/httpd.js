@@ -11,7 +11,7 @@ function bail(){
 	var p = (require("magnode/route.setup"))(route, configFile);
 	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
 	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
-	require('http').createServer(route.listener()).listen(listenPort);
+	require('http').createServer(require("magnode/route").createListener(route, {}, {})).listen(listenPort);
 }
 
 var arguments = process.argv.slice(2);
