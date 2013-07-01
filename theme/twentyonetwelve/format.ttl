@@ -12,6 +12,7 @@ theme:DocumentHTML_typeHTMLBody
 theme:HTMLBody_typePage
 	a view:Transform, theme:Transform, view:Jade ;
 	view:file <HTMLBody_typePost.jade> ;
+	view:templateRange type:HTMLBody, type:HTMLBodyPage ;
 	view:titleProperty "label" ;
 	view:domain ( type:Page ) ;
 	view:range type:HTMLBody, type:HTMLBodyPage, type:DocumentTitle .
@@ -19,6 +20,7 @@ theme:HTMLBody_typePage
 theme:HTMLBody_typePost
 	a view:Transform, theme:Transform, view:Jade ;
 	view:file <HTMLBody_typePost.jade> ;
+	view:templateRange type:HTMLBody, type:HTMLBodyPost ;
 	view:titleProperty "label" ;
 	view:domain ( type:Post ) ;
 	view:range type:HTMLBody, type:HTMLBodyPost, type:DocumentTitle .
