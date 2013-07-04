@@ -6,12 +6,15 @@ var configFile = process.env.MAGNODE_CONF || './server.json';
 var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
 var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 
+var rdf=require('rdf');
+rdf.environment.setDefaultPrefix('http://localhost/');
+
 function bail(){
 	var route = new (require("magnode/route"));
 	var p = (require("magnode/route.setup"))(route, configFile);
 	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
 	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
-	require('http').createServer(require("magnode/route").createListener(route, {}, {})).listen(listenPort);
+	require('http').createServer(require("magnode/http").createListener(route, {rdf:rdf.environment}, {})).listen(listenPort);
 }
 
 var arguments = process.argv.slice(2);
@@ -56,9 +59,8 @@ try{
 	return void bail();
 }
 
-var rdf=require('rdf');
-rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setDefaultPrefix(siteBase);
+rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 
 // Load the database of webpages
