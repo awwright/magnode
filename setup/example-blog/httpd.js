@@ -94,6 +94,7 @@ var httpAuthSession = new (require("magnode/authentication.session"))(
 	}, userAuthz);
 var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	{ domain: "/"
+	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
 	, redirect: "/?from=login"
 	}, httpAuthSession);
 
