@@ -98,6 +98,10 @@ var dbClient = new mongodb(dbHost);
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
+var sessionStore = new (require("magnode/session.mac"))(
+	{ expires: 1000*60*60*24*14
+	, secret: siteSecretKey
+	});
 
 // The transforms database
 var transformDb = new rdf.TripletGraph;
@@ -117,10 +121,7 @@ var httpAuthForm = new (require("magnode/authentication.form"))(
 	, action: "/createSession"
 	, credentials: httpAuthCredential
 	}, userAuthz );
-var httpAuthSession = new (require("magnode/authentication.session"))(
-	{ expires: 1000*60*60*24*14
-	, secret: siteSecretKey
-	}, userAuthz);
+var httpAuthSession = new (require("magnode/authentication.session"))(sessionStore, userAuthz);
 var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	{ domain: "/"
 	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
