@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var mongodb = require('mongolian');
+var ObjectId = mongodb.ObjectId;
 var util=require('util');
 var authpbkdf2=require('magnode/authentication.pbkdf2');
 
@@ -92,12 +93,12 @@ function testAccountName(){
 	if(dbUsername) dbClient.auth(dbUsername, dbPassword);
 	var dbNodes = dbClient.collection('nodes');
 
-	dbNodes.findOne({type:accountType, accountName:userAccountName}, function(err, doc){
+	dbNodes.findOne({type:accountType, accountName:userAccountName, subject:{$exists:true}}, function(err, doc){
 		if(err) throw err;
 
 		if(userCreate){
 			if(doc) throw new Error('Resource already exists: '+userAccountName);
-			var newUser = {_id:new mongodb.ObjectId, subject:userResource, type:[accountType], accountName:userAccountName};
+			var newUser = {_id:new ObjectId, subject:userResource, type:[accountType], accountName:userAccountName};
 			dbNodes.insert(newUser, function(){promptPassword(newUser)})
 		}else{
 			if(!doc) throw new Error('Account (a '+accountType+') not found: '+userAccountName);
@@ -120,10 +121,14 @@ function setPassword(user){
 	var dbShadow = dbClient.collection('shadow');
 	var dbNodes = dbClient.collection('nodes');
 	authpbkdf2.generateRecord({password:userPassword}, function(shadow){
-		if(!shadow._id) shadow._id = new mongodb.ObjectId();
+		if(!shadow._id) shadow._id = new ObjectId();
 		dbShadow.save(shadow, function(err){
 			if(err) throw err;
 			dbNodes.update({_id:user._id}, {$set:{password:shadow._id}}, function(err, updated){
+				if(updated!==1){
+					console.error('Error: Updated '+updated+' user records');
+				}
+				console.log('Updated '+updated+' records with shadow_id = '+shadow._id);
 				// TODO maybe remove the old shadow entry here?
 				rl.close();
 				dbConnect.close();
