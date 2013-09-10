@@ -8,29 +8,29 @@
 # Enable page theme
 
 <http://magnode.org/theme/twentyonetwelve/DocumentHTML_typeHTMLBody>
-	a view:ViewTransform, view:FormTransform, view:DeleteFormTransform .
+	a view:GetTransform, view:FormTransform, view:DeleteFormTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBody_typePost>
-	a view:ViewTransform .
+	a view:GetTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBody_typePage>
-	a view:ViewTransform .
+	a view:GetTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_typeRegion_Header>
-	a view:ViewTransform, view:FormTransform, view:DeleteFormTransform .
+	a view:GetTransform, view:FormTransform, view:DeleteFormTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_typeRegion_Panel>
-	a view:ViewTransform, view:FormTransform, view:DeleteFormTransform .
+	a view:GetTransform, view:FormTransform, view:DeleteFormTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBodyRegion_typeRegion_Footer>
-	a view:ViewTransform, view:FormTransform, view:DeleteFormTransform .
+	a view:GetTransform, view:FormTransform, view:DeleteFormTransform .
 
 
 # User menu
 
 tf:HTMLBodyBlock_UserMenu_typeMenu_UserMenu
-	a view:Transform, view:FormTransform, view:DeleteFormTransform, view:ViewTransform, view:ModuleTransform ;
+	a view:Transform, view:FormTransform, view:DeleteFormTransform, view:GetTransform, view:ModuleTransform ;
 	view:module "magnode/transform.HTMLBodyBlock_typeMenu" ;
 	view:domain ( type:Menu_UserMenu );
 	view:range magnode:HTMLBodyBlock_UserMenu .
 
 tf:Menu_UserMenu_typeUserSession
-	a view:Transform, view:FormTransform, view:DeleteFormTransform, view:ViewTransform, view:ModuleTransform ;
+	a view:Transform, view:FormTransform, view:DeleteFormTransform, view:GetTransform, view:ModuleTransform ;
 	view:module "magnode/transform.Menu_typeUserSession" ;
 	view:domain ( magnode:UserSession );
 	view:range type:Menu_UserMenu .
