@@ -6,11 +6,11 @@ var staticRouter = require('magnode/route.static');
 /* To enable this theme, you probably want to add this to your format.ttl:
 
 <http://magnode.org/theme/twentyonetwelve/DocumentHTML_typeHTMLBody>
-	a view:ViewTransform, view:FormTransform .
+	a view:GetTransform, view:PutFormTransform, view:DeleteFormTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBody_typePost>
-	a view:ViewTransform .
+	a view:GetTransform .
 <http://magnode.org/theme/twentyonetwelve/HTMLBody_typePage>
-	a view:ViewTransform .
+	a view:GetTransform .
 */
 
 // Set it up to use a manifest/index file
