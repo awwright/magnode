@@ -33,16 +33,16 @@ function printHelp(){
 	console.log('    --foreground         Run process in foreground (default without --pidfile)');
 }
 
-var arguments = process.argv.slice(2);
-for(var i=0; i<arguments.length; i++){
-	if(arguments[i]=='--conf') configFile=arguments[++i];
-	if(arguments[i]=='--port') listenPort=parseInt(arguments[++i]);
-	if(arguments[i]=='--setup'){ runSetup=true; }
-	if(arguments[i]=='--no-setup'){ runSetup=false; }
-	if(arguments[i]=='--pidfile'){ pidFile=arguments[++i]; }
-	if(arguments[i]=='--background'){ daemonize=true; }
-	if(arguments[i]=='--foreground'){ daemonize=false; }
-	if(arguments[i]=='--help'||arguments[i]=='-?'||arguments[i]=='-h'){ printHelp(); return; }
+var argv = process.argv.slice(2);
+for(var i=0; i<argv.length; i++){
+	if(argv[i]=='--conf') configFile=argv[++i];
+	if(argv[i]=='--port') listenPort=parseInt(argv[++i]);
+	if(argv[i]=='--setup'){ runSetup=true; }
+	if(argv[i]=='--no-setup'){ runSetup=false; }
+	if(argv[i]=='--pidfile'){ pidFile=argv[++i]; }
+	if(argv[i]=='--background'){ daemonize=true; }
+	if(argv[i]=='--foreground'){ daemonize=false; }
+	if(argv[i]=='--help'||argv[i]=='-?'||argv[i]=='-h'){ printHelp(); return; }
 }
 if(daemonize===null) daemonize = !!pidFile;
 configFile = require('path').resolve(process.cwd(), configFile);
