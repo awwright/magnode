@@ -127,12 +127,14 @@ var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
 	, redirect: "/?from=login"
 	}, httpAuthSession);
+var httpAuthBearer = new (require("magnode/authentication.httpbearer"))({}, httpAuthSession);
 
 // Method authentication defines the various schemes in which a user may pass credentials to the application
 // Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
 var authz = new (require("magnode/authorization.any"))(
 	[ httpAuthForm
 	, httpAuthCookie
+	, httpAuthBearer
 	, httpAuthSession
 	// Anonymous authorization which requires no authorization
 	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
