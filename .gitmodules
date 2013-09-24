@@ -51,3 +51,8 @@
 	path = theme/codemirror
 	url = http://marijnhaverbeke.nl/git/codemirror
 	url = git://github.com/marijnh/CodeMirror
+[submodule "node_modules/uri-templates"]
+	path = node_modules/uri-templates
+	url = https://github.com/geraintluff/uri-templates.git
+	semver = *
+	npm = uri-templates
