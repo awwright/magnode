@@ -10,7 +10,6 @@
 				, "weight": 0
 				}
 			}
-		, "permissions": null
 		, "schema":
 			{ "_schema": "http://json-schema.org/draft-03/schema#"
 			, "type": "object"
