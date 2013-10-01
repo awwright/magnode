@@ -68,6 +68,10 @@
 					{ "type": "object"
 					, "widget": "http://magnode.org/field/JSON"
 					}
+				, "sourceType":
+					{ "type": "array"
+					, "items": { "type": "string", "format": "uri" }
+					}
 				, "targetType":
 					{ "type": "string"
 					, "format": "uri"
