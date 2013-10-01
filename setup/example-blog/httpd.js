@@ -138,6 +138,7 @@ var authz = new (require("magnode/authorization.any"))(
 	, httpAuthSession
 	// Anonymous authorization which requires no authorization
 	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
+	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
 	] );
 
 var transformTypes =
