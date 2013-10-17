@@ -13,10 +13,15 @@ rdf.environment.setDefaultPrefix('http://localhost/');
 
 function bail(){
 	var route = new (require("magnode/route"));
+	var renders = new (require("magnode/render"))(new rdf.TripletGraph, []);
 	var p = (require("magnode/route.setup"))(route, configFile);
 	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
 	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
-	require('http').createServer(require("magnode/http").createListener(route, {rdf:rdf.environment}, {})).listen(listenPort);
+	var env =
+		{ rdf: rdf.environment
+		, authz: {test: function(a,b,c,cb){cb(true);}}
+		};
+	require('http').createServer(require("magnode/http").createListener(route, env, renders)).listen(listenPort);
 }
 
 function printHelp(){
