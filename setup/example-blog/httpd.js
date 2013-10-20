@@ -73,6 +73,7 @@ var dbHost = configuration.dbHost;
 var dbName = configuration.dbName;
 var siteSuperuser = configuration.siteSuperuser;
 var siteBase = configuration.siteBase;
+var sitePrefixes = configuration.sitePrefixes || {};
 // If none is specified, one will be generated randomly at startup
 var siteSecretKey = configuration.siteSecretKey;
 if(siteSecretKey && siteSecretKey.file){
@@ -96,6 +97,7 @@ try{
 rdf.environment.setDefaultPrefix(siteBase);
 rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
+for(var prefix in sitePrefixes) rdf.environment.setPrefix(prefix, sitePrefixes[prefix]);
 
 // Load the database of webpages
 var mongodb = require('mongolian');
