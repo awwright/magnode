@@ -125,14 +125,14 @@ var passwordGenerateRecord = require('magnode/authentication.pbkdf2').generateRe
 var httpAuthCredential = new (require("magnode/authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
 var httpAuthForm = new (require("magnode/authentication.form"))(
 	{ domain: "/"
-	, action: "/createSession"
+	, action: rdf.environment.resolve(':createSession')
 	, credentials: httpAuthCredential
 	}, userAuthz );
 var httpAuthSession = new (require("magnode/authentication.session"))(sessionStore, userAuthz);
 var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	{ domain: "/"
 	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
-	, redirect: "/?from=login"
+	, redirect: rdf.environment.resolve(':?from=login')
 	}, httpAuthSession);
 var httpAuthBearer = new (require("magnode/authentication.httpbearer"))({}, httpAuthSession);
 
@@ -194,7 +194,7 @@ httpAuthCookie.routeSession(route, httpAuthForm);
 (require("magnode/route.status"))(route);
 (require("magnode/route.routes"))(route);
 (require("magnode/route.transforms"))(route, resources, renders);
-httpAuthForm.routeForm(route, resources, renders, "/login");
+httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':login'));
 (require("magnode/route.mongodb.id"))(route, resources, renders);
 (require("magnode/route.mongodb.subject"))(route, resources, renders);
 
