@@ -16,3 +16,10 @@ Authorization calls are made to a function `function(user, actions, resources, c
 ### Authorization auditing
 
 Here we want to see which rule allowed the action. For security reasons, we do not want to tell users why their action was denied, but only that it was. Giving users more information gives malicious attackers more information to perform an attack with.
+
+### Types of permissions
+
+* get
+* put
+* ack
+* parse (post)

@@ -58,7 +58,8 @@
 				"semantics",
 				"libraries",
 				"ui",
-				"server"
+				"server",
+				"permissions"
 			]
 		},
 		{
