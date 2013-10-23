@@ -31,3 +31,12 @@ However, this violates the open world assumption - if we don't know a resource i
 However, we do mostly know what datatypes are stored in the database, so we can at least ping those for their ack.
 
 We also perform the standard one-grant-needed check, where at least one of the types must authorize being written to. This type is the _home_ type, and is the one to offer a space.
+
+
+### Publishing/unpublishing resources
+
+Resources can exist on the server in an "unpublished" state - they're in the database, but no one (ignoring superusers) can access them. The authorization to allow a class of people to see the resource is said to _publish_ the resource.
+
+Publishing a resource isn't always an on-or-off state. Resources can be published in numerous fashions: Published privately to a registered users, published publically, or published within a specific time period.
+
+Resources are also published _to_ particular locations. A resource may be published (visible) on the front page of a particular website. In this case especially, it is necessary to differentiate _which_ website frontpage it is to be placed on (especially if the database stores multiple websites that may share content).
