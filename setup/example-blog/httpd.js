@@ -40,14 +40,21 @@ function printHelp(){
 
 var argv = process.argv.slice(2);
 for(var i=0; i<argv.length; i++){
-	if(argv[i]=='--conf') configFile=argv[++i];
-	if(argv[i]=='--port') listenPort=parseInt(argv[++i]);
-	if(argv[i]=='--setup'){ runSetup=true; }
-	if(argv[i]=='--no-setup'){ runSetup=false; }
-	if(argv[i]=='--pidfile'){ pidFile=argv[++i]; }
-	if(argv[i]=='--background'){ daemonize=true; }
-	if(argv[i]=='--foreground'){ daemonize=false; }
-	if(argv[i]=='--help'||argv[i]=='-?'||argv[i]=='-h'){ printHelp(); return; }
+	var argn = argv[i].split('=',1)[0];
+	var value = argv[i].substring(argn.length+1);
+	switch(argn){
+		case '--conf': configFile=value||argv[++i]; break;
+		case '--port': listenPort=parseInt(value||argv[++i]); break;
+		case '--setup': runSetup=true; break;
+		case '--no-setup': runSetup=false; break;
+		case '--pidfile': pidFile=value||argv[++i]; break;
+		case '--background': daemonize=true; break;
+		case '--foreground': daemonize=false; break;
+		case '--help':
+		case '-?':
+		case '-h':
+			printHelp(); return;
+	}
 }
 if(daemonize===null) daemonize = !!pidFile;
 configFile = require('path').resolve(process.cwd(), configFile);
