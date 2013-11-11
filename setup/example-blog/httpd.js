@@ -64,7 +64,17 @@ if(pidFile){
 }
 if(daemonize){
 	var fork = require('child_process').fork(__filename, process.argv.slice(2).concat('--foreground'));
-	process.exit();
+	setTimeout(function(){
+		console.error("Child process didn't reply");
+		process.exit(1);
+	}, 5000);
+	fork.on('message', function(m) {
+		if(m && m.fork==='ready'){
+			console.log('httpd now listening');
+			process.exit(0);
+		}
+	});
+	return;
 }
 
 if(runSetup) return void bail();
@@ -206,8 +216,20 @@ httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':logi
 (require("magnode/route.mongodb.subject"))(route, resources, renders);
 
 // Handle HTTP requests
-console.log('HTTP server listening on port '+listenPort);
-require('http').createServer(require('magnode/http').createListener(route, resources, renders)).listen(listenPort);
+var listener = require('magnode/http').createListener(route, resources, renders);
+var httpd = require('http').createServer(listener).listen(listenPort, ready);
+function ready(){
+	var iface = httpd.address();
+	if(typeof iface=='string'){
+		console.log('HTTP server listening on unix socket '+iface);
+	}else{
+		var addr = (iface.address.indexOf(':')>=0)?('['+iface.address+']'):iface.address;
+		console.log('HTTP server listening on '+iface.family+' '+addr+':'+iface.port);
+	}
+	if(process.send){
+		process.send({fork:"ready"});
+	}
+}
 
 // This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
 process.on('uncaughtException', function (err) {
