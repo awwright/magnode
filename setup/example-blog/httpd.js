@@ -214,6 +214,7 @@ httpAuthCookie.routeSession(route, httpAuthForm);
 httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':login'));
 (require("magnode/route.mongodb.id"))(route, resources, renders);
 (require("magnode/route.mongodb.subject"))(route, resources, renders);
+(require("magnode/route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
 
 // Handle HTTP requests
 var listener = require('magnode/http').createListener(route, resources, renders);
