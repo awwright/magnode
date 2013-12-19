@@ -153,6 +153,9 @@ var httpAuthCookie = new (require("magnode/authentication.cookie"))(
 	}, httpAuthSession);
 var httpAuthBearer = new (require("magnode/authentication.httpbearer"))({}, httpAuthSession);
 
+// Also support HTTP Basic authentication with username/password
+var httpAuthBasic = new (require("magnode/authentication.httpbasic"))({realm:'Magnode', credentials:httpAuthCredential}, userAuthz);
+
 // Method authentication defines the various schemes in which a user may pass credentials to the application
 // Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
 var authz = new (require("magnode/authorization.any"))(
@@ -160,6 +163,7 @@ var authz = new (require("magnode/authorization.any"))(
 	, httpAuthCookie
 	, httpAuthBearer
 	, httpAuthSession
+	, httpAuthBasic
 	// Anonymous authorization which requires no authorization
 	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
 	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
