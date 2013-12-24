@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var configFile = process.env.MAGNODE_CONF || './server.json';
 var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
+var httpInterfaces = [];
 var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 var pidFile = null;
 var daemonize = null;
@@ -222,8 +223,14 @@ httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':logi
 
 // Handle HTTP requests
 var listener = require('magnode/http').createListener(route, resources, renders);
-var httpd = require('http').createServer(listener).listen(listenPort, ready);
+httpInterfaces = [listenPort];
+var httpWaiting = httpInterfaces.length;
+httpInterfaces.forEach(function(iface){
+	require('http').createServer(listener).listen(listenPort, ready);
+});
+
 function ready(){
+	var httpd = this;
 	var iface = httpd.address();
 	if(typeof iface=='string'){
 		console.log('HTTP server listening on unix socket '+iface);
@@ -231,6 +238,7 @@ function ready(){
 		var addr = (iface.address.indexOf(':')>=0)?('['+iface.address+']'):iface.address;
 		console.log('HTTP server listening on '+iface.family+' '+addr+':'+iface.port);
 	}
+	if(--httpWaiting!==0) return;
 	if(process.send){
 		process.send({fork:"ready"});
 	}
