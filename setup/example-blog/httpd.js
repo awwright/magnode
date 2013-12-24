@@ -117,8 +117,8 @@ rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 for(var prefix in sitePrefixes) rdf.environment.setPrefix(prefix, sitePrefixes[prefix]);
 
 // Load the database of webpages
-var mongodb = require('mongolian');
-var dbClient = new mongodb(dbHost);
+var mongodb = require('mongodb');
+mongodb.connect(dbHost, function(err, dbClient){
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
@@ -235,6 +235,8 @@ function ready(){
 		process.send({fork:"ready"});
 	}
 }
+
+});
 
 // This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
 process.on('uncaughtException', function (err) {

@@ -22,27 +22,15 @@
 	url = git://github.com/visionmedia/jade.git
 	semver = 0.15
 	npm = jade
-[submodule "node_modules/mongolian"]
-	path = node_modules/mongolian
-	url = git://github.com/marcello3d/node-mongolian.git
-	semver = *
-	npm = mongolian
-[submodule "node_modules/waiter"]
-	path = node_modules/waiter
-	url = git://github.com/marcello3d/node-waiter.git
-	npm = waiter
-[submodule "node_modules/taxman"]
-	path = node_modules/taxman
-	url = git://github.com/marcello3d/node-taxman.git
-	npm = taxman
-[submodule "node_modules/buffalo"]
-	path = node_modules/buffalo
-	url = git://github.com/marcello3d/node-buffalo.git
-	npm = buffalo
-[submodule "node_modules/tosource"]
-	path = node_modules/tosource
-	url = git://github.com/marcello3d/node-tosource.git
-	npm = tosource
+[submodule "node_modules/mongodb"]
+	path = node_modules/mongodb
+	url = http://github.com/mongodb/node-mongodb-native.git
+	semver = ~1
+	npm = mongodb
+[submodule "node_modules/bson"]
+	path = node_modules/bson
+	url = git://github.com/mongodb/js-bson.git
+	npm = bson
 [submodule "node_modules/mime"]
 	path = node_modules/mime
 	url = git://github.com/broofa/node-mime
