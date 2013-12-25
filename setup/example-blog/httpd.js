@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// httpd.js: A simple-ish server script that runs a single website with Magnode
+//    (Maybe multiple websites sometime in the future)
+
 var path = require('path');
 var fs = require('fs');
 var configFile = process.env.MAGNODE_CONF || './server.json';
@@ -9,20 +12,21 @@ var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 var pidFile = null;
 var daemonize = null;
 
+var magnode=require('magnode');
 var rdf=require('rdf');
 rdf.environment.setDefaultPrefix('http://localhost/');
 
 function bail(){
-	var route = new (require("magnode/route"));
-	var renders = new (require("magnode/render"))(new rdf.TripletGraph, []);
-	var p = (require("magnode/route.setup"))(route, configFile);
+	var route = new (magnode.require("route"));
+	var renders = new (magnode.require("render"))(new rdf.TripletGraph, []);
+	var p = (magnode.require("route.setup"))(route, configFile);
 	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
 	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
 	var env =
 		{ rdf: rdf.environment
 		, authz: {test: function(a,b,c,cb){cb(true);}}
 		};
-	require('http').createServer(require("magnode/http").createListener(route, env, renders)).listen(listenPort);
+	require('http').createServer(magnode.require("http").createListener(route, env, renders)).listen(listenPort);
 }
 
 function printHelp(){
@@ -40,15 +44,15 @@ function printHelp(){
 }
 
 var argv = process.argv.slice(2);
+function argValue(){ return argv[i][argn.length]=='=' ? argv[i].substring(argn.length+1) : argv[++i] ; }
 for(var i=0; i<argv.length; i++){
 	var argn = argv[i].split('=',1)[0];
-	var value = argv[i].substring(argn.length+1);
 	switch(argn){
-		case '--conf': configFile=value||argv[++i]; break;
-		case '--port': listenPort=parseInt(value||argv[++i]); break;
+		case '--conf': configFile=argValue(); break;
+		case '--port': listenPort=parseInt(argValue()); break;
 		case '--setup': runSetup=true; break;
 		case '--no-setup': runSetup=false; break;
-		case '--pidfile': pidFile=value||argv[++i]; break;
+		case '--pidfile': pidFile=argValue(); break;
 		case '--background': daemonize=true; break;
 		case '--foreground': daemonize=false; break;
 		case '--help':
@@ -80,6 +84,7 @@ if(daemonize){
 
 if(runSetup) return void bail();
 
+// Website-specific settings are defined in a config file
 try{
 	var configuration = require(configFile);
 }catch(e){
@@ -123,7 +128,7 @@ mongodb.connect(dbHost, function(err, dbClient){
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
-var sessionStore = new (require("magnode/session.mac"))(
+var sessionStore = new (magnode.require("session.mac"))(
 	{ expires: 1000*60*60*24*14
 	, secret: siteSecretKey
 	});
@@ -132,58 +137,58 @@ var sessionStore = new (require("magnode/session.mac"))(
 var transformDb = new rdf.TripletGraph;
 
 // The Authorizers grant permissions to users
-var userAuthz = new (require("magnode/authorization.any"))(
-	[ new (require("magnode/authorization.superuser"))(siteSuperuser)
-	, new (require("magnode/authorization.usergroups.mongodb"))
+var userAuthz = new (magnode.require("authorization.any"))(
+	[ new (magnode.require("authorization.superuser"))(siteSuperuser)
+	, new (magnode.require("authorization.usergroups.mongodb"))
 	] );
 
 // Provide login form for users to authenticate with
-var passwordHashMethods = [require('magnode/authentication.pbkdf2').compareCredential];
-var passwordGenerateRecord = require('magnode/authentication.pbkdf2').generateRecord;
-var httpAuthCredential = new (require("magnode/authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
-var httpAuthForm = new (require("magnode/authentication.form"))(
+var passwordHashMethods = [magnode.require('authentication.pbkdf2').compareCredential];
+var passwordGenerateRecord = magnode.require('authentication.pbkdf2').generateRecord;
+var httpAuthCredential = new (magnode.require("authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
+var httpAuthForm = new (magnode.require("authentication.form"))(
 	{ domain: "/"
 	, action: rdf.environment.resolve(':createSession')
 	, credentials: httpAuthCredential
 	}, userAuthz );
-var httpAuthSession = new (require("magnode/authentication.session"))(sessionStore, userAuthz);
-var httpAuthCookie = new (require("magnode/authentication.cookie"))(
+var httpAuthSession = new (magnode.require("authentication.session"))(sessionStore, userAuthz);
+var httpAuthCookie = new (magnode.require("authentication.cookie"))(
 	{ domain: "/"
 	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
 	, redirect: rdf.environment.resolve(':?from=login')
 	}, httpAuthSession);
-var httpAuthBearer = new (require("magnode/authentication.httpbearer"))({}, httpAuthSession);
+var httpAuthBearer = new (magnode.require("authentication.httpbearer"))({}, httpAuthSession);
 
 // Also support HTTP Basic authentication with username/password
-var httpAuthBasic = new (require("magnode/authentication.httpbasic"))({realm:'Magnode', credentials:httpAuthCredential}, userAuthz);
+var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode', credentials:httpAuthCredential}, userAuthz);
 
 // Method authentication defines the various schemes in which a user may pass credentials to the application
 // Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
-var authz = new (require("magnode/authorization.any"))(
+var authz = new (magnode.require("authorization.any"))(
 	[ httpAuthForm
 	, httpAuthCookie
 	, httpAuthBearer
 	, httpAuthSession
 	, httpAuthBasic
 	// Anonymous authorization which requires no authorization
-	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
-	, new (require("magnode/authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
+	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
+	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
 	] );
 
 var transformTypes =
-	[ require('magnode/transform.Jade')
-	, require('magnode/transform.ModuleTransform')
+	[ magnode.require('transform.Jade')
+	, magnode.require('transform.ModuleTransform')
 	];
-var renders = new (require("magnode/render"))(transformDb, transformTypes);
+var renders = new (magnode.require("render"))(transformDb, transformTypes);
 
 var libDir = path.dirname(require.resolve('magnode/render'));
-require('magnode/scan.widget').scanDirectorySync(libDir, renders);
-require('magnode/scan.ModuleTransform').scanDirectorySync(libDir, renders);
-require('magnode/scan.turtle').scanDirectorySync('format.ttl', renders);
+magnode.require('scan.widget').scanDirectorySync(libDir, renders);
+magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
+magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
-require('magnode/scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
+magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
 
-var route = new (require("magnode/route"));
+var route = new (magnode.require("route"));
 
 var resources = {
 	"db-mongodb": dbInstance,
@@ -213,38 +218,27 @@ require('./theme/twentyonetwelve').importTheme(route, resources, renders);
 httpAuthCookie.routeSession(route, httpAuthForm);
 
 // Content
-(require("magnode/route.status"))(route);
-(require("magnode/route.routes"))(route);
-(require("magnode/route.transforms"))(route, resources, renders);
+(magnode.require("route.status"))(route);
+(magnode.require("route.routes"))(route);
+(magnode.require("route.transforms"))(route, resources, renders);
 httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':login'));
-(require("magnode/route.mongodb.id"))(route, resources, renders);
-(require("magnode/route.mongodb.subject"))(route, resources, renders);
-(require("magnode/route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
+(magnode.require("route.mongodb.id"))(route, resources, renders);
+(magnode.require("route.mongodb.subject"))(route, resources, renders);
+(magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
 
 // Handle HTTP requests
-var listener = require('magnode/http').createListener(route, resources, renders);
+var listener = magnode.require('http').createListener(route, resources, renders);
 httpInterfaces = [listenPort];
-var httpWaiting = httpInterfaces.length;
-httpInterfaces.forEach(function(iface){
-	require('http').createServer(listener).listen(listenPort, ready);
+magnode.startServers(httpInterfaces, listener, httpReady);
+
 });
 
-function ready(){
-	var httpd = this;
-	var iface = httpd.address();
-	if(typeof iface=='string'){
-		console.log('HTTP server listening on unix socket '+iface);
-	}else{
-		var addr = (iface.address.indexOf(':')>=0)?('['+iface.address+']'):iface.address;
-		console.log('HTTP server listening on '+iface.family+' '+addr+':'+iface.port);
-	}
-	if(--httpWaiting!==0) return;
+function httpReady(){
+	console.log('Listening');
 	if(process.send){
 		process.send({fork:"ready"});
 	}
 }
-
-});
 
 // This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
 process.on('uncaughtException', function (err) {
