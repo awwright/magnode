@@ -11,6 +11,7 @@ var httpInterfaces = [];
 var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 var pidFile = null;
 var daemonize = null;
+var clusterSize = null;
 
 var magnode=require('magnode');
 var rdf=require('rdf');
@@ -41,6 +42,9 @@ function printHelp(){
 	console.log('    --pidfile <file>     Write process id to a pid file');
 	console.log('    --background         Fork process to background (default if --pidfile is specified)');
 	console.log('    --foreground         Run process in foreground (default without --pidfile)');
+	console.log('    --cluster            Spawn a Node.js cluster worker per CPU');
+	console.log('    --cluster-size=<n>   Spawn a specified number of cluster workers');
+	console.log('    --no-cluster         Do not use clustering (default)');
 }
 
 var argv = process.argv.slice(2);
@@ -55,6 +59,9 @@ for(var i=0; i<argv.length; i++){
 		case '--pidfile': pidFile=argValue(); break;
 		case '--background': daemonize=true; break;
 		case '--foreground': daemonize=false; break;
+		case '--cluster': clusterSize=require('os').cpus().length; break;
+		case '--cluster-size': clusterSize=parseInt(argValue()); break;
+		case '--no-cluster': clusterSize=null; break;
 		case '--help':
 		case '-?':
 		case '-h':
@@ -83,6 +90,21 @@ if(daemonize){
 }
 
 if(runSetup) return void bail();
+
+// Run cluster after setup because we don't want/need to cluster the setup interface
+// The setup UI assumes there's only one cluster and runs stuff in memory
+if(clusterSize){
+	var cluster = require('cluster');
+	if(cluster.isMaster){
+		// Fork workers.
+		for (var i=0; i<clusterSize; i++) cluster.fork();
+		cluster.on('exit', function(worker, code, signal) {
+			console.log('worker ' + worker.process.pid + ' died');
+		});
+		// Stop. Hammer time.
+		return;
+	}
+}
 
 // Website-specific settings are defined in a config file
 try{
