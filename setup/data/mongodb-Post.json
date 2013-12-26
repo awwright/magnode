@@ -14,6 +14,7 @@
 		, "permissions": null
 		, "schema":
 			{ "_schema": "http://json-schema.org/draft-03/schema#"
+			, "id": "http://magnode.org/Post"
 			, "type": "object"
 			, "properties":
 				{ "_id":
@@ -26,12 +27,14 @@
 					}
 				, "subject":
 					{ "type": "string"
+					, "required": true
 					, "format": "uri"
 					, "widget": "http://magnode.org/field/token"
 					, "tokenPattern": "/{posted.Y}/{posted.m}/{posted.d}/{label.formatURL}"
 					}
 				, "type":
 					{ "type": "array"
+					, "required": true
 					, "widget": "http://magnode.org/field/Taxonomy"
 					, "items": { "type": "string", "format": "uri" }
 					, "taxonomySources":

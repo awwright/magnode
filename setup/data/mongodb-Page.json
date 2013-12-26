@@ -4,6 +4,7 @@
 		, "subject": "http://magnode.org/Page"
 		, "type": ["http://magnode.org/MongoDBJSONSchema","http://magnode.org/PageTable"]
 		, "label": "Plain page"
+		, "description": "A static page of content with no author or timestamp"
 		, "menu":
 			{ "http://localhost/Menu_ManagementMenu":
 				{ "title": "Pages"
@@ -26,10 +27,12 @@
 					}
 				, "subject":
 					{ "type": "string"
+					, "required": true
 					, "format": "uri"
 					}
 				, "type":
 					{ "type": "array"
+					, "required": true
 					, "widget": "http://magnode.org/field/Taxonomy"
 					, "items": { "type": "string", "format": "uri" }
 					, "taxonomySources":
