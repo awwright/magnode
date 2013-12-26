@@ -28,9 +28,19 @@
 				, "name": { "type": "string", "title": "Name", "widget": "http://magnode.org/field/Label"}
 				, "email": { "type": "string", "title": "Email", "format": "email"}
 				}
+			, "displayOrder":
+				[ {"name":"accountName", "widget":"http://magnode.org/widget/Label"}
+				, {"name":"name", "widget":"http://magnode.org/widget/Label"}
+				, {"name":"email", "widget":"http://magnode.org/widget/Label", "format":"email"}
+				]
 			, "put":
 				{ "storeRevision": true
 				}
+			, "mongoCollection": "nodes"
+			, "links":
+				[ {"rel":"self", "href":"http://localhost/~{accountName}"}
+				, {"rel":"acl-owner", "href":"{+subject}"}
+				]
 			}
 		, "tablequery": {"fields": ["_id","subject", "accountName", "name"]}
 		}

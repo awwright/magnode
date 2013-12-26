@@ -113,6 +113,9 @@
 			, "put":
 				{ "storeRevision": true
 				}
+			, "links":
+				[ {"rel":"acl-owner", "href":"{+author}"}
+				]
 			}
 		, "tablequery": {"fields":["_id","subject","label"]}
 		, "ViewTransform":

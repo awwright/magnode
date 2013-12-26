@@ -11,7 +11,8 @@
 				}
 			}
 		, "query":
-			{ "filter": {"type": "http://localhost/Promoted", "subject": {"$exists": true}}
+			{ "collection": "nodes"
+			, "filter": {"type": "http://localhost/Promoted", "subject": {"$exists": true}}
 			, "limit": 10
 			, "sort": [{"key":"posted", "dir":-1}, {"key":"_id", "dir":-1}]
 			}
