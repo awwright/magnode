@@ -144,9 +144,16 @@ rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 for(var prefix in sitePrefixes) rdf.environment.setPrefix(prefix, sitePrefixes[prefix]);
 
+// Keep track of open event listeners
+var listeners = [];
+process.on('SIGINT', closeProcess);
+process.on('SIGTERM', closeProcess);
+process.on('SIGHUP', closeProcess);
+
 // Load the database of webpages
 var mongodb = require('mongodb');
 mongodb.connect(dbHost, function(err, dbClient){
+listeners.push(dbClient);
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
@@ -255,10 +262,31 @@ magnode.startServers(httpInterfaces, listener, httpReady);
 
 });
 
-function httpReady(){
+function httpReady(err, httpInterfaces){
+	if(err){
+		console.error(err);
+		closeProcess(1);
+		return;
+	}
 	console.log('Listening');
 	if(process.send){
 		process.send({fork:"ready"});
+	}
+	httpInterfaces.forEach(function(v){ listeners.push({name:'httpd', close:v.close.bind(v)}); });
+}
+
+function closeProcess(code){
+	var remaining = listeners.length;
+	listeners.slice().forEach(function(listener){
+		var name = listener.name || 'listener';
+		console.log('Closing '+name+'...');
+		listener.close(finished.bind(listener, name));
+	});
+
+	function finished(name){
+		console.log('Closing '+name+'... Closed');
+		if(--remaining!==0) return;
+		process.exit(code);
 	}
 }
 
