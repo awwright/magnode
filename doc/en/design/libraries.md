@@ -2,7 +2,14 @@
 
 Magnode uses numerous third-party standards and libraries to manage the data model.
 
+### Web Standards
+
+* [RFC3986: URIs](http://www.ietf.org/rfc/rfc3986.txt)
+* [RFC2616: HTTP](http://www.ietf.org/rfc/rfc2616.txt)
+* [ECMAScript](http://ecma-international.org/ecma-262/5.1/)
+
 ### RDF
+
 Magnode uses its own Node.js-specific implementation of several standards, which is maintained as a seperate repository at [github.com/Acubed/node-rdf](https://github.com/Acubed/node-rdf)
 
 Magnode implements the following standards and vocabularies:
