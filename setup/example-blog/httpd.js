@@ -275,7 +275,12 @@ function httpReady(err, httpInterfaces){
 	httpInterfaces.forEach(function(v){ listeners.push({name:'httpd', close:v.close.bind(v)}); });
 }
 
+var closingProcess = false;
 function closeProcess(code){
+	if(closingProcess) return void forceExit();
+	closingProcess = true;
+	console.log('Closing process');
+
 	var remaining = listeners.length;
 	listeners.slice().forEach(function(listener){
 		var name = listener.name || 'listener';
@@ -288,6 +293,16 @@ function closeProcess(code){
 		if(--remaining!==0) return;
 		process.exit(code);
 	}
+
+	function forceExit(){
+		try {
+			process.stderr.write('Graceful close timeout\n');
+		} finally {
+			process.exit(1);
+		}
+	}
+
+	setTimeout(forceExit, 1000);
 }
 
 // This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
