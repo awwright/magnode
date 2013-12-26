@@ -153,7 +153,7 @@ process.on('SIGHUP', closeProcess);
 // Load the database of webpages
 var mongodb = require('mongodb');
 mongodb.connect(dbHost, function(err, dbClient){
-listeners.push(dbClient);
+listeners.push({name:'mongo', close:dbClient.close.bind(dbClient)});
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
