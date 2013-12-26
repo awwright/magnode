@@ -146,9 +146,14 @@ for(var prefix in sitePrefixes) rdf.environment.setPrefix(prefix, sitePrefixes[p
 
 // Keep track of open event listeners
 var listeners = [];
+
+// Close the process on many kinds of events
 process.on('SIGINT', closeProcess);
 process.on('SIGTERM', closeProcess);
 process.on('SIGHUP', closeProcess);
+// Also close the process on an uncaught exception
+// This shouldn't ever happen, but if it does restart to clean up floating resources
+process.on('uncaughtException', closeProcess.bind(null, 2));
 
 // Load the database of webpages
 var mongodb = require('mongodb');
@@ -304,8 +309,3 @@ function closeProcess(code){
 
 	setTimeout(forceExit, 1000);
 }
-
-// This shouldn't ever happen, but, in case it does, note it and prevent the program from exiting
-process.on('uncaughtException', function (err) {
-  console.error((new Date).toISOString()+' - Uncaught Exception: ' + err.stack||err.toString());
-});
