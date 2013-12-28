@@ -153,7 +153,10 @@ process.on('SIGTERM', closeProcess);
 process.on('SIGHUP', closeProcess);
 // Also close the process on an uncaught exception
 // This shouldn't ever happen, but if it does restart to clean up floating resources
-process.on('uncaughtException', closeProcess.bind(null, 2));
+process.on('uncaughtException', function uncaughtExceptionHandler(e){
+	console.error('Uncaught Exception: '+(e.stack||e.toString()));
+	closeProcess(2);
+});
 
 // Bring up the HTTP server as soon as possible
 // (Maybe issue a 500 error while it's being brought up)
