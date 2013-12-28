@@ -157,15 +157,20 @@ process.on('uncaughtException', closeProcess.bind(null, 2));
 
 // Bring up the HTTP server as soon as possible
 // (Maybe issue a 500 error while it's being brought up)
+var resources = {};
+resources["rdf"] = rdf.environment;
+
 var transformDb = new rdf.TripletGraph;
+resources["db-transforms"] = transformDb;
+resources["db-rdfa"] = transformDb;
 var transformTypes =
 	[ magnode.require('transform.Jade')
 	, magnode.require('transform.ModuleTransform')
 	];
 var renders = new (magnode.require("render"))(transformDb, transformTypes);
-var route = new (magnode.require("route"));
-var resources = {};
+
 // Handle HTTP requests
+var route = new (magnode.require("route"));
 var listener = magnode.require('http').createListener(route, resources, renders);
 httpInterfaces = [listenPort];
 magnode.startServers(httpInterfaces, listener, httpReady);
@@ -177,6 +182,19 @@ listeners.push({name:'mongo', close:dbClient.close.bind(dbClient)});
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
+
+resources["db-mongodb"] = dbInstance;
+resources["db-mongodb-nodes"] = nodesDb;
+resources["db-mongodb-schema"] = nodesDb;
+resources["db-mongodb-shadow"] = shadowDb;
+
+// Sets a default theme to use, may be removed for a custom theme specified in format.ttl
+require('./theme/twentyonetwelve').importTheme(route, resources, renders);
+// TODO remove this, generate an HTMLBody->HTMLDocument formatter with the appropriate resources embedded (maybe)
+resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header";
+resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Panel";
+resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer";
+
 var sessionStore = new (magnode.require("session.mac"))(
 	{ expires: 1000*60*60*24*14
 	, secret: siteSecretKey
@@ -191,6 +209,7 @@ var userAuthz = new (magnode.require("authorization.any"))(
 // Provide login form for users to authenticate with
 var passwordHashMethods = [magnode.require('authentication.pbkdf2').compareCredential];
 var passwordGenerateRecord = magnode.require('authentication.pbkdf2').generateRecord;
+resources["password-hash"] = passwordGenerateRecord;
 var httpAuthCredential = new (magnode.require("authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
 var httpAuthForm = new (magnode.require("authentication.form"))(
 	{ domain: "/"
@@ -203,6 +222,8 @@ var httpAuthCookie = new (magnode.require("authentication.cookie"))(
 	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
 	, redirect: rdf.environment.resolve(':?from=login')
 	}, httpAuthSession);
+// TODO what is this for again?
+resources["http://magnode.org/Auth"] = httpAuthCookie;
 var httpAuthBearer = new (magnode.require("authentication.httpbearer"))({}, httpAuthSession);
 
 // Also support HTTP Basic authentication with username/password
@@ -220,6 +241,7 @@ var authz = new (magnode.require("authorization.any"))(
 	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
 	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
 	] );
+resources["authz"] = authz;
 
 var libDir = path.dirname(require.resolve('magnode/render'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
@@ -228,27 +250,10 @@ magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
 
-resources["db-mongodb"] = dbInstance;
-resources["db-mongodb-nodes"] = nodesDb;
-resources["db-mongodb-schema"] = nodesDb;
-resources["db-mongodb-shadow"] = shadowDb;
-resources["db-transforms"] = transformDb;
-resources["db-rdfa"] = transformDb;
-resources["http://magnode.org/Auth"] = httpAuthCookie;
-resources["authz"] = authz;
-resources["password-hash"] = passwordGenerateRecord;
-resources["rdf"] = rdf.environment;
-resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header";
-resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Panel";
-resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer";
-
 // Import other configuration options if any, like "title" and "logo"
 for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
 }
-
-// Sets a default theme to use, may be removed for a custom theme specified in format.ttl
-require('./theme/twentyonetwelve').importTheme(route, resources, renders);
 
 // Post-auth
 httpAuthCookie.routeSession(route, httpAuthForm);
