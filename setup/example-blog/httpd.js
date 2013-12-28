@@ -155,6 +155,21 @@ process.on('SIGHUP', closeProcess);
 // This shouldn't ever happen, but if it does restart to clean up floating resources
 process.on('uncaughtException', closeProcess.bind(null, 2));
 
+// Bring up the HTTP server as soon as possible
+// (Maybe issue a 500 error while it's being brought up)
+var transformDb = new rdf.TripletGraph;
+var transformTypes =
+	[ magnode.require('transform.Jade')
+	, magnode.require('transform.ModuleTransform')
+	];
+var renders = new (magnode.require("render"))(transformDb, transformTypes);
+var route = new (magnode.require("route"));
+var resources = {};
+// Handle HTTP requests
+var listener = magnode.require('http').createListener(route, resources, renders);
+httpInterfaces = [listenPort];
+magnode.startServers(httpInterfaces, listener, httpReady);
+
 // Load the database of webpages
 var mongodb = require('mongodb');
 mongodb.connect(dbHost, function(err, dbClient){
@@ -166,9 +181,6 @@ var sessionStore = new (magnode.require("session.mac"))(
 	{ expires: 1000*60*60*24*14
 	, secret: siteSecretKey
 	});
-
-// The transforms database
-var transformDb = new rdf.TripletGraph;
 
 // The Authorizers grant permissions to users
 var userAuthz = new (magnode.require("authorization.any"))(
@@ -209,12 +221,6 @@ var authz = new (magnode.require("authorization.any"))(
 	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
 	] );
 
-var transformTypes =
-	[ magnode.require('transform.Jade')
-	, magnode.require('transform.ModuleTransform')
-	];
-var renders = new (magnode.require("render"))(transformDb, transformTypes);
-
 var libDir = path.dirname(require.resolve('magnode/render'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
@@ -222,23 +228,19 @@ magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
 
-var route = new (magnode.require("route"));
-
-var resources = {
-	"db-mongodb": dbInstance,
-	"db-mongodb-nodes": nodesDb,
-	"db-mongodb-schema": nodesDb,
-	"db-mongodb-shadow": shadowDb,
-	"db-transforms": transformDb,
-	"db-rdfa": transformDb,
-	"http://magnode.org/Auth": httpAuthCookie,
-	"authz": authz,
-	"password-hash": passwordGenerateRecord,
-	"rdf": rdf.environment,
-	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header",
-	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Panel",
-	"http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer": rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer",
-};
+resources["db-mongodb"] = dbInstance;
+resources["db-mongodb-nodes"] = nodesDb;
+resources["db-mongodb-schema"] = nodesDb;
+resources["db-mongodb-shadow"] = shadowDb;
+resources["db-transforms"] = transformDb;
+resources["db-rdfa"] = transformDb;
+resources["http://magnode.org/Auth"] = httpAuthCookie;
+resources["authz"] = authz;
+resources["password-hash"] = passwordGenerateRecord;
+resources["rdf"] = rdf.environment;
+resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Header";
+resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Panel";
+resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer";
 
 // Import other configuration options if any, like "title" and "logo"
 for(var f in (configuration&&configuration.option||{})){
@@ -259,11 +261,6 @@ httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':logi
 (magnode.require("route.mongodb.id"))(route, resources, renders);
 (magnode.require("route.mongodb.subject"))(route, resources, renders);
 (magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
-
-// Handle HTTP requests
-var listener = magnode.require('http').createListener(route, resources, renders);
-httpInterfaces = [listenPort];
-magnode.startServers(httpInterfaces, listener, httpReady);
 
 });
 
