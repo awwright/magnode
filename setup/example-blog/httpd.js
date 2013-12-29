@@ -5,6 +5,8 @@
 
 var path = require('path');
 var fs = require('fs');
+var errctx = require('domain');
+
 var configFile = process.env.MAGNODE_CONF || './server.json';
 var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
 var httpInterfaces = [];
@@ -176,7 +178,28 @@ var renders = new (magnode.require("render"))(transformDb, transformTypes);
 var route = new (magnode.require("route"));
 var listener = magnode.require('http').createListener(route, resources, renders);
 httpInterfaces = [listenPort];
-magnode.startServers(httpInterfaces, listener, httpReady);
+function httpRequest(req, res){
+	var c = errctx.create();
+	c.add(req);
+	c.add(res);
+	c.on('error', function(err){
+		console.error('Uncaught Exception in Request: '+(err.stack||err.toString()));
+		try{
+			res.statusCode = 500;
+			res.setHeader('content-type', 'text/plain');
+			res.end('Oops, there was a problem!\n');
+		}catch(e2){
+			console.error('Error writing response to client: '+e2.toString());
+		}
+		// Close the underlying HTTP connection
+		res.socket.destroy();
+		// And close/restart the process
+		// TODO add a cluster.worker.disconnect() if necessary
+		closeProcess(2);
+	});
+	c.run(listener.bind(this, req, res));
+}
+magnode.startServers(httpInterfaces, httpRequest, httpReady);
 
 // Load the database of webpages
 var mongodb = require('mongodb');
