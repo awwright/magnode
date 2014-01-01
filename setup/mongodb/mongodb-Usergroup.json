@@ -133,8 +133,8 @@
 				, "where": []
 				, "action": ["get", "view", "edit", "post", "put", "delete", "parse"]
 				}
-			
-				, { "type": ["http://magnode.org/Page"]
+			,
+				{ "type": ["http://magnode.org/Page"]
 				, "where": []
 				, "action": ["get", "view", "edit", "post", "put", "delete", "parse"]
 				}
