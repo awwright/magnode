@@ -1,4 +1,4 @@
-var mongodb = require('mongolian');
+var ObjectId = require('mongodb').ObjectID;
 var fs = require('fs');
 
 module.exports.parseMongoJSON = function parseMongoJSON(str, base){
@@ -9,7 +9,7 @@ module.exports.parser = function parser(k, v, base){
 	var prefix = "http://localhost/";
 	base = base||"http://localhost/";
 	if(!v) return v;
-	if(v.$ObjectId) return new mongodb.ObjectId(v.$ObjectId);
+	if(v.$ObjectId) return new ObjectId(v.$ObjectId);
 	if(v.$Date) return new Date(v.$Date);
 	if(typeof v=='string' && v.substr(0,prefix.length)==prefix) return base+v.substr(prefix.length);
 	if(typeof v=='object'){
@@ -65,7 +65,7 @@ module.exports.importData = function importData(collections, dbClient, callback)
 			}else{
 				where._id=record._id;
 			}
-			collection.upsert(where, record, done);
+			collection.update(where, record, {upsert:true}, done);
 		});
 	}
 

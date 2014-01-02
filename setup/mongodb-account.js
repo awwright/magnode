@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-var mongodb = require('mongolian');
-var ObjectId = mongodb.ObjectId;
+var mongodb = require('mongodb');
+var ObjectId = mongodb.ObjectID;
 var util=require('util');
 var authpbkdf2=require('magnode/authentication.pbkdf2');
 
@@ -85,7 +85,14 @@ function promptAccountName(){
 }
 
 function testAccountName(){
-	dbConnect = new mongodb(dbHost);
+	if(!dbHost) dbHost='mongodb://localhost/'+dbName;
+	mongodb.connect(dbHost, function(err, dbClient){
+		dbConnect = dbClient;
+		databaseConnected();
+	});
+}
+
+function databaseConnected(){
 	dbConnect.log = {};
 	dbConnect.log.debug = dbConnect.log.info = dbConnect.log.warn = function(){};
 	dbConnect.log.error = console.error;

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var mongodb = require('mongolian');
+var mongodb = require('mongodb');
 var parseMongoJSON = require('./lib/parsemongojson');
 var util=require('util');
 
@@ -73,18 +73,15 @@ function importData(){
 	console.error('URI Base: %s', base);
 	console.error('Importing: %s', files.join('  '));
 
-
-	var dbConnect = new mongodb(dbHost);
-	dbConnect.log = {};
-	dbConnect.log.debug = dbConnect.log.info = dbConnect.log.warn = function(){};
-	dbConnect.log.error = console.error;
-	var dbClient = dbName?dbConnect.db(dbName):dbConnect;
-	if(dbUsername) dbClient.auth(dbUsername, dbPassword);
-	// FIXME Workaround to make sure we only execute dbConnect.close() after we've connected
-	dbClient.collectionNames(function(){
-		parseMongoJSON.importFiles(files, dbClient, base, function(err){
-			if(err) console.error(err.toString());
-			dbClient.server.close();
+	if(!dbHost) dbHost='mongodb://localhost/'+dbName;
+	mongodb.connect(dbHost, function(err, dbClient){
+		if(dbUsername) dbClient.auth(dbUsername, dbPassword);
+		// FIXME Workaround to make sure we only execute dbConnect.close() after we've connected
+		dbClient.collectionNames(function(){
+			parseMongoJSON.importFiles(files, dbClient, base, function(err){
+				if(err) console.error(err.toString());
+				dbClient.close();
+			});
 		});
 	});
 }

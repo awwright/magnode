@@ -3,7 +3,7 @@ var util=require('util');
 var fs=require('fs');
 var path=require('path');
 
-var mongodb = require('mongolian');
+var mongodb = require('mongodb');
 var parseMongoJSON = require('./lib/parsemongojson');
 var authpbkdf2=require('magnode/authentication.pbkdf2');
 
@@ -124,12 +124,14 @@ function setupDirectory(){
 }
 
 function importData(){
-	dbConnect = new mongodb(values.dbHost);
-	dbConnect.log = {};
-	dbConnect.log.debug = dbConnect.log.info = dbConnect.log.warn = function(){};
-	dbConnect.log.error = console.error;
-	dbClient = dbConnect.db(values.dbName);
+	if(!dbHost) dbHost='mongodb://localhost/'+values.dbName;
+	mongodb.connect(dbHost, function(err, db){
+		dbClient = db;
+		haveDatabaseConnection();
+	});
+}
 
+function haveDatabaseConnection(){
 	var files = ['base', 'List', 'OnlineAccount', 'Page', 'Post', 'frontpage', 'DocumentRegion', 'LinkMenu', 'ThemeData'];
 	var paths = files.map(function(v){return path.resolve(__dirname+'/mongodb', 'mongodb-'+v+'.json');});
 	// FIXME Workaround to make sure we only execute dbConnect.close() after we've connected
