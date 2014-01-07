@@ -98,5 +98,25 @@ function populateForms(){
 		}catch(e){throw e;}
 	})(es[i]);
 
+	var es = document.getElementsByClassName('field-switch');
+	for(var i=0; i<es.length; i++) (function(field){
+		try {
+			var eSwitch = field.firstElementChild;
+			eSwitch.onchange = function(){
+				hideAll(eSwitch.selectedIndex*2+1);
+			}
+			var ePane = eSwitch.nextElementSibling;
+			function hideAll(x){
+				var ex = ePane.firstElementChild;
+				var i = 0;
+				while(ex){
+					ex.style.display = i++===x ? 'block' : 'none';
+					ex = ex.nextElementSibling;
+				}
+			}
+			hideAll(1);
+		}catch(e){throw e;}
+	})(es[i]);
+
 };
 document.addEventListener("DOMContentLoaded", populateForms, false);
