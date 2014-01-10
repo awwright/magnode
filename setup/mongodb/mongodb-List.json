@@ -65,7 +65,25 @@
 					}
 				, "query":
 					{ "type": "object"
-					, "widget": "http://magnode.org/field/JSON"
+					, "properties":
+						{ "filter": {"type":"object", "widget": "http://magnode.org/field/JSON"}
+						, "fields":
+							{ "type":"array"
+							, "description":"A list of fields to use for Table, or limit query results to"
+							, "items":
+								{ "type": "object"
+								, "properties":
+									{ "label": {"type":"string"}
+									, "field": {"type":"string"}
+									, "name": {"type":"string", "description":""}
+									, "type": {"type":"string"}
+									, "widget": {"type":"string"}
+									}
+								}
+							}
+						, "limit": {"type":"number"}
+						, "sort": {"type":"array", "widget": "http://magnode.org/field/JSON"}
+						}
 					}
 				, "sourceType":
 					{ "type": "array"
