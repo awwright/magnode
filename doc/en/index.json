@@ -37,6 +37,7 @@
 				"transforms",
 				"authentication",
 				"authorization",
+				"forms",
 				"caching",
 				"rdfa",
 				"patterns",
