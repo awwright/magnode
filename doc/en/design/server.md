@@ -51,6 +51,7 @@ Let resource be the dereferenced information resource or the closest available r
 6. If a HEAD request, return a blank entity-body, else return _resource_ in the entity-body
 
 HTTP requests are atomic, which means the GET request must operate on a snapshot of the data at one point in time, which can be achieved by designing your data store to work in atomic transactions, or failing that, the PUT request must lock out GET requests while the transaction is active.
+
 Note that as specified in the “Authorization Checking” section, and as with all other methods, authorization checking is implicitly performed as a part of these steps, and an authorization failure will abort the steps and return 401 (Unauthorized).
 
 
@@ -65,6 +66,7 @@ Call the same logic as the GET request, but enable a “HEAD” flag to disable 
 The OPTIONS request is used for returning meta-data about a resource. There is no particular standard for how the response entity-body is encoded, but consider generating an array of the acceptable methods, and using the same GET functionality to format it into an HTML or JSON response (you may even wish to provide this resource a URI and return a Location header).
 
 OPTIONS is also used for the “CORS pre-flight check”. If your application is secure, it will also be secure with `Access-Control-Allow-Origin: *` but you may wish to configure the response to your preferences.
+
 1. Set the Allow response-header with the acceptable methods:
 	1. GET, HEAD, OPTIONS
 	2. If the resource can be written to, PUT, PATCH, and DELETE
