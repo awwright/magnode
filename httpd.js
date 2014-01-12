@@ -156,7 +156,7 @@ process.on('SIGHUP', closeProcess);
 // Also close the process on an uncaught exception
 // This shouldn't ever happen, but if it does restart to clean up floating resources
 process.on('uncaughtException', function uncaughtExceptionHandler(e){
-	console.error('Uncaught Exception: '+(e.stack||e.toString()));
+	console.error((new Date).toISOString()+' - Uncaught Exception: \n'+(e.stack||e.toString()));
 	closeProcess(2);
 });
 
@@ -195,9 +195,13 @@ function httpRequest(req, res){
 		res.socket.destroy();
 		// And close/restart the process
 		// TODO add a cluster.worker.disconnect() if necessary
-		closeProcess(2);
+		// Since we caught the error and supposedly cleaned up the TCP connection,
+		// And since different requests act independent of each other,
+		// And since we're supposed to keep a constistent database, we
+		// probably don't need to restart the server. But if you want to, here you go:
+		//closeProcess(3);
 	});
-	c.run(listener.bind(this, req, res));
+	c.run(function(){ listener(req, res); });
 }
 magnode.startServers(httpInterfaces, httpRequest, httpReady);
 
