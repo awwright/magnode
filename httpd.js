@@ -14,6 +14,7 @@ var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 var pidFile = null;
 var daemonize = null;
 var clusterSize = null;
+var debugMode = false;
 
 var magnode=require('magnode');
 var rdf=require('rdf');
@@ -36,9 +37,11 @@ function printHelp(){
 	console.log('USAGE: '+process.argv[0]+' '+process.argv[1]+' [options]');
 	console.log('A simple HTTP server for running Magnode');
 	console.log('OPTIONS:');
-	console.log('    --help -h -?         This help');
-	console.log('    --conf <file>        Launch a particular website (default: "server.json")');
-	console.log('    --port <int>         Listen on a particular TCP port');
+	console.log(' -? -h --help            This help');
+	console.log(' -c --conf <file>        Launch a particular website (default: "server.json")');
+	console.log(' -p --port <int>         Listen on a particular TCP port');
+	console.log(' -d --debug              Enable debugging features (performance and possible security implications)');
+	console.log('    --no-debug           Disable debugging features (default)');
 	console.log('    --setup              Start in setup mode (automatic if conf file does not exist))');
 	console.log('    --no-setup           Run normally');
 	console.log('    --pidfile <file>     Write process id to a pid file');
@@ -54,10 +57,12 @@ function argValue(){ return argv[i][argn.length]=='=' ? argv[i].substring(argn.l
 for(var i=0; i<argv.length; i++){
 	var argn = argv[i].split('=',1)[0];
 	switch(argn){
-		case '--conf': configFile=argValue(); break;
-		case '--port': listenPort=parseInt(argValue()); break;
+		case '--conf': case '-c': configFile=argValue(); break;
+		case '--port': case '-p': listenPort=parseInt(argValue()); break;
 		case '--setup': runSetup=true; break;
 		case '--no-setup': runSetup=false; break;
+		case '--debug': case '-d': debugMode=true; break;
+		case '--no-debug': debugMode=false; break;
 		case '--pidfile': pidFile=argValue(); break;
 		case '--background': daemonize=true; break;
 		case '--foreground': daemonize=false; break;
@@ -188,6 +193,8 @@ function httpRequest(req, res){
 			res.statusCode = 500;
 			res.setHeader('content-type', 'text/plain');
 			res.end('Oops, there was a problem!\n');
+			if(debugMode) res.end(err.stack||err.toString());
+			res.end('\n');
 		}catch(e2){
 			console.error('Error writing response to client: '+e2.toString());
 		}
