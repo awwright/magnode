@@ -23,6 +23,7 @@ When resource is dereferenced:
 ### Serving a Request
 
 An HTTP server needs to satisfy a great number of requirements as laid out in the HTTP specification.
+
 1. If desired, setup a timer to respond with 408 (Request Timeout) and kill the connection, to close old, lingering TCP connections.
 2. @@@TODO it’s unclear which versions of HTTP should be unsupported, but return with 505 (HTTP Version Not Supported) here where appropriate
 3. If desired, and if the server is marked offline or the request would bring the server over capacity (particularly non-safe, non-cachable requests), return 503 (Service Unavailable).
