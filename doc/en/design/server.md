@@ -3,10 +3,26 @@
 Magnode works on the theory that it formats RDF resources as HTML when they are dereferenced, serving RDFa-enabled HTML when HTML is requested. By request, formats that do not embed RDF data can be returned, for instance, PNG images of plots of data.
 
 
+### Selecting a Representation
+
+The task of negotiating and rendering a variant is one of the core functions of Magnode. But the process isn't so straightforward.
+
+When resource is dereferenced:
+
+1. Determine the database resource and its URI (for the rel=about link)
+2. Determine the the subset of variants that are defined in the request-URI. Variants can vary by many dimensions:
+	* Language
+	* Charset
+	* i18n options (timezone, maybe number formatting)
+	* Pagation offset, length
+	* Content-Type (html, json, xml, markdown, docbook, etc)
+	* Content-Type arguments (profile, XForms, SVG, etc)
+3. Use the Accept headers and configuration information to select a variant from V2. Return it to the client.
+
+
 ### Serving a Request
 
 An HTTP server needs to satisfy a great number of requirements as laid out in the HTTP specification.
-
 1. If desired, setup a timer to respond with 408 (Request Timeout) and kill the connection, to close old, lingering TCP connections.
 2. @@@TODO it’s unclear which versions of HTTP should be unsupported, but return with 505 (HTTP Version Not Supported) here where appropriate
 3. If desired, and if the server is marked offline or the request would bring the server over capacity (particularly non-safe, non-cachable requests), return 503 (Service Unavailable).
