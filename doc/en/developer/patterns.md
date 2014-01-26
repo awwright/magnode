@@ -1,6 +1,7 @@
 ## Common Coding Patterns
 
-Often there's many patterns found in code for doing. Normally we try to move this behavior into nice compact functions.
+Often there's many patterns found in code for doing common tasks. Normally we try to de-duplicate behavior into nice compact function calls.
+
 However many of these patterns don't belong in functions, because their behavior cannot be replicated by a function. The best we can do is document the proper way to utilize the pattern and describe what it does.
 
 

@@ -1,4 +1,5 @@
 ## Contributor's Guide
+
 ### Version Numbering
 Version numbering uses [Semantic Versioning](http://semver.org/).
 
