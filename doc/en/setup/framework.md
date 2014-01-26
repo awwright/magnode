@@ -11,6 +11,6 @@ You will need to setup the library calls to get Magnode functioning as an applic
 * Routing URLs
 * Listening to ports
 
-The installer script currently works this way to produce an `httpd.js` file, the source for a basic framework-application can be examined at `setup/example-blog/httpd.js`.
+A good starting point for developing your application as a framework is looking at the `httpd.js` file.
 
 For information about how to setup Magnode as a framework, see the [Developer's Guide](#developer) and the [API Documentation](#api).

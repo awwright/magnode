@@ -13,10 +13,11 @@ Magnode may be run out of a single directory. In this case, the file tree may re
 If you're designing a web application, you might set up your files like this:
 
 <dl>
-<dt>/etc/magnode/magnode.json</dt><dd>The main configuration file specifying all the services to be launched.</dd>
+<dt>/etc/magnode/name.json</dt><dd>The main configuration file specifying all the services to be launched.</dd>
 <dt>/var/lib/magnode/</dt><dd>Non-web files</dd>
 <dt>/var/www/</dt><dd>Web-served static files</dd>
 <dt>/usr/lib/node/magnode/</dt><dd>The location for core Magnode libraries</dd>
+<dt>/usr/lib/node/</dt><dd>Dependency libraries, globally installed so frameworks can call them</dd>
 </dl>
 
 
@@ -29,4 +30,3 @@ Navigate to the directory you wish to place magnode under, then clone the reposi
 	git clone http://git.bzfx.net/~aaa/magnode.git
 	cd magnode
 	git submodule update --init
-	(cd node_modules/sparql-spin.src && make)

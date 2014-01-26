@@ -14,7 +14,7 @@ Then run the following command at a prompt:
 
 	$ ./httpd.js
 
-If the configuration file `server.json` does not exist, the setup process will begin to write it. A custom configuration file may be provided with `-c server.json`.
+If the configuration file `server.json` does not exist, the setup process will begin to write it. A custom configuration file may be provided with `-c server.json`. If you want to force the setup screen, run `httpd.js --setup`.
 
 Aim your web browser at the provided setup URL, and don't forget to replace `localhost:8080` with the appropriate authority, if you have setup Magnode behind a gateway or on a different host.
 
