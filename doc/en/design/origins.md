@@ -1,6 +1,6 @@
 ## Origins
 
-<aside><p>The inspiration behind the project as told by creator Austin Wright</p></aside>
+<aside><p>By Austin Wright</p></aside>
 
 I think it's important to know the intention of what this project is supposed to be capable of, so here's the background to what I'm trying to accomplish here.
 
