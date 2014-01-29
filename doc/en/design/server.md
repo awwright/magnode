@@ -5,7 +5,7 @@ Magnode works on the theory that it formats RDF resources as HTML when they are 
 
 ### Authorization Checking
 
-Any time during a request when we perform an action, we must check to see that the action being performed is within the set of permissions granted by the credential. In this case, a credential might also be “anonymous user” and the default permissions that every request has. We assume below this check is being done without saying.
+Any time during a request when we perform an action, we must check to see that the action being performed is within the set of permissions granted by the credential. In this case, a credential might also be “anonymous user” and the default permissions that every request has. We will assume this check is performed whenever access needs to be controlled or restricted.
 
 Each instance of a permission check in the code should check its own permission, and may also optionally check for a generic permission like “read” or “edit”. While most permissions granted will be for these groups of permissions, it may be necessary to grant permissions to a specific instance check.
 
@@ -181,19 +181,9 @@ Again note that, as specified in the “Authorization Checking” section, autho
 
 ### Application Server
 
-This is the primary use of Magnode, and the `magnode.js` application that ships with the program connects to a database and looks at an established configuration of how to setup components like databases and content types, instead of being done in source code. Information about the initial database connection is stored in a simple ini file:
+The main purpose of the application server is to allocate and wire together process-level resources.
 
-	database = 4store://localhost/magnode
-	profile = _:profile
-
-With the master database specified, it asks the resource as specified by `profile` for information about additional databases to setup, users and permissions (authentication and authorization), content types, and transforms. Additional information about setting up Magnode as an application is available from the [User's Guide](#user.setup).
-
-Magnode works on the basis that you're formatting existing resources for display. But what if you want to see a form for a new resource? You would have to build a form to format a resource that doesn't exist. Unless you create a module that does exactly that, and "formats" an empty form from an anonymous resource (a bnode) that is availabe to the local scope only, which is given a URI when submitted and saved to the master database.
-
-
-### RDF Resources
-
-Sometimes you want to dereference a resource using Magnode that it isn't the webserver for. Take for instance the `rdfs:Class` resource, whose URI is `http://www.w3.org/2000/01/rdf-schema#Class`: you may want to see how a Magnode instance handles it, even though dereferencing it would normally take one to W3C servers. External resources can be dereferenced to Magnode servers, if you use the full or prefixed URL in the path. The `rdfs:Class` resource as understood by `http://magnode.org` would be accessible at `http://magnode.org/rdfs:Class`. For this or other reasons, the URL that is dereferenced may not be the cannoical URL for the resource. For this, Magnode returns `X-Content-About` header that identifies the RDF resource being described, which may be a different URL, including a different path or domain.
+In Magnode, this can all be done dynamically at runtime by creating instances of resources in the database. The database connection information is passed in out-of-bound at init-time.
 
 
 ### Scripting
