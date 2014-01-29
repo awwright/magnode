@@ -1,6 +1,8 @@
 ## The Webserver
 
-Magnode works on the theory that it formats RDF resources as HTML when they are dereferenced, serving RDFa-enabled HTML when HTML is requested. By request, formats that do not embed RDF data can be returned, for instance, PNG images of plots of data.
+Magnode fully levereges the design of HTTP to format resources into various media types when they are dereferenced.
+
+HTTP has numerous features which are described across many different documents. Here we attempt to describe how to implement all of them into a single coherent program.
 
 
 ### Authorization Checking
