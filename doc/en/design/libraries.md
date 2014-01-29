@@ -56,4 +56,4 @@ The data access APIs are important because they provide the core of the method o
 
 MongoDB uses a JSON variant named BSON, magnode stores schemas for MongoDB collections as a JSON Schema.
 
-* [JSON Schema](http://tools.ietf.org/html/draft-zyp-json-schema-03) (the latest version, currently 03)
+* [JSON Schema](http://tools.ietf.org/html/draft-zyp-json-schema-04) (the latest version, currently 04)

@@ -3,21 +3,54 @@
 Magnode works on the theory that it formats RDF resources as HTML when they are dereferenced, serving RDFa-enabled HTML when HTML is requested. By request, formats that do not embed RDF data can be returned, for instance, PNG images of plots of data.
 
 
+### Authorization Checking
+
+Any time during a request when we perform an action, we must check to see that the action being performed is within the set of permissions granted by the credential. In this case, a credential might also be “anonymous user” and the default permissions that every request has. We assume below this check is being done without saying.
+
+Each instance of a permission check in the code should check its own permission, and may also optionally check for a generic permission like “read” or “edit”. While most permissions granted will be for these groups of permissions, it may be necessary to grant permissions to a specific instance check.
+
+A permission should accept arguments for every dimension that you would want to control access along - typically this means the resource being accessed or modified, classes that the resource is an instance of or a member of, and if the resource is in a “published” state or not.
+
+A sandbox of permissions might look something like:
+
+* view[document] | document.owner=credential.user
+* view[document] | document.status=published
+* put[document] | document.owner=credential.user, document.type=BlogPost
+* put[document] | document.owner=credential.user, document.type=Comment
+
+Where the pipe “|” means “where”, and the equals sign “=” means equality.
+
+@@@TODO polish up the set theory, we want to ensure that people who shouldn’t have access don’t inadvertently get it if we make changes to the permission schema, which may happen frequently (maybe they become able to set the owner to someone besides themselves, etc)
+
+Which means that the current user can edit and view any resource that they own, they can create resources that they are the owner of, and they can view any published content.
+
+With this set of credentials, they would likely not be able to change their own password or other personal information - this should require an additional permission like editCredentials[]
+
+Actions are verified as follows:
+
+1. Look up the set of actions granted to the credential
+2. Check that the requested action is within the set of actions
+3. If the check fails:
+	1. Terminate any handling of the request
+	2. Fail any write transactions associated with the request
+	3. Return 401 (Unauthorized). Additional information should not be returned, though it should be logged away for debugging and auditing purposes, and a log id may be returned.
+
+
 ### Selecting a Representation
 
 The task of negotiating and rendering a variant is one of the core functions of Magnode. But the process isn't so straightforward.
 
 When resource is dereferenced:
 
-1. Determine the database resource and its URI (for the rel=about link)
-2. Determine the the subset of variants that are defined in the request-URI. Variants can vary by many dimensions:
+1. Determine the database resource identified in the URI and calculate its direct link, suitable for a rel="about" link.
+2. Parse the URI to determine the subset of variants that may be returned. Variants can vary by many dimensions:
 	* Language
 	* Charset
 	* i18n options (timezone, maybe number formatting)
 	* Pagation offset, length
 	* Content-Type (html, json, xml, markdown, docbook, etc)
 	* Content-Type arguments (profile, XForms, SVG, etc)
-3. Use the Accept headers and configuration information to select a variant from V2. Return it to the client.
+3. Use the Accept headers and configuration information to select a variant from the remaining set. Return it to the client.
 
 
 ### Serving a Request

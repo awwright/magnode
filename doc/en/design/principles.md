@@ -32,4 +32,11 @@ Accessability means designing websites that are consumble by Web browsers, graph
 
 ### Self-documenting
 
-The goal is to make a software program that is self-documenting, intuitive, and works with sensible, but configurable, defaults. Resources, where appropriate, should be both computer- and human-readable.
+The goal is to make a software program whose interface is self-documenting. For people this means it is intuitive, and works with sensible, but configurable, defaults. For computers, this means the program provides unique identifiers (URIs) and links to schemas and other generic media-types that are parsable into instructions. Resources, where appropriate, should contain both computer- and human-readable components.
+
+
+### Gracefully degrading
+
+REST makes scripting a so-called "optional constraint" - it is something that is provided for the benefit of user-agents, if they don't otherwise know how to read the data provided to them. Scripting here may refer to logic, or stylesheets.
+
+This implies that programs should be usable without scripting enabled (though it may require understanding of more advanced form elements like XForms to be fully functional), and that _all_ scripts and stylesheets should be external resources.
