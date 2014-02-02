@@ -169,6 +169,7 @@ process.on('uncaughtException', function uncaughtExceptionHandler(e){
 // (Maybe issue a 500 error while it's being brought up)
 var resources = {};
 resources["rdf"] = rdf.environment;
+resources["debugMode"] = debugMode;
 
 var transformDb = new rdf.TripletGraph;
 resources["db-transforms"] = transformDb;
