@@ -297,6 +297,7 @@ for(var f in (configuration&&configuration.option||{})){
 httpAuthCookie.routeSession(route, httpAuthForm);
 
 // Content
+// TODO move route.push out of the function call, use e.g.: route.push(magnode.require('route.status')())
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
 (magnode.require("route.transforms"))(route, resources, renders);
