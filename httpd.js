@@ -193,8 +193,8 @@ function httpRequest(req, res){
 		try{
 			res.statusCode = 500;
 			res.setHeader('content-type', 'text/plain');
-			res.end('Oops, there was a problem!\n');
-			if(debugMode) res.end(err.stack||err.toString());
+			res.write('Oops, there was a problem!\n');
+			if(debugMode) res.write(err.stack||err.toString());
 			res.end('\n');
 		}catch(e2){
 			console.error('Error writing response to client: '+e2.toString());
