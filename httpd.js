@@ -126,11 +126,12 @@ var dbName = configuration.dbName;
 var siteSuperuser = configuration.siteSuperuser;
 var siteBase = configuration.siteBase;
 var sitePrefixes = configuration.sitePrefixes || {};
-// If none is specified, one will be generated randomly at startup
+// If none is specified, one will be generated randomly in memory at startup
 var siteSecretKey = configuration.siteSecretKey;
 if(siteSecretKey && siteSecretKey.file){
 	siteSecretKey = fs.readFileSync(path.resolve(path.dirname(configFile), siteSecretKey.file));
 }
+// Maybe the config defines a directory to make paths relative to... lets chdir there
 if(configuration.chdir){
 	process.chdir(configuration.chdir);
 }
@@ -146,7 +147,9 @@ try{
 	return void bail();
 }
 
+// The default prefix is used for defaulty-things sorta
 rdf.environment.setDefaultPrefix(siteBase);
+// Named prefixes are used for resolving CURIEs in the path component of URLs e.g. http://example.com/magnode:Page
 rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 for(var prefix in sitePrefixes) rdf.environment.setPrefix(prefix, sitePrefixes[prefix]);
@@ -166,7 +169,7 @@ process.on('uncaughtException', function uncaughtExceptionHandler(e){
 });
 
 // Bring up the HTTP server as soon as possible
-// (Maybe issue a 500 error while it's being brought up)
+// (Maybe issue a 500 error while it's being brought up, or make this configurable for the sake of load balancers)
 var resources = {};
 resources["rdf"] = rdf.environment;
 resources["debugMode"] = debugMode;
