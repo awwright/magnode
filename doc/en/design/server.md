@@ -135,8 +135,19 @@ The request may generate multiple resources, like a new page or comment. In this
 1. Dereference the resource according to GET above
 2. If dereferenced resource is not a script, respond with 405 (Method Not Allowed)
 3. Execute resource as a script/program
-4. If the script starts an ongoing, long-running process, create a named resource representing the process and return 202 (Accepted) and link to the process in the Location header
-Else, return result of execution as a new, anonymous resource (which may involve redirecting to other newly created resources). Return 200 (OK), or 303 (See Other) as appropriate.
+4. If the script starts an ongoing, long-running process, then:
+	1. Create a named resource representing the process and return 202 (Accepted)
+	2. Link to the process in the Location header
+5. Else
+	1. Set status code 200 (OK), or 303 (See Other) as appropriate.
+	2. Return result of execution as a new, anonymous resource (which may involve redirecting to other newly created resources).
+
+The most significant use of POST requests is to execute other requests that Web browsers may not have semantics for, e.g. making a PUT request. Such a script might be called with with `method="post" action="?put"` in an HTML form tag, and might and look something like:
+
+1. Parse the request-entity body and format it into an application/json document
+2. PUT the document to this URI, but with "?put" removed (if it exists in the URI)
+3. If successful, redirect to the URI that was PUT to
+4. Else if failure, pass on the fail status code and print an HTML error message
 
 
 ### PATCH request
@@ -147,7 +158,7 @@ This method was removed from HTTP for a little while, however it became clear it
 
 1. Dereference the resource according to GET above
 2. Modify the dereferenced resource’s entity-body according to semantics of the request-entity-body Content-Type
-3. Save the modified resource back to the database with a PUT request, using If-Match logic as appropriate
+3. Save the modified resource back to the database with a PUT request, with If-Match as appropriate
 
 
 ### DELETE request
