@@ -146,7 +146,7 @@ The most significant use of POST requests is to execute other requests that Web 
 
 1. Parse the request-entity body and format it into an application/json document
 2. PUT the document to this URI, but with "?put" removed (if it exists in the URI)
-3. If successful, redirect to the URI that was PUT to
+3. If successful, 303 redirect to the URI that was PUT to (which the Web browser will request with GET per 303 semantics)
 4. Else if failure, pass on the fail status code and print an HTML error message
 
 
