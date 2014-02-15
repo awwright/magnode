@@ -9,9 +9,9 @@ HTTP has numerous features which are described across many different documents. 
 
 Any time during a request when we perform an action, we must check to see that the action being performed is within the set of permissions granted by the credential. In this case, a credential might also be “anonymous user” and the default permissions that every request has. We will assume this check is performed whenever access needs to be controlled or restricted.
 
-Each instance of a permission check in the code should check its own permission, and may also optionally check for a generic permission like “read” or “edit”. While most permissions granted will be for these groups of permissions, it may be necessary to grant permissions to a specific instance check.
+Each instance of a permission check in the code should have a unique permission name, and may also optionally check for a generic permission like “read” or “edit”. While most permissions granted will be for these groups of permissions, it may be necessary to grant permissions to a specific instance check.
 
-A permission should accept arguments for every dimension that you would want to control access along - typically this means the resource being accessed or modified, classes that the resource is an instance of or a member of, and if the resource is in a “published” state or not.
+A permission should accept arguments for every dimension that you would want to control access along - typically this means the resource being accessed or modified, if the user is also the owner of the resource, and classes that the resource is an instance of or a member of, including if the resource is in a “published” state or not.
 
 A sandbox of permissions might look something like:
 
