@@ -181,10 +181,10 @@ var transformTypes =
 	[ magnode.require('transform.Jade')
 	, magnode.require('transform.ModuleTransform')
 	];
-var renders = new (magnode.require("render"))(transformDb, transformTypes);
+var renders = new magnode.Render(transformDb, transformTypes);
 
 // Handle HTTP requests
-var route = new (magnode.require("route"));
+var route = new magnode.Route;
 var listener = magnode.require('http').createListener(route, resources, renders);
 httpInterfaces = [listenPort];
 function httpRequest(req, res){
