@@ -62,9 +62,9 @@ resources["rdf"] = rdf.environment;
 
 ### Dereferencing Requests
 
-All resourceful requests (GET, POST, etc, most methods excluding PUT and TRACE) will first hit the router: the component that maps URIs a resource and the associated data to respond to the request.
+All resourceful requests (GET, POST, etc, most methods excluding PUT and TRACE) will first hit the router: the component that maps URIs to a resource and associated data.
 
-A routing function simply accepts a URI and a callback:
+A routing function accepts a URI and a callback. The callback is invoked with a map of content stored by its type, e.g. `http://magnode.org/Post` will map to an object representing a blog post, in some standard format. Magnode uses URIs as identifiers because it allows for the possibility of talking about other people's content (nothing, however, is downloaded).
 
 <pre class="lang-application-ecmascript httpd">
 function routeThing(resource, callback){
@@ -92,7 +92,7 @@ Once we've dereferenced a resource, we need to define how to serialize it into a
 
 When a request comes out of the router, it is combined with the defined default resources, which store application-level configuration like database connections and authentication and authorization configuration. Magnode searches a database of _transform functions_ to format the provided resources into an HTTP response. If multiple methods are available, one is selected based on Content-Type negotiation and what the router requested.
 
-The default resources and the resources returned by the router are passed to the _render_, which calculates how to generate an HTTP response by combining a series of _transform functions_
+The default resources and the resources returned by the router are passed to the _render_, which calculates how to generate an HTTP response by combining a series of _transform functions_ that have been registered with the render. Each function has an associated domain and range, a type that it requires as input, and a type that it will always output.
 
 The signature of a transform is a little more complex, it accepts the following arguments:
 
@@ -130,9 +130,9 @@ Data is saved using PUT requests. The resource identified in a PUT request is th
 PUT requests are handled using the internal transform system to convert the uploaded entity-body into a form suitable for database storage. Usage of this is demonstrated in a later chapter.
 
 
-### Setting up Authentication
+### Setting up Authorization
 
-Authentication and authorization is required, even if all the files you're serving are public (as on a typical static webserver).
+Authorization is required, even if all the files you're serving are public (as on a typical static webserver).
 Here, we will use <code>http://localhost/Published</code> to identify resources that are publically viewable.
 
 <pre class="lang-application-ecmascript httpd">
