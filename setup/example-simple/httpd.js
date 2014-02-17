@@ -1,8 +1,23 @@
-var magnode = require('magnode');
+#!/usr/bin/env node
 
 var httpInterfaces = [8080];
 
+var magnode = require('magnode');
+var rdf = require('rdf');
 var route = new magnode.Route;
+var renders = new magnode.Render;
+var resources = {};
+
+// Abolute URIs are made relative based upon the default prefix
+// Set this to the main URL of your application
+rdf.environment.setDefaultPrefix('http://localhost/');
+// Named prefixes are used for resolving CURIEs in the path component of URLs
+// e.g. http://example.com/magnode:Page becomes http://magnode.org/Page
+rdf.environment.setPrefix("magnode", "http://magnode.org/");
+rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
+
+//resources["debugMode"] = true;
+resources["rdf"] = rdf.environment;
 
 function routeThing(resource, callback){
 	/* fetch `resource` from a data source */
@@ -12,21 +27,11 @@ function routeThing(resource, callback){
 	ret['http://example.com/SomeResource'] = data;
 	callback(null, ret);
 }
-
 route.push(routeThing);
 
-var rdf = require('rdf');
-var transformDb = new rdf.TripletGraph;
-
-// The default prefix is used for defaulty-things sorta
-rdf.environment.setDefaultPrefix('http://localhost/');
-// Named prefixes are used for resolving CURIEs in the path component of URLs e.g. http://example.com/magnode:Page
-rdf.environment.setPrefix("magnode", "http://magnode.org/");
-rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
-
-var resources = {};
-//resources["debugMode"] = true;
-resources["rdf"] = rdf.environment;
+(magnode.require("route.status"))(route);
+(magnode.require("route.routes"))(route);
+(magnode.require("route.transforms"))(route, resources, renders);
 
 function transform(db, transform, resources, render, callback){
 	resources.response.setHeader('Content-Type', 'text/plain');
@@ -40,8 +45,6 @@ transform.about = {
 	domain: ['http://example.com/SomeResource'],
 	range: ['http://magnode.org/HTTPResponse']
 };
-
-var renders = new magnode.Render(transformDb, []);
 renders.add(transform, transform.about);
 
 resources["authz"] = new (magnode.require("authorization.any"))(

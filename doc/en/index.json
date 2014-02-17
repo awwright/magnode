@@ -32,7 +32,7 @@
 			"title": "Developer Guide",
 			"dir": "developer",
 			"articles": [
-				"requests",
+				"application",
 				"internationalization",
 				"transforms",
 				"authentication",
