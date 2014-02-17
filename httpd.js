@@ -214,7 +214,7 @@ function httpRequest(req, res){
 	});
 	c.run(function(){ listener(req, res); });
 }
-magnode.startServers(httpInterfaces, httpRequest, httpReady);
+magnode.startServers(httpRequest, httpInterfaces, httpReady);
 
 // Load the database of webpages
 var mongodb = require('mongodb');

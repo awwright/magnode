@@ -50,7 +50,7 @@ resources["authz"] = new (magnode.require("authorization.any"))(
 	] );
 
 var listener = magnode.require('http').createListener(route, resources, renders);
-magnode.startServers(httpInterfaces, listener, function(err, interfaces){
+magnode.startServers(listener, httpInterfaces, function(err, interfaces){
 	if(err){
 		console.error(err.stack||err.toString());
 		process.exit(2);
