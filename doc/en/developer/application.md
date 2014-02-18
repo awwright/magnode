@@ -56,7 +56,7 @@ rdf.environment.setDefaultPrefix('http://localhost/');
 rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 
-//resources["debugMode"] = true;
+//resources["debugMode"] = true; // enables more verbose output to HTTP responses
 resources["rdf"] = rdf.environment;
 </pre>
 
@@ -121,13 +121,6 @@ transform.about = {
 };
 renders.add(transform, transform.about);
 </pre>
-
-
-### Saving Data
-
-Data is saved using PUT requests. The resource identified in a PUT request is the one attached in the upload entity-body, and is to be saved at the request-uri, even if there is no resource already there, so the request will never return 404 or 410. Magnode uses PUT requests to save data, and even uses them internally to to POST new items to a collection.
-
-PUT requests are handled using the internal transform system to convert the uploaded entity-body into a form suitable for database storage. Usage of this is demonstrated in a later chapter.
 
 
 ### Setting up Authorization
