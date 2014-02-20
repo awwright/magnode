@@ -12,7 +12,7 @@ Alternatively, Magnode comes with a default application that can be setup and ma
 
 ### The Pipeline
 
-Magnode acts as a framework that exposes the functionality of HTTP, while isolating its complexity (as any good layer in a stack is supposed to do). Magnode operates in two steps: First, it queries a data source (like the filesystem or a database) for information that could possibly describe a URI, and how that data should be formatted; then, it applies a series of functions that can transform the retreived information into the target format. Writing an application in Magnode involves composing functions to fill both these steps.
+Magnode acts as a framework that exposes the functionality of HTTP, while isolating its complexity (as any good layer in a stack is supposed to do). Magnode operates in two steps: First, it queries a data source (like the filesystem or a database) for information that could possibly describe a URI, and how that data should be formatted; then, it applies a series of functions that format the retreived information into the target format. Writing an application in Magnode involves composing functions to fill both these steps.
 
 ### Setup
 
@@ -29,13 +29,13 @@ Inside the "<code>local</code>", directory and create a file called <code>httpd.
 
 Let's define some configuration information for what we want our program to do:
 
-<pre class="lang-application-ecmascript httpd">
+<pre class="lang-application-ecmascript simple-httpd-fragment">
 var httpInterfaces = [8080];
 </pre>
 
 Then we will define the variables that will do routing, formatting, and store runtime data:
 
-<pre class="lang-application-ecmascript httpd">
+<pre class="lang-application-ecmascript simple-httpd-fragment">
 var magnode = require('magnode');
 var rdf = require('rdf');
 var route = new magnode.Route;
@@ -43,11 +43,11 @@ var renders = new magnode.Render;
 var resources = {};
 </pre>
 
-The `resources` variable will store the default resources that apply to all requests in the application, including which database connections and authorization and authentication information, and CURIE resolving and other URI functions.
+The `resources` variable will store the default resources that apply to all requests in the application, including database connections, authorization and authentication information, and CURIE resolving and other URI functions.
 
 First setup the RDF environment, which is used to expand and collapse URIs:
 
-<pre class="lang-application-ecmascript httpd">
+<pre class="lang-application-ecmascript simple-httpd-fragment">
 // Abolute URIs are made relative based upon the default prefix
 // Set this to the main URL of your application
 rdf.environment.setDefaultPrefix('http://localhost/');
@@ -66,21 +66,29 @@ All resourceful requests (GET, POST, etc, most methods excluding PUT and TRACE) 
 
 A routing function accepts a URI and a callback. The callback is invoked with a map of content stored by its type, e.g. `http://magnode.org/Post` will map to an object representing a blog post, in some standard format. Magnode uses URIs as identifiers because it allows for the possibility of talking about other people's content (nothing, however, is downloaded).
 
-<pre class="lang-application-ecmascript httpd">
-function routeThing(resource, callback){
+<pre class="lang-application-ecmascript simple-httpd-fragment">
+function routeIndex(resource, callback){
+	var data;
 	/* fetch `resource` from a data source */
-	var data = 'Resource: '+resource;
+	if(new rdf.IRI(resource).path()==='/'){
+		// Match "/" on any authority or scheme
+		data = 'Welcome to '+resource;
+	}
+	if(!data){
+		// Nothing found
+		return void callback();
+	}
 	var ret = {};
 	ret[rdf.environment.resolve(':Published')] = data;
 	ret['http://example.com/SomeResource'] = data;
 	callback(null, ret);
 }
-route.push(routeThing);
+route.push(routeIndex);
 </pre>
 
 You might also consider adding one of several builtin routes:
 
-<pre class="lang-application-ecmascript httpd">
+<pre class="lang-application-ecmascript simple-httpd-fragment">
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
 (magnode.require("route.transforms"))(route, resources, renders);
@@ -106,11 +114,13 @@ The signature of a transform is a little more complex, it accepts the following 
 
 The transform also needs to be registered in the database with metadata describing where it may be used.
 
-<pre class="lang-application-ecmascript httpd">
+<pre class="lang-application-ecmascript simple-httpd-fragment">
 function transform(db, transform, resources, render, callback){
 	resources.response.setHeader('Content-Type', 'text/plain');
-	resources.response.write('Have Resource:\n');
-	resources.response.end(resources['http://example.com/SomeResource']);
+	resources.response.write('[[ Website Header ]]\n\n');
+	resources.response.write(resources['http://example.com/SomeResource']);
+	resources.response.write('\n\n[[ Website Footer ]]\n');
+	resources.response.end();
 	callback(null, {'http://magnode.org/HTTPResponse': 200});
 }
 transform.about = {
@@ -128,7 +138,7 @@ renders.add(transform, transform.about);
 Authorization is required, even if all the files you're serving are public (as on a typical static webserver).
 Here, we will use <code>http://localhost/Published</code> to identify resources that are publically viewable.
 
-<pre class="lang-application-ecmascript httpd">
+<pre class="lang-application-ecmascript simple-httpd-fragment">
 resources["authz"] = new (magnode.require("authorization.any"))(
 	[ new (magnode.require("authorization.read"))(['get'], [rdf.environment.resolve(':Published')])
 	, new (magnode.require("authorization.read"))(['get'], ['http://magnode.org/NotFound'])
@@ -140,7 +150,7 @@ resources["authz"] = new (magnode.require("authorization.any"))(
 
 Now we pass the routers and the rendering formatters to the HTTP request parser, and open an HTTP port to bound to this request parser.
 
-<pre class="lang-application-ecmascript httpd">
+<pre class="lang-application-ecmascript simple-httpd-fragment">
 var listener = magnode.require('http').createListener(route, resources, renders);
 magnode.startServers(listener, httpInterfaces, function(err, interfaces){
 	if(err){
@@ -164,20 +174,24 @@ HTTP server listening on IPv4 0.0.0.0:8080
 All ready
 </pre>
 
+And we're live!
+
+Of course, your application doesn't end here. Parts below will split off the program into multiple files and cover more advanced features like adding caching, Content-Type negotation, accepting user input, and more.
+
 <!--
 <h2>httpd.js</h2>
-<pre id="httpdsrc" class="lang-application-ecmascript"></pre>
-<button id="httpdgen">Generate</button>
+<pre id="simple-httpd-full" class="lang-application-ecmascript"></pre>
+<button id="simple-httpd-gen">Generate</button>
 <script type="application/ecmascript">
 function httpdgen(){
 	var sum = '';
-	var list = document.getElementsByClassName('httpd');
+	var list = document.getElementsByClassName('simple-httpd-fragment');
 	Array.prototype.slice.call(list).forEach(function(v){
-		sum += v.textContent+"\n";
+		sum += v.textContent.replace(/^\n+/,'')+"\n";
 		console.log(sum);
 	});
-	document.getElementById('httpdsrc').textContent = sum;
+	document.getElementById('simple-httpd-full').textContent = sum;
 }
-document.getElementById('httpdgen').onclick = httpdgen;
+document.getElementById('simple-httpd-gen').onclick = httpdgen;
 </script>
 -->

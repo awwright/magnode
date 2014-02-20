@@ -16,18 +16,26 @@ rdf.environment.setDefaultPrefix('http://localhost/');
 rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 
-//resources["debugMode"] = true;
+//resources["debugMode"] = true; // enables more verbose output to HTTP responses
 resources["rdf"] = rdf.environment;
 
-function routeThing(resource, callback){
+function routeIndex(resource, callback){
+	var data;
 	/* fetch `resource` from a data source */
-	var data = 'Resource: '+resource;
+	if(new rdf.IRI(resource).path()==='/'){
+		// Match "/" on any authority or scheme
+		data = 'Welcome to '+resource;
+	}
+	if(!data){
+		// Nothing found
+		return void callback();
+	}
 	var ret = {};
 	ret[rdf.environment.resolve(':Published')] = data;
 	ret['http://example.com/SomeResource'] = data;
 	callback(null, ret);
 }
-route.push(routeThing);
+route.push(routeIndex);
 
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
@@ -35,8 +43,10 @@ route.push(routeThing);
 
 function transform(db, transform, resources, render, callback){
 	resources.response.setHeader('Content-Type', 'text/plain');
-	resources.response.write('Have Resource:\n');
-	resources.response.end(resources['http://example.com/SomeResource']);
+	resources.response.write('[[ Website Header ]]\n\n');
+	resources.response.write(resources['http://example.com/SomeResource']);
+	resources.response.write('\n\n[[ Website Footer ]]\n');
+	resources.response.end();
 	callback(null, {'http://magnode.org/HTTPResponse': 200});
 }
 transform.about = {
