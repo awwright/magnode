@@ -51,9 +51,9 @@ It is possible to determine the function's own domain and range at runtime:
 
 Rendering is done using the Render#render method. The call takes a few arguments:
 
-* targetType, which types should be produced/output
+* targetType, which types must be produced/output
 * input, the data available to format
-* transformTypes, if a subset of the transforms should be used (e.g. only Get transforms, or Put)
+* transformTypes, if a subset of the transforms must be used (e.g. only Get transforms, or Put)
 * callback, a function(err, res) where res is a map containg keys, or null if no format could be negotiated
 
 For example:
