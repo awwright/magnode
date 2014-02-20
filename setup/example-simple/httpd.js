@@ -37,6 +37,7 @@ function routeIndex(resource, callback){
 }
 route.push(routeIndex);
 
+// These expose pages at /about:status /about:routes and /about:transforms
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
 (magnode.require("route.transforms"))(route, resources, renders);

@@ -89,6 +89,7 @@ route.push(routeIndex);
 You might also consider adding one of several builtin routes:
 
 <pre class="lang-application-ecmascript simple-httpd-fragment">
+// These expose pages at /about:status /about:routes and /about:transforms
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
 (magnode.require("route.transforms"))(route, resources, renders);
