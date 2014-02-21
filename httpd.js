@@ -219,6 +219,11 @@ magnode.startServers(httpRequest, httpInterfaces, httpReady);
 // Load the database of webpages
 var mongodb = require('mongodb');
 mongodb.connect(dbHost, function(err, dbClient){
+if(err){
+	console.error(err.stack||err.toString());
+	process.exit(2);
+	return;
+}
 listeners.push({name:'mongo', close:dbClient.close.bind(dbClient)});
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
