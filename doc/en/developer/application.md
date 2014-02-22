@@ -97,7 +97,7 @@ You might also consider adding one of several builtin routes:
 
 ### Rendering Resources
 
-Once we've dereferenced a resource, we need to define how to serialize it into a response for the client. It is possible to serialize the resource into a number of different formats, which can vary by numerous dimensions like media type (HTML. JSON, Atom, images), cosmetic differences (different Website themes, JSON schemas, or API versions), i18n options (translations, date formats), and more.
+Once we've dereferenced a resource, we need to define how to serialize it into a response for the client. It is possible to serialize the resource into a number of different formats, which can vary by numerous dimensions like media type (HTML, JSON, Atom, images), cosmetic differences (different Website themes, JSON schemas, or API versions), i18n options (translations, date formats), and more.
 
 When a request comes out of the router, it is combined with the defined default resources, which store application-level configuration like database connections and authentication and authorization configuration. Magnode searches a database of _transform functions_ to format the provided resources into an HTTP response. If multiple methods are available, one is selected based on Content-Type negotiation and what the router requested.
 

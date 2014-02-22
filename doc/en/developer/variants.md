@@ -13,7 +13,7 @@ function routeIndex(resource, callback){
 	var data;
 	/* fetch `resource` from a data source */
 	if(new rdf.IRI(resource).path()==='/'){
-		// Match </> on any authority or scheme
+		// Match &lt;/&gt; on any authority or scheme
 		data = 'Welcome to '+resource;
 	}
 	if(!data){
