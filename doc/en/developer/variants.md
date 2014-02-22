@@ -2,7 +2,7 @@
 
 By default, you can restrict the variant that is returned using query parameters in the URI. For instance, passing ?media=application/json will force the returned resource to be JSON. The media type is parsed and represents a set, the returned Content-Type could be e.g. `application/json;charset=utf-8;profile="http://example.com/x.json"`
 
-However, you may wish to override this behavior using the "variant" resource. For instance, you may want to define that URIs which end with ".html" will always return application/xhtml+xml, and ".json" will always return "application/json".
+However, you may wish to override this behavior using the "variant" resource. For instance, you may want to define that URIs which end with ".html" will always return "application/xhtml+xml", and ".json" will always return "application/json".
 
 The default behavior is found in the "lib/queryvariant.js" module:
 
@@ -22,7 +22,7 @@ function routeIndex(resource, callback){
 	}
 	var variant = queryVariant(resource);
 	if(resource.match(/\.html$/)){
-		variant.type = 'application/xhtml+xml;charset=utf-8';
+		variant.media = 'application/xhtml+xml;charset=utf-8';
 	}
 	var ret = {};
 	ret["variant"] = variant;
