@@ -12,7 +12,7 @@ Alternatively, Magnode comes with a default application that can be setup and ma
 
 ### The Pipeline
 
-Magnode acts as a framework that exposes the functionality of HTTP, while isolating its complexity (as any good layer in a stack is supposed to do). Magnode operates in two steps: First, it queries a data source (like the filesystem or a database) for information that could possibly describe a URI, and how that data should be formatted; then, it applies a series of functions that format the retreived information into the target format. Writing an application in Magnode involves composing functions to fill both these steps.
+Magnode acts as a framework that exposes the functionality of HTTP, while isolating its complexity (as any good layer in a stack is supposed to do). Magnode processes requests in two steps: First, it queries a data source (like the filesystem or a database) for information that could possibly describe a URI, and how that data should be formatted; then, it applies a series of functions that format the retreived information into the target format. Writing an application in Magnode involves composing functions to fill both these steps.
 
 ### Setup
 

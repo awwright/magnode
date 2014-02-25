@@ -128,16 +128,19 @@ OPTIONS is also used for the “CORS pre-flight check”. If your application is
 
 ### POST request
 
-The POST method executes the dereferenced resource, identified in the request-URI, and returns its result as a new resource. The script itself will often be a different resource than the form used to execute it or the actual resource that the script will modify, so it should get a different URI (which may just mean appending <?action=edit> to the URI).
+The POST method executes the dereferenced resource, identified in the request-URI, and returns its result as a new resource. The script itself will often be a different resource than the form used to execute it or the actual resource that the script will modify, so it should get a different URI (which may just mean appending &lt;?action=edit&gt; to the URI).
 
 The request may generate multiple resources, like a new page or comment. In this case, the result of the script will be to redirect the user-agent to the created resource with a 303 redirect.
 
 1. Dereference the resource according to GET above
-2. If dereferenced resource is not a script, respond with 405 (Method Not Allowed)
+2. If dereferenced resource is not a script
+	1. Include Allow header as specified in "OPTIONS request"
+	2. Return with 405 (Method Not Allowed)
 3. Execute resource as a script/program
 4. If the script starts an ongoing, long-running process, then:
-	1. Create a named resource representing the process and return 202 (Accepted)
+	1. Create a named resource representing the process
 	2. Link to the process in the Location header
+	3. Return 202 (Accepted)
 5. Else
 	1. Set status code 200 (OK), or 303 (See Other) as appropriate.
 	2. Return result of execution as a new, anonymous resource (which may involve redirecting to other newly created resources).
