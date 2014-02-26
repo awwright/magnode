@@ -17,7 +17,7 @@ URIs can identify anything, and it's up to the server to determine what they ide
 
 Specifically, we want to know the range (output) of the HTTP dereferencing function. This is an issue referred to as the "[httpRange-14](http://www.w3.org/2001/tag/issues.html#httpRange-14)" issue. The proposed resolution is that a 200 response is used to return an information resource, and a Webserver must use a redirect to fill a request on a non-information resource.
 
-<aside><p>For an extended discussion, see [What do HTTP URIs Identify?](http://www.w3.org/DesignIssues/HTTP-URI.html) by Tim Berners-Lee.</p></aside>
+<div><aside><p>For an extended discussion, see [What do HTTP URIs Identify?](http://www.w3.org/DesignIssues/HTTP-URI.html) by Tim Berners-Lee.</p></aside></div>
 
 Magnode takes this to mean that the Webserver can't pretend the returned resource is also a series of bytes. But instead of using outright redirection, Magnode instead opts to use Content-Type negotiation: If you make an HTTP request for a resource that isn't an information resource, use Content-Type negotiation to return an information resource, which has a different URI than what was requested. In HTTP terms, a non-information resource may still have _variants_ (with byte string representations).
 

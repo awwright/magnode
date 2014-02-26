@@ -134,7 +134,7 @@ The request may generate multiple resources, like a new page or comment. In this
 
 1. Dereference the resource according to GET above
 2. If dereferenced resource is not a script
-	1. Include Allow header as specified in "OPTIONS request"
+	1. Include Allow header as specified in "OPTIONS request" (required per 10.4.6 and 14.7)
 	2. Return with 405 (Method Not Allowed)
 3. Execute resource as a script/program
 4. If the script starts an ongoing, long-running process, then:
