@@ -90,7 +90,6 @@ An HTTP server needs to satisfy a great number of requirements as laid out in th
 ### GET request
 
 The GET request is most commonly used method, and frequently called as a subroutine from other methods.
-Let resource be the dereferenced information resource or the closest available representation like a database row, if a rendered information resource (like an HTML document) isn’t available.
 
 1. Let _resource_ be the dereferenced information resource or the closest available representation like a database row, if a rendered information resource (like an HTML document) isn’t available.
 2. If _resource_ resolved to a data/non-information resource like a database row, then
