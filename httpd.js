@@ -296,6 +296,12 @@ magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
 
+// Allow people to define their own packages/extensions to use
+fs.readdirSync('opt').forEach(function(v){
+	console.log('Import: opt/'+v+'/format.ttl');
+	magnode.require('scan.turtle').scanDirectorySync('opt/'+v+'/manifest.ttl', renders);
+});
+
 // Import other configuration options if any, like "title" and "logo"
 for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
