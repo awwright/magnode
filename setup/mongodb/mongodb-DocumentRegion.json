@@ -68,7 +68,8 @@
 					}
 				}
 			, "put":
-				{ "storeRevision": true
+				{ "insertRevision": "revision"
+				, "storeResource": "nodes"
 				}
 			}
 		, "tablequery": {"fields":["_id","subject","label"]}

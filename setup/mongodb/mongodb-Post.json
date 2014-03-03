@@ -29,7 +29,7 @@
 					{ "type": "string"
 					, "required": true
 					, "format": "uri"
-					, "widget": "http://magnode.org/field/token"
+					, "widget": "http://magnode.org/field/URI"
 					, "tokenPattern": "/{posted.Y}/{posted.m}/{posted.d}/{label.formatURL}"
 					}
 				, "type":
@@ -111,7 +111,8 @@
 					}
 				}
 			, "put":
-				{ "storeRevision": true
+				{ "insertRevision": "revision"
+				, "storeResource": "nodes"
 				}
 			}
 		, "tablequery": {"fields":["_id","subject","label"]}
