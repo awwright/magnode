@@ -95,7 +95,8 @@
 					}
 				}
 			, "put":
-				{ "storeRevision": true
+				{ "insertRevision": "revision"
+				, "storeResource": "nodes"
 				}
 			}
 		}

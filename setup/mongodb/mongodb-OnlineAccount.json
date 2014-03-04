@@ -29,7 +29,8 @@
 				, "email": { "type": "string", "title": "Email", "format": "email"}
 				}
 			, "put":
-				{ "storeRevision": true
+				{ "insertRevision": "revision"
+				, "storeResource": "nodes"
 				}
 			}
 		, "tablequery": {"fields": ["_id","subject", "accountName", "name"]}
