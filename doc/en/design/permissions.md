@@ -75,13 +75,15 @@ We have to deal with the fact that we're operating on an open world basis. We do
 
 ### Authorizing writes on a resource
 
-We want to make sure every type that the resource is an instance of approves of the change to the resource. This is called the ack check (acknowledge write).
+Unlike reads, where only one party needs to consent, writes require the consent of all items that the uploaded resource will be touching.
 
-However, this violates the open world assumption - if we don't know a resource is of a particular type, how can we ask that type for permission?
+If the uploaded resource is going to be replacing another, it needs the permission of that resource.
 
-However, we do mostly know what datatypes are stored in the database, so we can at least ping those for their ack.
+Additionally, the permission of the collection that the resource will be a member of is required. If that collection is a member of a collection, the process is repeated recursively. Finally when the collection is a member of the authority, the authority must grant permission to accept the write.
 
-We also perform the standard one-grant-needed check, where at least one of the types must authorize being written to. This type is the _home_ type, and is the one to offer a space.
+This suggests that by default, collections should be configured to deny read permission and allow write permission. This may seem permissive, however note that the authority and individual resources (the server itself) will by default allow read permission and deny write permission unless there is a particular rule saying otherwise. For instance, the main authority may be configured with "allow anyone to submit a comment", and the comments themselves are configured to never allow writes, thus making the database append-only.
+
+This design is to avoid violation of the open-world assumption; if the server forgot that a resource is a member of a collection or an instance of a class (which is allowed in OWA), it wouldn't matter, since the resource's membership in the collection was never necessary to prevent writing nor reading.
 
 
 ### Publishing/unpublishing resources
