@@ -227,10 +227,12 @@ if(err){
 listeners.push({name:'mongo', close:dbClient.close.bind(dbClient)});
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
+var usersDb = dbInstance.collection('nodes');
 var shadowDb = dbInstance.collection('shadow');
 
 resources["db-mongodb"] = dbInstance;
 resources["db-mongodb-nodes"] = nodesDb;
+resources["db-mongodb-user"] = usersDb;
 resources["db-mongodb-schema"] = nodesDb;
 resources["db-mongodb-shadow"] = shadowDb;
 
@@ -256,7 +258,7 @@ var userAuthz = new (magnode.require("authorization.any"))(
 var passwordHashMethods = [magnode.require('authentication.pbkdf2').compareCredential];
 var passwordGenerateRecord = magnode.require('authentication.pbkdf2').generateRecord;
 resources["password-hash"] = passwordGenerateRecord;
-var httpAuthCredential = new (magnode.require("authentication.mongodb"))(nodesDb, shadowDb, null, passwordHashMethods);
+var httpAuthCredential = new (magnode.require("authentication.mongodb"))(usersDb, shadowDb, null, passwordHashMethods);
 var httpAuthForm = new (magnode.require("authentication.form"))(
 	{ domain: "/"
 	, action: rdf.environment.resolve(':createSession')
@@ -268,7 +270,7 @@ var httpAuthCookie = new (magnode.require("authentication.cookie"))(
 	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
 	, redirect: rdf.environment.resolve(':?from=login')
 	}, httpAuthSession);
-// TODO what is this for again?
+// Pass the authentication data to UserSession_typeAuth
 resources["http://magnode.org/Auth"] = httpAuthCookie;
 var httpAuthBearer = new (magnode.require("authentication.httpbearer"))({}, httpAuthSession);
 
@@ -294,7 +296,7 @@ magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
-magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(nodesDb, renders);
+route.push(magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, nodesDb, renders));
 
 // Allow people to define their own packages/extensions to use
 fs.readdirSync('opt').forEach(function(v){
@@ -307,7 +309,7 @@ for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
 }
 
-// Post-auth
+// Add a route at /createSession to authenticate other credentials (from httpAuthForm) and create a session, and set a cookie
 httpAuthCookie.routeSession(route, httpAuthForm);
 
 // Content
