@@ -2,7 +2,7 @@
 	[
 		{ "_id": {"$ObjectId": "5020dc9708e3feeb3c69e3fb"}
 		, "subject": "http://localhost/"
-		, "type": ["http://magnode.org/MongoDB_List","http://magnode.org/MongoDB_ListPosts", "http://localhost/Published"]
+		, "type": ["http://magnode.org/MongoDBList", "http://localhost/Published"]
 		, "label": "Home page"
 		, "menu":
 			{ "http://localhost/Menu_MainMenu":
@@ -10,11 +10,9 @@
 				, "weight": 0
 				}
 			}
-		, "query":
-			{ "filter": {"type": "http://localhost/Promoted", "subject": {"$exists": true}}
-			, "limit": 10
-			, "sort": [{"key":"posted", "dir":-1}, {"key":"_id", "dir":-1}]
-			}
+		, "filter": {"type": "http://localhost/Promoted", "subject": {"$exists": true}}
+		, "pager": {"limit": 10}
+		, "sort": [{"key":"posted", "dir":-1}, {"key":"_id", "dir":-1}]
 		}
 	]
 }

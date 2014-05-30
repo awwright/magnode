@@ -2,7 +2,7 @@
 	[
 		{ "_id": {"$ObjectId": "5020deeeff744e9015b16b22"}
 		, "label": "List of content"
-		, "subject": "http://magnode.org/MongoDB_List"
+		, "subject": "http://magnode.org/MongoDBList"
 		, "type": ["http://magnode.org/MongoDBJSONSchema"]
 		, "menu":
 			{ "http://localhost/Menu_ManagementMenu":
