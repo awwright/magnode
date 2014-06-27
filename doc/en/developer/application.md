@@ -38,6 +38,7 @@ Then we will define the variables that will do routing, formatting, and store ru
 <pre class="lang-application-ecmascript simple-httpd-fragment">
 var magnode = require('magnode');
 var rdf = require('rdf');
+var IRI = require('iri').IRI;
 var route = new magnode.Route;
 var renders = new magnode.Render;
 var resources = {};
@@ -70,7 +71,7 @@ A routing function accepts a URI and a callback. The callback is invoked with a 
 function routeIndex(resource, callback){
 	var data;
 	/* fetch `resource` from a data source */
-	if(new rdf.IRI(resource).path()==='/'){
+	if(new IRI(resource).path()==='/'){
 		// Match "/" on any authority or scheme
 		data = 'Welcome to '+resource;
 	}

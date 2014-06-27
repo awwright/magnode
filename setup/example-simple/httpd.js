@@ -4,6 +4,7 @@ var httpInterfaces = [8080];
 
 var magnode = require('magnode');
 var rdf = require('rdf');
+var iri = require('iri').IRI;
 var route = new magnode.Route;
 var renders = new magnode.Render;
 var resources = {};
@@ -22,7 +23,7 @@ resources["rdf"] = rdf.environment;
 function routeIndex(resource, callback){
 	var data;
 	/* fetch `resource` from a data source */
-	if(new rdf.IRI(resource).path()==='/'){
+	if(new IRI(resource).path()==='/'){
 		// Match "/" on any authority or scheme
 		data = 'Welcome to '+resource;
 	}

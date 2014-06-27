@@ -12,7 +12,7 @@ var queryVariant = magnode.require('queryvariant').parseUriVariants;
 function routeIndex(resource, callback){
 	var data;
 	/* fetch `resource` from a data source */
-	if(new rdf.IRI(resource).path()==='/'){
+	if(new IRI(resource).path()==='/'){
 		// Match &lt;/&gt; on any authority or scheme
 		data = 'Welcome to '+resource;
 	}
