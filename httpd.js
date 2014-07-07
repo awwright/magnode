@@ -174,7 +174,7 @@ var resources = {};
 resources["rdf"] = rdf.environment;
 resources["debugMode"] = debugMode;
 
-var transformDb = new rdf.TripletGraph;
+var transformDb = rdf.environment.createGraph();
 resources["db-transforms"] = transformDb;
 resources["db-rdfa"] = transformDb;
 var transformTypes =
