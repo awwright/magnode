@@ -19,7 +19,7 @@ When rendering a data row into an information resource, there is a large set of 
 * Media type version to use (API version 3, etc)
 * Locale and i18n options
 
-Some of these options can vary multiple times over a page - there might me multiple paged regions in a resulting document.
+Some of these options can vary multiple times over a page - there might be multiple paged regions in a resulting document.
 
 These subsets can be described using RDF statements. The statements may be sourced from a number of locations, like HTTP headers, and provided by the URI router, which is tasked with mapping a URI to such values. For instance, a URI router might define all URI paths ending in .html to output application/xhtml+xml, and might define /page/$number to produce page number $number of a result set. By default, most URI routers will implement these properties in the query portion of the URI.
 

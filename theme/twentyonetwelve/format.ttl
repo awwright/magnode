@@ -26,19 +26,22 @@ theme:HTMLBody_typePost
 	view:range type:HTMLBody, type:HTMLBodyPost, type:DocumentTitle .
 
 theme:HTMLBodyRegion_typeRegion_Header
-	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion> ;
+	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform ;
+	view:module <../../lib/transform.HTMLBodyRegion_typeRegion.js> ;
 	view:regionLabel "Header" ;
 	view:domain ( theme:DocumentRegion_Header ) ;
 	view:range theme:HTMLBodyRegion_Header .
 
 theme:HTMLBodyRegion_typeRegion_Panel
-	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion> ;
+	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform ;
+	view:module <../../lib/transform.HTMLBodyRegion_typeRegion.js> ;
 	view:regionLabel "Panel" ;
 	view:domain ( theme:DocumentRegion_Panel ) ;
 	view:range theme:HTMLBodyRegion_Panel .
 
 theme:HTMLBodyRegion_typeRegion_Footer
-	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion> ;
+	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform ;
+	view:module <../../lib/transform.HTMLBodyRegion_typeRegion.js> ;
 	view:regionLabel "Footer" ;
 	view:domain ( theme:DocumentRegion_Footer ) ;
 	view:range theme:HTMLBodyRegion_Footer .
