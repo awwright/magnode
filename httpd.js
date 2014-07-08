@@ -288,6 +288,7 @@ var authz = new (magnode.require("authorization.any"))(
 	// Anonymous authorization which requires no authorization
 	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
 	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
+	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/Function_CreateSession'])
 	] );
 resources["authz"] = authz;
 
