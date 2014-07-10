@@ -60,20 +60,20 @@ When resource is dereferenced:
 An HTTP server needs to satisfy a great number of requirements as laid out in the HTTP specification.
 
 1. If desired, setup a timer to respond with 408 (Request Timeout) and kill the connection, to close old, lingering TCP connections.
-2. @@@TODO it’s unclear which versions of HTTP should be unsupported, but return with 505 (HTTP Version Not Supported) here where appropriate
+2. Return with 505 (HTTP Version Not Supported) here if appropriate
 3. If desired, and if the server is marked offline or the request would bring the server over capacity (particularly non-safe, non-cachable requests), return 503 (Service Unavailable).
 4. If no Host request-header is provided, return 400 (Bad Request) (required per 14.23)
 5. If there is a Content-Type request-header, then:
-	1. If the Content-Type request-header cannot be handled by the server, return 415 (Unsupported Media Type)
-	2. If a Content-Length request-header is desired by the server but not provided, return 411 (Length Required)
-	3. If the Content-Length header is provided and larger than acceptable, return 413 (Request Entity Too Large)
+	1. If the Content-Type request-header indicates a media type which cannot be handled by the server, return 415 (Unsupported Media Type)
+	2. If a Content-Length request-header is desired from the client but not provided, return 411 (Length Required)
+	3. If the Content-Length header is provided and indicates a larger than acceptable upload, return 413 (Request Entity Too Large)
 6. Parse the Expect request-header and return 417 (Expectation Failed) if an unknown symbol is found (100-continue should be the only known symbol and will always be handled, either by Node.js itself or a custom registered callback) (required per 14.20)
 7. If the request URI line is longer than acceptable, return 414 (Request-URI Too Long)
 8. Parse the request-line URI, using the Host header as appropriate
 9. If the client asked for 100-continue, return 100 (Continue), as at this point all the headers have been verified as acceptable to us so far as we know. This must be specifically enabled, otherwise Node.js will automatically always respond with 100-continue, which is not desirable for performance reasons.
 10. Setup buffering of incoming entity-body data, if any, handling incoming data with logic to:
 	1. If more data is uploaded than expected, kill the connection (as it has been dishonest)
-	2. If more data is uploaded than acceptable, return 413 (Request Entity Too Large) with Connection: Close
+	2. If more data is uploaded than acceptable, return 413 (Request Entity Too Large) with `Connection: Close`
 	3. If if the request method is TRACE, or if there is no Content-Type header, return 400 (Client Error)
 11. Authenticate credentials, if provided and desired
 12. Process request based on method:
@@ -91,6 +91,8 @@ An HTTP server needs to satisfy a great number of requirements as laid out in th
 
 The GET request is most commonly used method, and frequently called as a subroutine from other methods.
 
+The GET method accepts a "HEAD" flag for HEAD requests (see "HEAD request" below).
+
 1. Let _resource_ be the dereferenced information resource or the closest available representation like a database row, if a rendered information resource (like an HTML document) isn’t available.
 2. If _resource_ resolved to a data/non-information resource like a database row, then
 	1. Determine what variant to encode the resource into, using Content-Type negotiation (the Accept request-headers)
@@ -98,8 +100,9 @@ The GET request is most commonly used method, and frequently called as a subrout
 	3. Set the “Vary” response-header based on the headers used to select a representation
 3. If necessary, format _resource_ into the requested variant
 4. If the If-None-Match or If-Unmodified-Since request-headers match against the resource, return 304 (Not Modified).
-5. Apply Range and If-Range request-header semantics as necessary, return 206 (Partial Content) or 416 (Requested Range Not Satisfiable) as appropriate
-6. If a HEAD request, return a blank entity-body, else return _resource_ in the entity-body
+5. If a HEAD request, return 200 (OK) with a blank entity body
+6. Else apply Range and If-Range request-header semantics as necessary, return 206 (Partial Content) or 416 (Requested Range Not Satisfiable) as appropriate
+7. Else return 200 (OK) with _resource_
 
 HTTP requests are atomic, which means the GET request must operate on a snapshot of the data at one point in time, which can be achieved by designing your data store to work in atomic transactions, or failing that, the PUT request must lock out GET requests while the transaction is active.
 
@@ -109,7 +112,8 @@ Note that as specified in the “Authorization Checking” section, and as with 
 ### HEAD request
 
 The HEAD request is identical to the GET request, except no entity-body is returned. The Content-Length header, if any, is left intact - clients are supposed to know there is no response entity-body despite it’s presence.
-Call the same logic as the GET request, but enable a “HEAD” flag to disable writing of the response (Node.js will do this automatically, but print a warning to the console stderr).
+
+1. Calls the GET method, but enable a “HEAD” flag to disable writing of the response (Node.js will do this automatically, but print a warning to the console stderr).
 
 
 ### OPTIONS request
@@ -119,15 +123,15 @@ The OPTIONS request is used for returning meta-data about a resource. There is n
 OPTIONS is also used for the “CORS pre-flight check”. If your application is secure, it will also be secure with `Access-Control-Allow-Origin: *` but you may wish to configure the response to your preferences.
 
 1. Set the Allow response-header with the acceptable methods:
-	1. GET, HEAD, OPTIONS
-	2. If the resource can be written to, PUT, PATCH, and DELETE
-	3. If the resource is a script, POST
-	4. If the resource is a tunnel, CONNECT
+	* GET, HEAD, OPTIONS
+	* If the resource can be written to, PUT, PATCH, and DELETE
+	* If the resource is a script, POST
+	* If the resource is a tunnel, CONNECT
 
 
 ### POST request
 
-The POST method executes the dereferenced resource, identified in the request-URI, and returns its result as a new resource. The script itself will often be a different resource than the form used to execute it or the actual resource that the script will modify, so it should get a different URI (which may just mean appending &lt;?action=edit&gt; to the URI).
+The POST method executes the dereferenced resource, identified in the request-URI, and returns its result as a new resource. The script itself will often be a different resource than the form used to execute it or the actual resource that the script will modify, so it should get a different URI (which may just mean appending `?action=edit` to the URI).
 
 The request may generate multiple resources, like a new page or comment. In this case, the result of the script will be to redirect the user-agent to the created resource with a 303 redirect.
 
