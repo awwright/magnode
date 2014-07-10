@@ -27,7 +27,7 @@ Magnode should be able to use everything from memory, to flat files, to embedded
 
 ### Promote accessability and data portability
 
-Accessability means designing websites that are consumble by Web browsers, graphic renderings, mobile devices, screen readers, printed media, Web spiders, coupled RPC-like clients, and more.
+Accessability means designing websites that are consumble by Web browsers, graphic renderings, mobile devices, screen readers, printed media, Web spiders, coupled RPC-like clients, and more. This is called the _principle of least power_.
 
 
 ### Self-documenting
