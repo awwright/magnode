@@ -1,5 +1,6 @@
-function populateForms(){
-	var es = document.getElementsByClassName('field-json');
+function populateForms(doc){
+	if(!doc) doc = document;
+	var es = doc.getElementsByClassName('field-json');
 	for(var i=0; i<es.length; i++){
 		if(es[i].tagName.toLowerCase()!=='textarea') continue;
 		try{
@@ -7,7 +8,7 @@ function populateForms(){
 		}catch(e){}
 	}
 
-	var es = document.getElementsByClassName('field-html');
+	var es = doc.getElementsByClassName('field-html');
 	for(var i=0; i<es.length; i++){
 		if(es[i].tagName.toLowerCase()!=='textarea') continue;
 		try {
@@ -15,7 +16,7 @@ function populateForms(){
 		}catch(e){}
 	}
 
-	var es = document.getElementsByClassName('field-code');
+	var es = doc.getElementsByClassName('field-code');
 	for(var i=0; i<es.length; i++){
 		try {
 			es[i].className.split(/\s+/g).some(function(v){
@@ -28,7 +29,7 @@ function populateForms(){
 		}catch(e){}
 	}
 
-	var es = document.getElementsByClassName('field-array-new');
+	var es = doc.getElementsByClassName('field-array-new');
 	for(var i=0; i<es.length; i++) (function(field){
 		try {
 			var eLength = field.nextElementSibling;
@@ -60,7 +61,7 @@ function populateForms(){
 		}catch(e){throw e;}
 	})(es[i]);
 
-	var es = document.getElementsByClassName('field-object-new');
+	var es = doc.getElementsByClassName('field-object-new');
 	for(var i=0; i<es.length; i++) (function(field){
 		try {
 			var eLength = field.nextElementSibling;
@@ -98,7 +99,7 @@ function populateForms(){
 		}catch(e){throw e;}
 	})(es[i]);
 
-	var es = document.getElementsByClassName('field-switch');
+	var es = doc.getElementsByClassName('field-switch');
 	for(var i=0; i<es.length; i++) (function(field){
 		try {
 			var eSwitch = field.firstElementChild;
@@ -119,4 +120,4 @@ function populateForms(){
 	})(es[i]);
 
 };
-document.addEventListener("DOMContentLoaded", populateForms, false);
+document.addEventListener("DOMContentLoaded", function(){ populateForms(document); }, false);
