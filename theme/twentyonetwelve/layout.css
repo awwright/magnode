@@ -347,6 +347,10 @@ input.field-date {
 pre.field-default {
 	white-space: normal;
 }
+textarea.field-textarea {
+	width: 100%;
+	box-sizing: border-box;
+}
 
 /* CodeMirror editor */
 .CodeMirror {
