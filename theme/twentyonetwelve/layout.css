@@ -352,6 +352,36 @@ textarea.field-textarea {
 	box-sizing: border-box;
 }
 
+.autocomplete-results {
+	position: absolute;
+	background: #EFEFEF;
+	width: 100%;
+	padding: 0;
+	border: inset 1px black;
+	box-shadow: 0 0 6px black;
+	z-index: 9999;
+}
+.autocomplete-results > ul {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+.autocomplete-results li {
+	display: block;
+	background: #EFEFEF;
+	margin: 0;
+	padding: 0;
+}
+.autocomplete-results li a {
+	padding: 0.2em;
+	color: black;
+}
+.autocomplete-results .h, .autocomplete-results li:hover {
+	background: #98BAFF;
+	background-image: linear-gradient(#98BAFF,#8CB2FF);
+	color: black;
+}
+
 /* CodeMirror editor */
 .CodeMirror {
 	border: 1px solid #ccc;
