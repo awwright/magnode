@@ -12,7 +12,7 @@ module.exports.parser = function parser(k, v, base){
 	if(v.$ObjectId) return new ObjectId(v.$ObjectId);
 	if(v.$Date) return new Date(v.$Date);
 	if(typeof v=='string' && v.substr(0,prefix.length)==prefix) return base+v.substr(prefix.length);
-	if(typeof v=='object'){
+	if(typeof v=='object' && v && Object.getPrototypeOf(v)===Object.prototype){
 		var obj = {};
 		for(var n in v){
 			// urlencode [%.$]
