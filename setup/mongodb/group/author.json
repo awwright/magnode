@@ -1,0 +1,17 @@
+{ "_id": {"$ObjectId":"51b64408e1b142bcff7f8e22"}
+, "subject": "http://localhost/Usergroup/Author"
+, "type": ["http://magnode.org/Usergroup"]
+, "label": "Author"
+, "grant":
+	[
+		{ "type": ["http://magnode.org/Post"]
+		, "where": []
+		, "action": ["get", "view", "edit", "post", "put", "delete", "parse"]
+		}
+	,
+		{ "type": ["http://magnode.org/Page"]
+		, "where": []
+		, "action": ["get", "view", "edit", "post", "put", "delete", "parse"]
+		}
+	]
+}

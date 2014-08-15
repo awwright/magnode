@@ -1,0 +1,123 @@
+{ "_id": {"$ObjectId": "50227bcd46e10eb078e56a0b"}
+, "subject": "http://magnode.org/Post"
+, "type": ["http://magnode.org/MongoDBJSONSchema"]
+, "label": "Post"
+, "description": "An authored and dated article of content, like a blog post or a magazine article."
+, "menu":
+	{ "http://localhost/Menu_ManagementMenu":
+		{ "title": "Posts"
+		, "weight": 0
+		}
+	}
+, "permissions": null
+, "schema":
+	{ "_schema": "http://json-schema.org/draft-03/schema#"
+	, "id": "http://magnode.org/Post"
+	, "type": "object"
+	, "properties":
+		{ "_id":
+			{ "type": "ObjectId"
+			, "readonly": true
+			}
+		, "_parent":
+			{ "type": "ObjectId"
+			, "readonly": true
+			}
+		, "subject":
+			{ "type": "string"
+			, "required": true
+			, "format": "uri"
+			, "widget": "http://magnode.org/field/URI"
+			, "tokenPattern": "/{posted.Y}/{posted.m}/{posted.d}/{label.formatURL}"
+			}
+		, "type":
+			{ "type": "array"
+			, "required": true
+			, "widget": "http://magnode.org/field/Taxonomy"
+			, "items": { "type": "string", "format": "uri" }
+			, "taxonomySources":
+				[
+					{ "taxonomyFilter": "http://magnode.org/MongoDBJSONSchema"
+					, "type": "string"
+					, "label": "Schema"
+					, "format": "uri"
+					, "widget": "http://magnode.org/field/selectresource"
+					, "range": "http://magnode.org/MongoDBJSONSchema"
+					, "selectLabel": "label"
+					, "selectNull": true
+					, "undefinedIf": ["",null]
+					, "default": ""
+					}
+				,
+					{ "taxonomyFilter": "http://magnode.org/PublishOption"
+					, "type": "array"
+					, "label": "Publishing Options"
+					, "format": "uri"
+					, "widget": "http://magnode.org/field/selectresource"
+					, "range": "http://magnode.org/PublishOption"
+					, "selectLabel": "label"
+					, "selectMulti": "checkbox"
+					}
+				]
+			}
+		, "label":
+			{ "type": "string"
+			, "widget": "http://magnode.org/field/Label"
+			}
+		, "menu":
+			{ "type": "object"
+			, "additionalProperties":
+				{ "type": "object"
+				, "properties":
+					{ "title": {"type": "string"}
+					, "href": {"type":"string", "format":"uriref"}
+					, "weight": {"type":"integer"}
+					}
+				, "additionalProperties": false
+				, "default": {"title":"", "href":"", "weight":0}
+				}
+			, "additionalPropertiesName":
+				{ "type": "string"
+				, "format": "uri"
+				, "widget": "http://magnode.org/field/selectresource"
+				, "range": "http://magnode.org/LinkMenu"
+				, "selectLabel": "label"
+				, "selectNull": true
+				, "undefinedIf": ["", null]
+				, "default": ""
+				, "escape": "mongodb"
+				}
+			, "default": {}
+			}
+		, "body":
+			{ "type": "string"
+			, "widget": "http://magnode.org/field/HTML"
+			, "default": ""
+			}
+		, "author":
+			{ "type": "string"
+			, "format": "uri"
+			, "widget": "http://magnode.org/field/selectresource"
+			, "range": "http://localhost/usergroup/Author"
+			, "selectLabel": "accountName"
+			, "selectNull": true
+			}
+		, "posted":
+			{ "type": "Date"
+			, "widget": "http://magnode.org/field/Date"
+			, "dateDefault": "now"
+			}
+		}
+	, "put":
+		{ "insertRevision": "revision"
+		, "storeResource": "nodes"
+		}
+	}
+, "tablequery": {"fields":["_id","subject","label"]}
+, "ViewTransform":
+	{ "page-example":
+		{ "type": "jade"
+		, "file": "template/HTMLBody_typePost.jade"
+		}
+	}
+}

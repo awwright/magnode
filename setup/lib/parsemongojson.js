@@ -29,6 +29,25 @@ module.exports.readFileSync = function readFileSync(filename, base){
 	return module.exports.parseMongoJSON(content, base);
 }
 
+module.exports.importDocument = function importDocument(dbClient, collectionName, record, callback){
+	// FIXME use ensureIndex
+	if(collectionName=='system.indexes') return void callback();
+	var collection;
+	if(typeof collectionName=='string') collection = dbClient.collection(collectionName);
+	else collection = collectionName;
+	var where = {};
+	/*
+	if(record.subject){
+		where.subject=record.subject;
+		delete record._id;
+	}else{
+		where._id=record._id;
+	}
+	*/
+	where._id=record._id;
+	collection.update(where, record, {upsert:true}, callback);
+}
+
 module.exports.importData = function importData(collections, dbClient, callback){
 	//console.log(require('util').inspect(collections,true,null,true)); return void callback();
 	var waitingQueries = 1;
@@ -58,14 +77,7 @@ module.exports.importData = function importData(collections, dbClient, callback)
 		if(!(records instanceof Array)) throw new Error('Collection '+c+' not an Array');
 		records.forEach(function(record){
 			waitingQueries++;
-			var where = {};
-			if(record.subject){
-				where.subject=record.subject;
-				delete record._id;
-			}else{
-				where._id=record._id;
-			}
-			collection.update(where, record, {upsert:true}, done);
+			module.exports.importDocument(dbClient, collection, record, done);
 		});
 	}
 
@@ -80,16 +92,16 @@ module.exports.importData = function importData(collections, dbClient, callback)
 }
 
 module.exports.importFiles = function importFiles(files, dbClient, base, cb){
-	var filename = files.shift();
-	if(!filename) return void cb(null);
-	console.log('Load: '+filename);
+	var doc = files[0];
+	if(!doc) return void cb(null);
+	console.log('Load: '+doc.file);
 	try {
-		var collections = module.exports.readFileSync(filename, base);
+		var data = module.exports.readFileSync(doc.file, base);
 	}catch(e){
 		return void cb(e);
 	}
-	module.exports.importData(collections, dbClient, function(err){
+	module.exports.importDocument(dbClient, doc.collection, data, function(err){
 		if(err) return void cb(err);
-		module.exports.importFiles(files, dbClient, base, cb);
+		module.exports.importFiles(files.slice(1), dbClient, base, cb);
 	});
 }

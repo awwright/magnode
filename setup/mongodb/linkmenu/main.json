@@ -1,0 +1,6 @@
+{ "_id": {"$ObjectId": "5098c30cbc6ea70b61255f0f"}
+,  "subject": "http://localhost/Menu_MainMenu"
+, "type": ["http://magnode.org/LinkMenu","http://localhost/Published"]
+, "scan": ["http://magnode.org/Raw", "http://magnode.org/Page", "http://magnode.org/Post", "http://magnode.org/MongoDBList"]
+, "label": "Main Menu"
+}

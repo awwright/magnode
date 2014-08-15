@@ -1,0 +1,17 @@
+{ "_id": {"$ObjectId": "5020dc9708e3feeb3c69e3fb"}
+, "subject": "http://localhost/"
+, "type": ["http://magnode.org/MongoDBList", "http://localhost/Published"]
+, "label": "Home page"
+, "menu":
+	{ "http://localhost/Menu_MainMenu":
+		{ "title": "Home"
+		, "weight": 0
+		}
+	}
+, "output_type": "list"
+, "record_type": "story"
+, "collection": "nodes"
+, "filter": {"type": "http://localhost/Promoted", "subject": {"$exists": true}}
+, "pager": {"limit": 10}
+, "sort": [{"key":"posted", "dir":-1}, {"key":"_id", "dir":-1}]
+}

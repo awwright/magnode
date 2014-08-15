@@ -1,0 +1,56 @@
+{ "_id": {"$ObjectId":"51b0a361582c9333d6d36b75"}
+, "subject": "http://magnode.org/Taxonomy"
+, "type": [ "http://magnode.org/MongoDBJSONSchema" ]
+, "ViewTransform": {}
+, "label": "Taxonomy"
+, "menu":
+	{ "http://localhost/Menu_ManagementMenu":
+		{ "title": "Taxonomy"
+		, "weight": 0
+		}
+	}
+, "permissions": {}
+, "schema":
+	{ "type": "object"
+	, "properties":
+		{ "_id": { "type": "ObjectId", "readonly": true }
+		, "_parent": { "type": "ObjectId", "readonly": true }
+		, "subject": { "type": "string", "format": "uri" }
+		, "type": { "type": "array", "widget": "http://magnode.org/field/Taxonomy", "items": { "type": "string", "format": "uri" } }
+		, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
+		, "tablequery": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
+		, "ViewTransform": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
+		, "menu":
+			{ "type": "object"
+			, "additionalProperties":
+				{ "type": "object"
+				, "properties":
+					{ "title": {"type": "string"}
+					, "href": {"type":"string", "format":"uriref"}
+					, "weight": {"type":"integer"}
+					}
+				, "additionalProperties": false
+				, "default": {"title":"", "href":"", "weight":0}
+				}
+			, "additionalPropertiesName":
+				{ "type": "string"
+				, "format": "uri"
+				, "widget": "http://magnode.org/field/selectresource"
+				, "range": "http://magnode.org/LinkMenu"
+				, "selectLabel": "label"
+				, "selectNull": true
+				, "undefinedIf": ["", null]
+				, "default": ""
+				, "escape": "mongodb"
+				}
+			, "default": {}
+			}
+		, "permissions": { "type": [ "object", "null" ], "widget": "http://magnode.org/field/JSON", "default": null }
+		}
+	, "put":
+		{ "insertRevision": "revision"
+		, "storeResource": "nodes"
+		}
+	}
+, "tablequery": { "fields": [ "_id", "subject", "label" ] }
+}

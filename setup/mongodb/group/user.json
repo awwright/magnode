@@ -1,0 +1,13 @@
+{ "_id": {"$ObjectId":"51b64408e1b142bcff7f8e22"}
+, "subject": "http://localhost/Usergroup/User"
+, "type": ["http://magnode.org/Usergroup"]
+, "label": "Author"
+, "grant":
+	[
+		{ "type": ["http://magnode.org/UserAccount"]
+		, "where": ["input.session.subject===input.node.subject"]
+		, "action": ["get", "view", "edit", "post", "put", "delete", "parse", "calculate", "calculate-shadow"]
+		, "description": "Grant edit to user's own account (session.subject \u2208 node.links.owner)"
+		}
+	]
+}

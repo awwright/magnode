@@ -99,7 +99,7 @@ if(daemonize){
 if(runSetup) return void bail();
 
 // Run cluster after setup because we don't want/need to cluster the setup interface
-// The setup UI assumes there's only one cluster and runs stuff in memory
+// The setup UI assumes there's only one process and runs stuff in memory
 if(clusterSize){
 	var cluster = require('cluster');
 	if(cluster.isMaster){

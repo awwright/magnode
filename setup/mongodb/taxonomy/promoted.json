@@ -1,0 +1,14 @@
+{ "_id": {"$ObjectId":"51b0a47d582c9333d6d36b77"}
+, "subject": "http://localhost/Promoted"
+, "type": [ "http://magnode.org/PublishOption", "http://magnode.org/Term" ]
+, "ViewTransform": {}
+, "label": "Front Page"
+, "menu":
+	{ "http://localhost/Menu_ManagementMenu":
+		{ "title": "Promoted Resources"
+		, "weight": 2
+		}
+	}
+, "permissions": {}
+, "tablequery": { "fields": [ "_id", "subject", "label" ] }
+}

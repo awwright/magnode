@@ -1,0 +1,6 @@
+{ "_id": {"$ObjectId": "50967f20f491ea256f341bff"}
+,  "subject": "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Footer"
+, "type": ["http://magnode.org/DocumentRegion", "http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer"]
+, "label": "Footer"
+, "blocks": []
+}

@@ -1,0 +1,110 @@
+{ "_id": {"$ObjectId": "4fe329bcf23943e90b000001"}
+, "subject": "http://magnode.org/Usergroup"
+, "label": "Privledged User Group"
+, "type": ["http://magnode.org/MongoDBJSONSchema"]
+, "menu":
+	{ "http://localhost/Menu_ManagementMenu": {"weight": 0}
+	}
+, "permissions": {}
+, "ViewTransform": {}
+, "schema":
+	{ "type": "object"
+	, "properties":
+		{ "_id": { "type": "ObjectId", "readonly": true }
+		, "_parent": { "type": "ObjectId", "readonly": true }
+		, "subject": { "type": "string", "format": "uri" }
+		, "type":
+			{ "type": "array"
+			, "widget": "http://magnode.org/field/Taxonomy"
+			, "items": { "type": "string", "format": "uri" }
+			, "taxonomySources":
+				[
+					{ "taxonomyFilter": "http://magnode.org/MongoDBJSONSchema"
+					, "type": "array"
+					, "label": "Schema"
+					, "format": "uri"
+					, "widget": "http://magnode.org/field/selectresource"
+					, "range": "http://magnode.org/MongoDBJSONSchema"
+					, "selectLabel": "label"
+					, "selectNull": true
+					, "undefinedIf": ["",null]
+					, "default": ""
+					}
+				,
+					{ "taxonomyFilter": "http://magnode.org/PublishOption"
+					, "type": "array"
+					, "label": "Publishing Options"
+					, "format": "uri"
+					, "widget": "http://magnode.org/field/selectresource"
+					, "range": "http://magnode.org/PublishOption"
+					, "selectLabel": "label"
+					, "selectMulti": "checkbox"
+					}
+				]
+			}
+		, "label": { "type": "string", "widget": "http://magnode.org/field/Label"}
+		, "grant":
+			{ "type": "array"
+			, "widget": "http://magnode.org/field/array"
+			, "description": "The permissions being granted to this user"
+			, "items":
+				{ "type": "object"
+				, "properties":
+					{ "type":
+						{ "type": "array"
+						, "label": "Types"
+						, "description": "Grant permissions to resources with all the specified types"
+						, "default": []
+						, "items": {"type": "string", "format": "uri"}
+						, "widget": "http://magnode.org/field/Taxonomy"
+						, "taxonomySources":
+							[
+								{ "taxonomyFilter": "http://magnode.org/MongoDBJSONSchema"
+								, "type": "array"
+								, "label": "Schema"
+								, "format": "uri"
+								, "widget": "http://magnode.org/field/selectresource"
+								, "range": "http://magnode.org/MongoDBJSONSchema"
+								, "selectLabel": "label"
+								, "selectMulti": "checkbox"
+								}
+							,
+								{ "taxonomyFilter": "http://magnode.org/PublishOption"
+								, "type": "array"
+								, "label": "Publishing Options"
+								, "format": "uri"
+								, "widget": "http://magnode.org/field/selectresource"
+								, "range": "http://magnode.org/PublishOption"
+								, "selectLabel": "label"
+								, "selectMulti": "checkbox"
+								}
+							]
+						}
+					, "where":
+						{ "type": "array"
+						, "label": "Conditions"
+						, "description": "Additional filters on which resources the grant applies to"
+						, "default": []
+						, "items": {"type": "string"}
+						}
+					, "action":
+						{ "type": "array"
+						, "label": "Granted Actions"
+						, "description": "List of actions to be authorized"
+						, "items": {"type": "string"}
+						, "default": []
+						}
+					}
+				, "default": {"type": [], "where": [], "action": []}
+				, "additionalProperties": false
+				}
+			}
+		, "default": []
+	}
+	, "put":
+		{ "insertRevision": "revision"
+		, "storeResource": "nodes"
+		}
+	}
+	, "tablequery": {"fields": ["_id","subject", "label"]}
+}

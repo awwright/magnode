@@ -1,0 +1,12 @@
+{ "_id": {"$ObjectId":"51b643d7e1b142bcff7f8e21"}
+, "subject": "http://localhost/Usergroup/Administrator"
+, "type": ["http://magnode.org/Usergroup"]
+, "label": "Administrator"
+, "grant":
+	[
+		{ "type": []
+		, "where": []
+		, "action": ["get", "view", "edit", "post", "put", "delete", "parse", "displayLinkMenu", "calculate-shadow"]
+		}
+	]
+}

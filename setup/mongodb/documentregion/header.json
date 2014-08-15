@@ -1,0 +1,6 @@
+{ "_id": {"$ObjectId": "50967cc8c80240af9203758f"}
+, "subject": "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Header"
+, "type": ["http://magnode.org/DocumentRegion", "http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header"]
+, "label": "Header"
+, "blocks": []
+}

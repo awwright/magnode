@@ -1,0 +1,5 @@
+{ "_id": {"$ObjectId": "5098c30d29ff7a3e29a1f06b"}
+,  "subject": "http://localhost/Menu_ManagementMenu"
+, "type": ["http://magnode.org/LinkMenu"]
+, "label": "Content Management"
+}

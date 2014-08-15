@@ -1,0 +1,91 @@
+@prefix : <http://magnode.org/mongodb-manifest/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# List off all the files and the collection they get imported into
+<documentregion/footer.json> a :MongoDocument; :collection "documentregion" .
+<documentregion/header.json> a :MongoDocument; :collection "documentregion" .
+<documentregion/panel.json> a :MongoDocument; :collection "documentregion" .
+<group/administrator.json> a :MongoDocument; :collection "group" .
+<group/author.json> a :MongoDocument; :collection "group" .
+<group/user.json> a :MongoDocument; :collection "group" .
+<linkmenu/main.json> a :MongoDocument; :collection "linkmenu" .
+<linkmenu/management.json> a :MongoDocument; :collection "linkmenu" .
+<linkmenu/settings.json> a :MongoDocument; :collection "linkmenu" .
+<nodes/frontpage.json> a :MongoDocument; :collection "nodes" .
+<nodes/intro.json> a :MongoDocument; :collection "nodes" .
+<schema/DocumentRegion.json> a :MongoDocument; :collection "schema" .
+<schema/Entry.json> a :MongoDocument; :collection "schema" .
+<schema/LinkMenu.json> a :MongoDocument; :collection "schema" .
+<schema/List.json> a :MongoDocument; :collection "schema" .
+<schema/OnlineAccount.json> a :MongoDocument; :collection "schema" .
+<schema/Page.json> a :MongoDocument; :collection "schema" .
+<schema/Post.json> a :MongoDocument; :collection "schema" .
+<schema/Schema.json> a :MongoDocument; :collection "schema" .
+<schema/Taxonomy.json> a :MongoDocument; :collection "schema" .
+<schema/Usergroup.json> a :MongoDocument; :collection "schema" .
+<system.indexes/nodes.subject.json> a :MongoDocument; :collection "system.indexes" .
+<taxonomy/PublishOption.json> a :MongoDocument; :collection "taxonomy" .
+<taxonomy/promoted.json> a :MongoDocument; :collection "taxonomy" .
+<taxonomy/published.json> a :MongoDocument; :collection "taxonomy" .
+
+# List off groups of files that should be imported together
+<#bundles> :bundleCollection (
+	[
+		a :Feature;
+		rdfs:label "Base";
+		:required true;
+		:default true;
+		:files ( <schema/Schema.json> <system.indexes/nodes.subject.json> )
+	]
+	[
+		a :Feature;
+		rdfs:label "User Accounts";
+		:required true;
+		:default true;
+		:files ( <schema/OnlineAccount.json> <schema/Usergroup.json> )
+	]
+	[
+		a :Feature;
+		rdfs:label "Basic Content Types";
+		:required false;
+		:default true;
+		:files ( <schema/List.json> <schema/Entry.json> <schema/Page.json> <schema/Post.json> )
+	]
+	[
+		a :Feature;
+		rdfs:label "Sample Data";
+		:required false;
+		:default true;
+		:files ( <nodes/frontpage.json> <nodes/intro.json> )
+	]
+	[
+		a :Feature;
+		rdfs:label "Theme Data";
+		:required false;
+		:default true;
+		:files ( <schema/DocumentRegion.json> <schema/LinkMenu.json> <documentregion/footer.json> <documentregion/header.json> <documentregion/panel.json> <linkmenu/main.json> <linkmenu/management.json> <linkmenu/settings.json> )
+	]
+	[
+		a :Feature;
+		rdfs:label "Taxonomy";
+		:required false;
+		:default true;
+		:files ( <schema/Taxonomy.json> )
+	]
+	[
+		a :Feature;
+		rdfs:label "Publish Options";
+		:required false;
+		:default true;
+		:files ( <taxonomy/PublishOption.json> <taxonomy/promoted.json> <taxonomy/published.json> )
+	]
+	[
+		a :Feature;
+		rdfs:label "Sample UserGroups";
+		:required false;
+		:default true;
+		:files ( <group/administrator.json> <group/author.json> <group/user.json> )
+	]
+) .
+

@@ -1,0 +1,5 @@
+{ "_id": {"$ObjectId": "50b079ebd0c1e5642ac0c791"}
+,  "subject": "http://localhost/Menu_SettingsMenu"
+, "type": ["http://magnode.org/LinkMenu"]
+, "label": "Settings"
+}

@@ -1,0 +1,6 @@
+{ "_id": {"$ObjectId": "50967e93cb6d3c9dbc8f5c60"}
+,  "subject": "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Panel"
+, "type": ["http://magnode.org/DocumentRegion", "http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"]
+, "label": "Panel"
+, "blocks": ["http://localhost/Menu_MainMenu", "http://localhost/Menu_ManagementMenu", "http://localhost/Menu_SettingsMenu"]
+}
