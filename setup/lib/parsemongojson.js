@@ -15,11 +15,9 @@ module.exports.parser = function parser(k, v, base){
 	if(typeof v=='object'){
 		var obj = {};
 		for(var n in v){
-			if(n.substr(0,prefix.length)==prefix){
-				// urlencode [%.$]
-				var key = (base+n.substr(prefix.length)).replace(/%/g,'%25').replace(/\x2E/g, '%2E').replace(/\x24/g, '%24');
-				obj[key] = v[n];
-			}
+			// urlencode [%.$]
+			var key = n.replace(/^http:\/\/localhost\//, base).replace(/%/g,'%25').replace(/\x2E/g, '%2E').replace(/\x24/g, '%24');
+			obj[key] = v[n];
 		}
 		v = obj;
 	}
