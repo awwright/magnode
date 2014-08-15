@@ -228,12 +228,13 @@ listeners.push({name:'mongo', close:dbClient.close.bind(dbClient)});
 var dbInstance = dbName?dbClient.db(dbName):dbClient;
 var nodesDb = dbInstance.collection('nodes');
 var usersDb = dbInstance.collection('nodes');
+var schemaDb = dbInstance.collection('schema');
 var shadowDb = dbInstance.collection('shadow');
 
 resources["db-mongodb"] = dbInstance;
 resources["db-mongodb-nodes"] = nodesDb;
 resources["db-mongodb-user"] = usersDb;
-resources["db-mongodb-schema"] = nodesDb;
+resources["db-mongodb-schema"] = schemaDb;
 resources["db-mongodb-shadow"] = shadowDb;
 
 // Sets a default theme to use, may be removed for a custom theme specified in format.ttl
@@ -297,7 +298,7 @@ magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
-route.push(magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, nodesDb, renders));
+route.push(magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders));
 
 // Allow people to define their own packages/extensions to use
 fs.readdirSync('opt').forEach(function(v){
