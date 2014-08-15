@@ -13,13 +13,15 @@ module.exports.parser = function parser(k, v, base){
 	if(v.$Date) return new Date(v.$Date);
 	if(typeof v=='string' && v.substr(0,prefix.length)==prefix) return base+v.substr(prefix.length);
 	if(typeof v=='object'){
+		var obj = {};
 		for(var n in v){
 			if(n.substr(0,prefix.length)==prefix){
 				// urlencode [%.$]
 				var key = (base+n.substr(prefix.length)).replace(/%/g,'%25').replace(/\x2E/g, '%2E').replace(/\x24/g, '%24');
-				if(key!=n){ v[key] = v[n]; delete n[v]; }
+				obj[key] = v[n];
 			}
 		}
+		v = obj;
 	}
 	return v;
 }

@@ -1,4 +1,4 @@
-{ "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}
+{ "_id": {"$ObjectId": "53edb956b3cc2dddbcc22edb"}
 , "subject": "http://magnode.org/Entry"
 , "type": ["http://magnode.org/MongoDBJSONSchema","http://magnode.org/EntryTable"]
 , "label": "Wiki Entry"

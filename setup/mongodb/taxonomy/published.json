@@ -1,4 +1,4 @@
-{ "_id": {"$ObjectId":"51b0a47d582c9333d6d36b77"}
+{ "_id": {"$ObjectId":"53edbaba2341948e66ec6ce6"}
 , "subject": "http://localhost/Published"
 , "type": [ "http://magnode.org/PublishOption", "http://magnode.org/Term" ]
 , "ViewTransform": {}

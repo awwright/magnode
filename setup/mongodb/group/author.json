@@ -1,4 +1,4 @@
-{ "_id": {"$ObjectId":"51b64408e1b142bcff7f8e22"}
+{ "_id": {"$ObjectId":"53edbae7a1f1b2cabe9bdc59"}
 , "subject": "http://localhost/Usergroup/Author"
 , "type": ["http://magnode.org/Usergroup"]
 , "label": "Author"
