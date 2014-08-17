@@ -1,0 +1,13 @@
+Properties can go in this order:
+
+_id (an ObjectId)
+id (a URI)
+subject (same value as "id")
+label
+description (optional)
+put
+menu
+$schema (always "http://json-schema.org/draft-04/schema#")
+type (always "object")
+links
+properties

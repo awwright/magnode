@@ -1,100 +1,57 @@
 { "_id": {"$ObjectId": "5020deeeff744e9015b16b22"}
-, "label": "List of content"
+, "id": "http://magnode.org/MongoDBList"
 , "subject": "http://magnode.org/MongoDBList"
-, "type": ["http://magnode.org/MongoDBJSONSchema"]
+, "label": "List of content"
+, "put": {"storeResource": "list"}
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":
 		{ "title": "Lists"
 		, "weight": 0
 		}
 	}
-, "schema":
-	{ "_schema": "http://json-schema.org/draft-03/schema#"
-	, "type": "object"
-	, "properties":
-		{ "_id":
-			{ "type": "ObjectId"
-			, "readonly": true
-			}
-		, "_parent":
-			{ "type": "ObjectId"
-			, "readonly": true
-			}
-		, "subject":
-			{ "type": "string"
-			, "format": "uri"
-			}
-		, "type":
-			{ "type": "array"
-			, "widget": "http://magnode.org/field/Taxonomy"
-			, "items": { "type": "string", "format": "uri" }
-			, "taxonomySources":
-				[
-					{ "taxonomyFilter": "http://magnode.org/MongoDBJSONSchema"
-					, "type": "string"
-					, "label": "Schema"
-					, "format": "uri"
-					, "widget": "http://magnode.org/field/selectresource"
-					, "range": "http://magnode.org/MongoDBJSONSchema"
-					, "selectLabel": "label"
-					, "selectNull": true
-					, "undefinedIf": ["",null]
-					, "default": ""
-					}
-				,
-					{ "taxonomyFilter": "http://magnode.org/PublishOption"
-					, "type": "array"
-					, "label": "Publishing Options"
-					, "format": "uri"
-					, "widget": "http://magnode.org/field/selectresource"
-					, "range": "http://magnode.org/PublishOption"
-					, "selectLabel": "label"
-					, "selectMulti": "checkbox"
-					}
-				]
-			}
-		, "label":
-			{ "type": "string"
-			, "widget": "http://magnode.org/field/Label"
-			}
-		, "menu":
-			{ "type": "object"
-			, "widget": "http://magnode.org/field/JSON"
-			}
-		, "query":
-			{ "type": "object"
+, "$schema": "http://json-schema.org/draft-04/schema#"
+, "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/MongoDBList"}
+	]
+, "properties":
+	{ "_id": {"type": "ObjectId", "widget":"http://magnode.org/field/ObjectId"}
+	, "slug": {"type":"string"}
+	, "description": {"type":"string"}
+	, "collection": {"type":"string", "required":true}
+	, "output_type": {"type":"string"}
+	, "record_type": {"type":"string"}
+	, "enabled": {"type":"boolean"}
+	, "label": {"type":"string"}
+	, "type": {"type":"array", "items":{"type":"string"}}
+	, "schema": {"type":"object"}
+	, "fields":
+		{ "type":"array"
+		, "items":
+			{ "type":"object"
 			, "properties":
-				{ "filter": {"type":"object", "widget": "http://magnode.org/field/JSON"}
-				, "fields":
-					{ "type":"array"
-					, "description":"A list of fields to use for Table, or limit query results to"
-					, "items":
-						{ "type": "object"
-						, "properties":
-							{ "label": {"type":"string"}
-							, "field": {"type":"string"}
-							, "name": {"type":"string", "description":""}
-							, "type": {"type":"string"}
-							, "widget": {"type":"string"}
-							}
-						}
-					}
-				, "limit": {"type":"number"}
-				, "sort": {"type":"array", "widget": "http://magnode.org/field/JSON"}
+				{ "label":{"type":"string"}
+				, "text_content_field":{"type":"string"}
+				, "text_content_ifempty":{"type":"string"}
+				, "link_href_field":{"type":"string"}
+				, "link_href_rel":{"type":"string", "description":"Use the URI that matches this relation for the link target", "example":"self"}
+				, "link_rel":{"type":"string", "description":"How the link is related to the list"}
+				, "text_content_expression":{"type":"string"}
+				, "jade_content":{"type":"string"}
 				}
 			}
-		, "sourceType":
-			{ "type": "array"
-			, "items": { "type": "string", "format": "uri" }
-			}
-		, "targetType":
-			{ "type": "string"
-			, "format": "uri"
-			}
 		}
-	, "put":
-		{ "insertRevision": "revision"
-		, "storeResource": "nodes"
+	, "pager": {"type":"object", "properties":{"limit":{"type":"integer"}}}
+	, "sort":
+		{ "type":"array"
+		, "items":
+			{ "type":"object"
+			, "properties":
+				{ "field":{"type":"string", "required":true, "default":""}
+				, "order":{"type":"integer", "enum":[1,-1], "required":true, "default":1}
+				}
+			, "additionalProperties":false
+			}
 		}
 	}
 }
