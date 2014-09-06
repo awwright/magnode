@@ -6,7 +6,7 @@ theme:DocumentHTML_typeHTMLBody
 	a view:Transform, theme:Transform, view:ModuleTransform ;
 	view:module <transform.js> ;
 	view:domain ( type:HTMLBody ) ;
-	view:optional type:HTMLBodyBlock_UserMenu, type:HTMLBodyBlock_ResourceMenu, theme:HTMLBodyRegion_Header, theme:HTMLBodyRegion_Panel, theme:HTMLBodyRegion_Footer ;
+	view:optional type:DocumentTitle, type:HTMLBodyBlock_UserMenu, type:HTMLBodyBlock_ResourceMenu, theme:HTMLBodyRegion_Header, theme:HTMLBodyRegion_Panel, theme:HTMLBodyRegion_Footer ;
 	view:range type:DocumentHTML, type:Document, "media:text/html;charset=utf-8", "media:application/xhtml+xml;charset=utf-8" ;
 	view:nice -1 .
 
