@@ -200,7 +200,7 @@ function httpRequest(req, res){
 			if(debugMode) res.write(err.stack||err.toString());
 			res.end('\n');
 		}catch(e2){
-			console.error('Error writing response to client: '+e2.toString());
+			console.error('Error writing 500 response to client: '+e2.toString());
 		}
 		// Close the underlying HTTP connection
 		res.socket.destroy();
