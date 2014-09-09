@@ -15,7 +15,7 @@
 	, "storeResource": "nodes"
 	}
 , "tablequery": {"fields":["_id","subject","label"]}
-"$schema": "http://json-schema.org/draft-03/schema#"
+, "$schema": "http://json-schema.org/draft-03/schema#"
 , "type": "object"
 , "properties":
 	{ "_id":

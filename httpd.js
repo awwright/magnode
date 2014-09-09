@@ -72,7 +72,8 @@ for(var i=0; i<argv.length; i++){
 		case '--help':
 		case '-?':
 		case '-h':
-			printHelp(); return;
+			printHelp();
+			return;
 	}
 }
 if(daemonize===null) daemonize = !!pidFile;
@@ -236,6 +237,7 @@ resources["db-mongodb-nodes"] = nodesDb;
 resources["db-mongodb-user"] = usersDb;
 resources["db-mongodb-schema"] = schemaDb;
 resources["db-mongodb-shadow"] = shadowDb;
+resources["db-mongodb-region"] = dbInstance.collection('documentregion');
 
 // Sets a default theme to use, may be removed for a custom theme specified in format.ttl
 require('./theme/twentyonetwelve').importTheme(route, resources, renders);
@@ -298,7 +300,9 @@ magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
-route.push(magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders));
+var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders);
+route.push(collectionsScan.route);
+//indexer.push(collectionsScan.indexer); // Index link relations
 
 // Allow people to define their own packages/extensions to use
 fs.readdirSync('opt').forEach(function(v){
