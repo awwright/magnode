@@ -17,6 +17,7 @@
 , "tablequery": {"fields":["_id","subject","label"]}
 , "$schema": "http://json-schema.org/draft-03/schema#"
 , "type": "object"
+, "links": []
 , "properties":
 	{ "_id":
 		{ "type": "ObjectId"
