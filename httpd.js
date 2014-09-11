@@ -181,6 +181,7 @@ resources["db-rdfa"] = transformDb;
 var transformTypes =
 	[ magnode.require('transform.Jade')
 	, magnode.require('transform.ModuleTransform')
+	, magnode.require('transform.SubtypeTransform')
 	];
 var renders = new magnode.Render(transformDb, transformTypes);
 
