@@ -1,7 +1,6 @@
 { "_id": {"$ObjectId": "50227bcd46e10eb078e56a0b"}
 , "id": "http://magnode.org/Post"
 , "subject": "http://magnode.org/Post"
-, "collection": "post"
 , "label": "Post"
 , "description": "An authored and dated article of content, like a blog post or a magazine article."
 , "menu":
@@ -10,6 +9,7 @@
 		, "weight": 0
 		}
 	}
+, "collection": "post"
 , "put":
 	{ "insertRevision": "revision"
 	, "storeResource": "nodes"
@@ -17,10 +17,14 @@
 , "tablequery": {"fields":["_id","subject","label"]}
 , "$schema": "http://json-schema.org/draft-03/schema#"
 , "type": "object"
-, "links": []
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/Post"}
+	, {"rel":"self", "href":"{+subject}"}
+	]
 , "properties":
 	{ "_id":
 		{ "type": "ObjectId"
+		, "widget": "http://magnode.org/field/ObjectId"
 		, "readonly": true
 		}
 	, "_parent":

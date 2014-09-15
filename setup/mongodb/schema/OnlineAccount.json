@@ -23,7 +23,6 @@
 	, "name": { "type": "string", "title": "Name", "widget": "http://magnode.org/field/Label"}
 	, "email": { "type": "string", "title": "Email", "format": "email"}
 	}
-}
 , "tablequery": {"fields": ["_id","subject", "accountName", "name"]}
 }
 

@@ -13,11 +13,13 @@
 , "$schema": "http://json-schema.org/draft-04/schema#"
 , "type": "object"
 , "links":
-	[ {"rel":"type", "href":"http://magnode.com/Page"}
+	[ {"rel":"type", "href":"http://magnode.org/Page"}
+	, {"rel":"type", "href":"{+subject}"}
 	]
 , "properties":
 	{ "_id":
 		{ "type": "ObjectId"
+		, "widget": "http://magnode.org/field/ObjectId"
 		, "readonly": true
 		}
 	, "_parent":

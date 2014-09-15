@@ -13,6 +13,9 @@
 , "tablequery": {"fields": ["_id","subject", "label"]}
 , "$schema": "http://json-schema.org/draft-04/schema#"
 , "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/Usergroup"}
+	]
 , "default": []
 , "properties":
 	{ "_id": { "type": "ObjectId", "readonly": true }
@@ -104,4 +107,5 @@
 			, "additionalProperties": false
 			}
 		}
+	}
 }

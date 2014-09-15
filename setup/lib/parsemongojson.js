@@ -5,6 +5,7 @@ module.exports.parseMongoJSON = function parseMongoJSON(str, base){
 	return JSON.parse(str, function(k, v){return module.exports.parser(k, v, base);});
 }
 
+// Like mongoutils.escapeObject but also replaces <http://localhost/> URIs
 module.exports.parser = function parser(k, v, base){
 	var prefix = "http://localhost/";
 	base = base||"http://localhost/";

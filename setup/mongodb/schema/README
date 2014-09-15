@@ -5,7 +5,8 @@ id (a URI)
 subject (same value as "id")
 label
 description (optional)
-put
+collection (where to retrieve an instance)
+put (how to store an instance)
 menu
 $schema (always "http://json-schema.org/draft-04/schema#")
 type (always "object")
