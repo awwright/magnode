@@ -18,10 +18,10 @@
 	[ {"rel":"type", "href":"http://magnode.org/MongoDBJSONSchema"}
 	, {"rel":"self", "href":"{+subject}"}
 	]
-, "allOf": {"$ref": "http://json-schema.org/draft-04/hyper-schema#"}
+, "allOf": [ {"$ref": "http://json-schema.org/draft-04/hyper-schema#"} ]
 , "properties":
-	{ "_id": { "type": "ObjectId", "readonly": true }
-	, "_parent": { "type": "ObjectId", "readonly": true }
+	{ "_id": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
+	, "_parent": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
 	, "subject": { "type": "string", "format": "uri" }
 	, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "collection": { "type": "string", "widget": "http://magnode.org/field/Label" }
