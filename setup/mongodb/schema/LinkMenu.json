@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId": "5093ed74dca36e48377e5bad"}
 , "id": "http://magnode.org/LinkMenu"
-, "subject": "http://magnode.org/LinkMenu"
 , "label": "Link Menu"
 , "description": "A menu of links"
 , "menu":

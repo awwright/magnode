@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId": "53edb956b3cc2dddbcc22edb"}
 , "id": "http://magnode.org/Entry"
-, "subject": "http://magnode.org/Entry"
 , "label": "Wiki Entry"
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":

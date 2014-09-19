@@ -1,5 +1,5 @@
 { "_id": {"$ObjectId": "4fe329bcf23943e90b000001"}
-, "subject": "http://magnode.org/Usergroup"
+, "id": "http://magnode.org/Usergroup"
 , "collection": "group"
 , "label": "Privledged User Group"
 , "description": "A group to which users may belong, possibly giving them permissions/authorizations"

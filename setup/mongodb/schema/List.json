@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId": "5020deeeff744e9015b16b22"}
 , "id": "http://magnode.org/MongoDBList"
-, "subject": "http://magnode.org/MongoDBList"
 , "label": "List of content"
 , "put": {"storeResource": "list"}
 , "menu":

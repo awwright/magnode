@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId": "4ebc890dc4fe78be1a000001"}
 , "id": "http://magnode.org/Page"
-, "subject": "http://magnode.org/Page"
 , "label": "Plain page"
 , "description": "A static page of content with no author or timestamp"
 , "put": {"storeResource": "nodes"}

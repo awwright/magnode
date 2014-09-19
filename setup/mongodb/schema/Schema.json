@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId":"4ebd46425bd820c984240d96"}
 , "id": "http://magnode.org/MongoDBJSONSchema"
-, "subject": "http://magnode.org/MongoDBJSONSchema"
 , "label": "MongoDB JSON Schema"
 , "description": "This is the schema that is tested while keys are unescaped"
 , "menu":
@@ -16,7 +15,7 @@
 , "type": "object"
 , "links":
 	[ {"rel":"type", "href":"http://magnode.org/MongoDBJSONSchema"}
-	, {"rel":"self", "href":"{+subject}"}
+	, {"rel":"self", "href":"{+id}"}
 	]
 , "allOf": [ {"$ref": "http://json-schema.org/draft-04/hyper-schema#"} ]
 , "properties":

@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId": "5096739d5f7c227a6bbcae3c"}
 , "id": "http://magnode.org/DocumentRegion"
-, "subject": "http://magnode.org/DocumentRegion"
 , "put": {"insertRevision":"revision", "storeResource":"documentregion"}
 , "label": "DocumentRegion"
 , "description": "A region of a document where content may be placed"

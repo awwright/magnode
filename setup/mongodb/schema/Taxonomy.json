@@ -1,5 +1,5 @@
 { "_id": {"$ObjectId":"51b0a361582c9333d6d36b75"}
-, "subject": "http://magnode.org/Taxonomy"
+, "id": "http://magnode.org/Taxonomy"
 , "collection": "taxonomy"
 , "ViewTransform": {}
 , "label": "Taxonomy"

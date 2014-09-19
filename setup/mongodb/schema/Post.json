@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId": "50227bcd46e10eb078e56a0b"}
 , "id": "http://magnode.org/Post"
-, "subject": "http://magnode.org/Post"
 , "label": "Post"
 , "description": "An authored and dated article of content, like a blog post or a magazine article."
 , "menu":

@@ -1,6 +1,5 @@
 { "_id": {"$ObjectId": "4ec0532933b3110c62000001"}
 , "id": "http://magnode.org/OnlineAccount"
-, "subject": "http://magnode.org/OnlineAccount"
 , "label": "User Account"
 , "put":
 	{ "insertRevision": "revision"
