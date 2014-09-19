@@ -10,7 +10,7 @@
 	}
 , "collection": "schema"
 , "put": { "insertRevision": "revision", "storeResource": "schema" }
-, "tablequery": { "fields": [ "_id", "subject", "label" ] }
+, "tablequery": { "fields": [ "_id", "id", { "label":"label", "text_content_field":"label", "link_href_rel":"self" } ] }
 , "$schema": "http://json-schema.org/draft-04/schema#"
 , "type": "object"
 , "links":
@@ -21,7 +21,7 @@
 , "properties":
 	{ "_id": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
 	, "_parent": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
-	, "subject": { "type": "string", "format": "uri" }
+	, "id": { "type": "string", "format": "uri", "required": true }
 	, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "collection": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "put":
