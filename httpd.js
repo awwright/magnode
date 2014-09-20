@@ -239,6 +239,7 @@ resources["db-mongodb-user"] = usersDb;
 resources["db-mongodb-schema"] = schemaDb;
 resources["db-mongodb-shadow"] = shadowDb;
 resources["db-mongodb-region"] = dbInstance.collection('documentregion');
+resources["db-mongodb-linkmenuitem"] = dbInstance.collection('linkmenuitem');
 
 // Sets a default theme to use, may be removed for a custom theme specified in format.ttl
 require('./theme/twentyonetwelve').importTheme(route, resources, renders);
@@ -296,12 +297,22 @@ var authz = new (magnode.require("authorization.any"))(
 	] );
 resources["authz"] = authz;
 
+// Indexers for search results, caching, and other precomputation on resources
+// TODO Use of EventEmitter is essentially a hack, this will have to be built out custom later
+// Most events should be triggered with a link relation to a Function stored in the function database (i.e. `renders`)
+var indexer = new (require('events').EventEmitter);
+resources['indexer'] = indexer;
+indexer.on('HTTPAuto_typeMongoDB_Put_Operations', magnode.require("indexer.mongodblist"));
+indexer.on('HTTPAuto_typeMongoDB_Put_Object', magnode.require("indexer.linkmenuitem"));
+indexer.on('HTTPAuto_typeMongoDB_Put_Object', magnode.require("indexer.nodes"));
+
 var libDir = path.dirname(require.resolve('magnode/render'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders);
+// Enable this OR route.mongodb.subject
 route.push(collectionsScan.route);
 //indexer.push(collectionsScan.indexer); // Index link relations
 

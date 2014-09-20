@@ -1,0 +1,43 @@
+{ "_id": {"$ObjectId": "54140e59e99fa96d6db5daaf"}
+, "id": "http://magnode.org/LinkMenuItem"
+, "label": "Link Menu Item"
+, "description": "Item found in a Link Menu"
+, "menu":
+	{ "http://localhost/Menu_SettingsMenu":
+		{ "title": "Link Menu Items"
+		, "weight": 0
+		}
+	}
+, "put":
+	{ "insertRevision": "revision"
+	, "storeResource": "linkmenuitem"
+	}
+, "tablequery": {"fields":["_id","top","label","href"]}
+, "$schema": "http://json-schema.org/draft-04/schema#"
+, "type": "object"
+, "properties":
+	{ "_id":
+		{ "type": "ObjectId"
+		, "readonly": true
+		}
+	, "_parent":
+		{ "type": "ObjectId"
+		, "readonly": true
+		}
+	, "top":
+		{ "type": "string"
+		, "format": "uri"
+		, "description": "The menu the item belongs to"
+		}
+	, "label":
+		{ "type": "string"
+		, "widget": "http://magnode.org/field/Label"
+		, "description": "Text to use for menu option"
+		}
+	, "href":
+		{ "type": "string"
+		, "format": "uri"
+		, "description": "Item to point to"
+		}
+	}
+}

@@ -12,11 +12,12 @@
 <linkmenu/main.json> a :MongoDocument; :collection "linkmenu" .
 <linkmenu/management.json> a :MongoDocument; :collection "linkmenu" .
 <linkmenu/settings.json> a :MongoDocument; :collection "linkmenu" .
-<nodes/frontpage.json> a :MongoDocument; :collection "nodes" .
+<nodes/frontpage.json> a :MongoDocument; :collection "list" .
 <nodes/intro.json> a :MongoDocument; :collection "nodes" .
 <schema/DocumentRegion.json> a :MongoDocument; :collection "schema" .
 <schema/Entry.json> a :MongoDocument; :collection "schema" .
 <schema/LinkMenu.json> a :MongoDocument; :collection "schema" .
+<schema/LinkMenuItem.json> a :MongoDocument; :collection "schema" .
 <schema/List.json> a :MongoDocument; :collection "schema" .
 <schema/OnlineAccount.json> a :MongoDocument; :collection "schema" .
 <schema/Page.json> a :MongoDocument; :collection "schema" .
@@ -32,6 +33,8 @@
 # List off groups of files that should be imported together
 <#bundles> :bundleCollection (
 	[
+		# This needs to be inserted before anything else
+		# It bootstraps everything necessary to get content indexing working
 		a :Feature;
 		rdfs:label "Base";
 		:required true;
@@ -64,7 +67,7 @@
 		rdfs:label "Theme Data";
 		:required false;
 		:default true;
-		:files ( <schema/DocumentRegion.json> <schema/LinkMenu.json> <documentregion/footer.json> <documentregion/header.json> <documentregion/panel.json> <linkmenu/main.json> <linkmenu/management.json> <linkmenu/settings.json> )
+		:files ( <schema/DocumentRegion.json> <schema/LinkMenu.json> <schema/LinkMenuItem.json> <documentregion/footer.json> <documentregion/header.json> <documentregion/panel.json> <linkmenu/main.json> <linkmenu/management.json> <linkmenu/settings.json> )
 	]
 	[
 		a :Feature;
