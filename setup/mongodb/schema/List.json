@@ -2,6 +2,7 @@
 , "id": "http://magnode.org/MongoDBList"
 , "label": "List of content"
 , "put": {"storeResource": "list"}
+, "collection": "list"
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":
 		{ "title": "Lists"
@@ -12,6 +13,7 @@
 , "type": "object"
 , "links":
 	[ {"rel":"type", "href":"http://magnode.org/MongoDBList"}
+	, {"rel":"self", "href":"{+subject}"}
 	]
 , "properties":
 	{ "_id": {"type": "ObjectId", "widget":"http://magnode.org/field/ObjectId"}

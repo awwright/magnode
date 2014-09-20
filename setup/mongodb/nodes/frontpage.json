@@ -8,10 +8,11 @@
 		, "weight": 0
 		}
 	}
+, "schema": {"links":[{"rel":"self", "href":"{+subject}"}], "description":"This should probably be a {ref: 'http://magnode.org/Post.json'}"}
 , "output_type": "list"
 , "record_type": "story"
 , "collection": "nodes"
 , "filter": {"type": "http://localhost/Promoted", "subject": {"$exists": true}}
 , "pager": {"limit": 10}
-, "sort": [{"key":"posted", "dir":-1}, {"key":"_id", "dir":-1}]
+, "sort": [{"field":"posted", "order":-1}, {"field":"_id", "order":-1}]
 }
