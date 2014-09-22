@@ -7,8 +7,9 @@ var path = require('path');
 var fs = require('fs');
 var errctx = require('domain');
 
-var configFile = process.env.MAGNODE_CONF || './server.json';
+var configFile = process.env.MAGNODE_CONF || null;
 var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
+var dbHost = process.env.MAGNODE_MONGODB || null;
 var httpInterfaces = [];
 var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 var pidFile = null;
@@ -77,7 +78,6 @@ for(var i=0; i<argv.length; i++){
 	}
 }
 if(daemonize===null) daemonize = !!pidFile;
-configFile = require('path').resolve(process.cwd(), configFile);
 
 if(pidFile){
 	fs.writeFileSync(pidFile, process.pid);
@@ -114,18 +114,21 @@ if(clusterSize){
 	}
 }
 
-// Website-specific settings are defined in a config file
-try{
-	var configuration = require(configFile);
-}catch(e){
-	console.error(e.toString());
-	return void bail();
+// Allow placing settings inside a config file
+if(configFile){
+	try{
+		var configuration = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
+	}catch(e){
+		console.error(e.toString());
+		return;
+	}
+}else{
+	var configuration = {};
 }
 
-var dbHost = configuration.dbHost;
-var dbName = configuration.dbName;
+var dbHost = configuration.dbHost || dbHost;
 var siteSuperuser = configuration.siteSuperuser;
-var siteBase = configuration.siteBase;
+var siteBase = configuration.siteBase || 'http://localhost/';
 var sitePrefixes = configuration.sitePrefixes || {};
 // If none is specified, one will be generated randomly in memory at startup
 var siteSecretKey = configuration.siteSecretKey;
@@ -141,7 +144,7 @@ if(configuration.chdir){
 
 // The two required options
 try{
-	if(!dbName && !dbHost) throw new Error('Need dbName or dbHost');
+	if(!dbHost) throw new Error('Need dbHost');
 	if(!siteBase) throw new Error('Need siteBase');
 }catch(e){
 	console.error(e.stack||e.toString());
@@ -187,7 +190,7 @@ var renders = new magnode.Render(transformDb, transformTypes);
 
 // Handle HTTP requests
 var route = new magnode.Route;
-var listener = magnode.require('http').createListener(route, resources, renders);
+var handleRequest = magnode.require('http').handleRequest;
 httpInterfaces = [listenPort];
 function httpRequest(req, res){
 	var c = errctx.create();
@@ -214,27 +217,36 @@ function httpRequest(req, res){
 		// probably don't need to restart the server. But if you want to, here you go:
 		//closeProcess(3);
 	});
-	c.run(function(){ listener(req, res); });
+	c.run(function(){
+		var uri = require('url').resolve('http://'+req.headers.host, req.url);
+		var q = {base:{$lte:uri}, basez:{$gt:uri}};
+		resources["db-mongodb-namespace"].findOne(q, function(err, ns){
+			if(ns){
+				var nsres = Object.create(resources);
+				for(var k in ns.option) nsres[k] = ns.option[k];
+			}
+			handleRequest(req, res, route, nsres||resources, renders);
+		});
+	});
 }
 magnode.startServers(httpRequest, httpInterfaces, httpReady);
 
 // Load the database of webpages
 var mongodb = require('mongodb');
-mongodb.connect(dbHost, function(err, dbClient){
+mongodb.connect(dbHost, function(err, dbInstance){
 if(err){
 	console.error(err.stack||err.toString());
 	process.exit(2);
 	return;
 }
-listeners.push({name:'mongo', close:dbClient.close.bind(dbClient)});
-var dbInstance = dbName?dbClient.db(dbName):dbClient;
-var nodesDb = dbInstance.collection('nodes');
+listeners.push({name:'mongo', close:dbInstance.close.bind(dbInstance)});
 var usersDb = dbInstance.collection('nodes');
 var schemaDb = dbInstance.collection('schema');
 var shadowDb = dbInstance.collection('shadow');
 
 resources["db-mongodb"] = dbInstance;
-resources["db-mongodb-nodes"] = nodesDb;
+resources["db-mongodb-namespace"] = dbInstance.collection('namespace');
+resources["db-mongodb-nodes"] = dbInstance.collection('nodes');
 resources["db-mongodb-user"] = usersDb;
 resources["db-mongodb-schema"] = schemaDb;
 resources["db-mongodb-shadow"] = shadowDb;
@@ -340,7 +352,7 @@ httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':logi
 (magnode.require("route.mongodb.subject"))(route, resources, renders);
 (magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
 
-});
+}); // close mongodb.connect
 
 function httpReady(err, httpInterfaces){
 	if(err){
