@@ -314,7 +314,7 @@ magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders);
 // Enable this OR route.mongodb.subject
 route.push(collectionsScan.route);
-//indexer.push(collectionsScan.indexer); // Index link relations
+indexer.on('HTTPAuto_typeMongoDB_Put_Object', collectionsScan.indexer);
 
 // Allow people to define their own packages/extensions to use
 fs.readdirSync('opt').forEach(function(v){
