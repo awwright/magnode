@@ -24,7 +24,7 @@ rdf.environment.setDefaultPrefix('http://localhost/');
 function bail(){
 	var route = new (magnode.require("route"));
 	var renders = new (magnode.require("render"))(rdf.environment.createGraph(), []);
-	var p = (magnode.require("route.setup"))(route, configFile);
+	var p = (magnode.require("route.setup"))(route, dbHost, configFile);
 	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
 	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
 	var env =
