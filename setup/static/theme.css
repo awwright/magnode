@@ -50,6 +50,12 @@ body {
 	margin: 0 0 12px 0;
 }
 
+.nav li.divider {
+	border-top: 1px solid #DDD;
+	height: 0;
+	padding: 0;
+}
+
 li.active, li.active a {
 	color: #444444;
 	font-weight: bold;
@@ -226,4 +232,58 @@ ul.bundles li {
 
 .breadcrumb li a:hover:after {
 	border-left-color: #CCC !important;
+}
+
+table {
+	background: #FFFFFF;
+	margin-bottom: 1rem;
+	border: solid 1px #DDDDDD;
+	table-layout: auto;
+	width: 100%;
+}
+
+table caption {
+	background: transparent;
+	color: #222222;
+	font-size: 0.88889rem;
+	font-weight: bold;
+}
+
+table thead {
+	background: #F5F5F5;
+}
+
+table thead tr th, table thead tr td {
+	padding: 0.44444rem 0.55556rem 0.55556rem;
+	font-size: 0.77778rem;
+	font-weight: bold;
+	color: #222222;
+}
+
+table tfoot {
+	background: #F5F5F5;
+}
+
+table tfoot tr th, table tfoot tr td {
+	padding: 0.44444rem 0.55556rem 0.55556rem;
+	font-size: 0.77778rem;
+	font-weight: bold;
+	color: #222222;
+}
+
+table tr th, table tr td {
+	padding: 0.5rem 0.55556rem;
+	font-size: 0.77778rem;
+	color: #222222;
+	text-align: left;
+}
+
+table tr.even, table tr.alt, table tr:nth-of-type(even) {
+	background: #F9F9F9;
+}
+
+table thead tr th, table tfoot tr th, table tfoot tr td, table tbody tr th,
+	table tbody tr td, table tr td {
+	display: table-cell;
+	line-height: 1rem;
 }
