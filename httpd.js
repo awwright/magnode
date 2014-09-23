@@ -44,7 +44,7 @@ function printHelp(){
 	console.log(' -p --port <int>         Listen on a particular TCP port');
 	console.log(' -d --debug              Enable debugging features (performance and possible security implications)');
 	console.log('    --no-debug           Disable debugging features (default)');
-	console.log('    --setup              Start in setup mode (automatic if conf file does not exist))');
+	console.log('    --setup              Start in setup mode');
 	console.log('    --no-setup           Run normally');
 	console.log('    --pidfile <file>     Write process id to a pid file');
 	console.log('    --background         Fork process to background (default if --pidfile is specified)');
