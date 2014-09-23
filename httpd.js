@@ -31,6 +31,7 @@ function bail(){
 		{ rdf: rdf.environment
 		, authz: {test: function(a,b,c,cb){cb(true);}}
 		};
+	(require('magnode/route.static'))(route, env, renders, __dirname+'/setup/static/', '/setup/static/');
 	require('http').createServer(magnode.require("http").createListener(route, env, renders)).listen(listenPort);
 }
 
