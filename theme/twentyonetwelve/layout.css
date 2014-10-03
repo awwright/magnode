@@ -201,6 +201,24 @@ div#session li {
 	margin: 0.25em 0.75em 0 0 ;
 }
 
+/* Variants info bar */
+div.variants {
+	position: absolute;
+	top:0;
+	left: 0;
+}
+div.variants h5 {
+	display: none;
+}
+div.variants ul {
+	list-style: none;
+	margin: 0;
+}
+div.variants li {
+	float: left;
+	margin: 0.25em 0.75em 0 0 ;
+}
+
 /* Forms */
 div.node-edit-body, div.node-edit-title, div.node-edit-submit {
 	margin: 1em 0;
