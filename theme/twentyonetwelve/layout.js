@@ -12,8 +12,8 @@ function populateForms(doc){
 		try {
 			var eLength = field.nextElementSibling;
 			// FIXME this should be '.length' if we know there's always going to be a name of the root instance
-			if(!eLength || eLength.name.substr(-6)!='length') return;
-			var fieldName = eLength.name.substr(0, eLength.name.length-7)+'.new';
+			if(!eLength || eLength.name.substr(-7)!=':length') return;
+			var fieldName = eLength.name.substr(0, eLength.name.length-7)+':new';
 			var blank = field.lastElementChild.cloneNode(true);
 			field.removeChild(field.lastElementChild);
 			var additem_li = document.createElement('li');
@@ -26,7 +26,7 @@ function populateForms(doc){
 				var clone = blank.cloneNode(true);
 				function updateNames(ele){
 					if(typeof ele.name=='string' && ele.name.substr(0,fieldName.length)==fieldName){
-						ele.name = ele.name.substr(0,fieldName.length-4)+'.'+eLength.value+ele.name.substr(fieldName.length);
+						ele.name = ele.name.substr(0,fieldName.length-4)+eLength.value+ele.name.substr(fieldName.length);
 					}else if(ele.hasChildNodes && ele.hasChildNodes()){
 						for(var i=0; i<ele.childNodes.length; i++) updateNames(ele.childNodes[i]);
 					}
@@ -44,8 +44,8 @@ function populateForms(doc){
 	for(var i=0; i<es.length; i++) (function(field){
 		try {
 			var eLength = field.nextElementSibling;
-			if(!eLength || eLength.name.substr(-6)!='length') return;
-			var fieldName = eLength.name.substr(0, eLength.name.length-7)+'.new';
+			if(!eLength || eLength.name.substr(-7)!=':length') return;
+			var fieldName = eLength.name.substr(0, eLength.name.length-7)+':new';
 			var blankDt = field.lastElementChild.previousElementSibling.cloneNode(true);
 			var blankDd = field.lastElementChild.cloneNode(true);
 			field.removeChild(field.lastElementChild.previousElementSibling);
@@ -62,7 +62,7 @@ function populateForms(doc){
 				var cloneDd = blankDd.cloneNode(true);
 				function updateNames(ele){
 					if(typeof ele.name=='string' && ele.name.substring(0,fieldName.length)==fieldName){
-						ele.name = ele.name.substr(0,fieldName.length-4)+'.'+eLength.value+ele.name.substr(fieldName.length);
+						ele.name = ele.name.substr(0,fieldName.length-4)+eLength.value+ele.name.substr(fieldName.length);
 					}else if(ele.hasChildNodes && ele.hasChildNodes()){
 						for(var i=0; i<ele.childNodes.length; i++) updateNames(ele.childNodes[i]);
 					}
