@@ -13,7 +13,7 @@ function populateForms(doc){
 			var eLength = field.nextElementSibling;
 			// FIXME this should be '.length' if we know there's always going to be a name of the root instance
 			if(!eLength || eLength.name.substr(-7)!=':length') return;
-			var fieldName = eLength.name.substr(0, eLength.name.length-7)+':new';
+			var fieldName = eLength.name.substr(0, eLength.name.length-7)+'.:new';
 			var blank = field.lastElementChild.cloneNode(true);
 			field.removeChild(field.lastElementChild);
 			var additem_li = document.createElement('li');
@@ -45,7 +45,7 @@ function populateForms(doc){
 		try {
 			var eLength = field.nextElementSibling;
 			if(!eLength || eLength.name.substr(-7)!=':length') return;
-			var fieldName = eLength.name.substr(0, eLength.name.length-7)+':new';
+			var fieldName = eLength.name.substr(0, eLength.name.length-7)+'.:new';
 			var blankDt = field.lastElementChild.previousElementSibling.cloneNode(true);
 			var blankDd = field.lastElementChild.cloneNode(true);
 			field.removeChild(field.lastElementChild.previousElementSibling);
