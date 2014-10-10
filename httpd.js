@@ -323,7 +323,6 @@ indexer.on('HTTPAuto_typeMongoDB_Put_Object', magnode.require("indexer.nodes"));
 var libDir = path.dirname(require.resolve('magnode/render'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
-magnode.require('scan.turtle').scanDirectorySync('format.ttl', renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
 var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders);
 // Enable this OR route.mongodb.subject
@@ -331,10 +330,17 @@ route.push(collectionsScan.route);
 indexer.on('HTTPAuto_typeMongoDB_Put_Object', collectionsScan.indexer);
 
 // Allow people to define their own packages/extensions to use
-fs.readdirSync('opt').forEach(function(v){
-	console.log('Import: opt/'+v+'/format.ttl');
-	magnode.require('scan.turtle').scanDirectorySync('opt/'+v+'/manifest.ttl', renders);
-});
+try {
+	fs.readdirSync('opt').forEach(function(v){
+		console.log('Import: opt/'+v+'/format.ttl');
+		try {
+			magnode.require('scan.turtle').scanFileSync('opt/'+v+'/manifest.ttl', renders);
+		}catch(e){
+			console.error(e.stack);
+		}
+	});
+}catch(e){
+}
 
 // Import other configuration options if any, like "title" and "logo"
 for(var f in (configuration&&configuration.option||{})){

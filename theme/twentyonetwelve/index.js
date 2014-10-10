@@ -18,5 +18,5 @@ var staticRouter = require('magnode/route.static');
 // way to enable/disable a theme. Enabling/disabling a theme should be controlled by membership to a class.
 module.exports.importTheme = function(route, resources, renders){
 	staticRouter(route, resources, renders, __dirname+'/', '/twentyonetwelve/');
-	require('magnode/scan.turtle').scanDirectorySync(__dirname+'/format.ttl', renders);
+	require('magnode/scan.turtle').scanFileSync(__dirname+'/format.ttl', renders);
 }
