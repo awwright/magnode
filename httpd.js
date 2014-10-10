@@ -157,6 +157,7 @@ rdf.environment.setDefaultPrefix(siteBase);
 // Named prefixes are used for resolving CURIEs in the path component of URLs e.g. http://example.com/magnode:Page
 rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
+rdf.environment.setPrefix("uuid", "urn:uuid:");
 for(var prefix in sitePrefixes) rdf.environment.setPrefix(prefix, sitePrefixes[prefix]);
 
 // Keep track of open event listeners
