@@ -8,7 +8,7 @@ var fs = require('fs');
 var errctx = require('domain');
 
 var configFile = process.env.MAGNODE_CONF || null;
-var listenPort = process.env.MAGNODE_PORT || process.env.PORT || 8080;
+var listenPort = null;
 var dbHost = process.env.MAGNODE_MONGODB || null;
 var httpInterfaces = [];
 var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
@@ -25,6 +25,7 @@ function bail(){
 	var route = new (magnode.require("route"));
 	var renders = new (magnode.require("render"))(rdf.environment.createGraph(), []);
 	var p = (magnode.require("route.setup"))(route, dbHost, configFile);
+	if(!listenPort) listenPort=8080;
 	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
 	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
 	var env =
@@ -79,10 +80,6 @@ for(var i=0; i<argv.length; i++){
 	}
 }
 if(daemonize===null) daemonize = !!pidFile;
-
-if(pidFile){
-	fs.writeFileSync(pidFile, process.pid);
-}
 if(daemonize){
 	var fork = require('child_process').fork(__filename, process.argv.slice(2).concat('--foreground'));
 	setTimeout(function(){
@@ -96,6 +93,9 @@ if(daemonize){
 		}
 	});
 	return;
+}
+if(pidFile){
+	fs.writeFileSync(pidFile, process.pid);
 }
 
 if(runSetup) return void bail();
@@ -139,6 +139,14 @@ if(siteSecretKey && siteSecretKey.file){
 // Maybe the config defines a directory to make paths relative to... lets chdir there
 if(configuration.chdir){
 	process.chdir(configuration.chdir);
+}
+
+if(listenPort){
+	httpInterfaces = [listenPort];
+}else if(configuration.interfaces){
+	httpInterfaces = configuration.interfaces;
+}else{
+	httpInterfaces = [8080];
 }
 
 //console.log=function(){}
@@ -193,7 +201,6 @@ var renders = new magnode.Render(transformDb, transformTypes);
 // Handle HTTP requests
 var route = new magnode.Route;
 var handleRequest = magnode.require('http').handleRequest;
-httpInterfaces = [listenPort];
 function httpRequest(req, res){
 	var c = errctx.create();
 	c.add(req);
