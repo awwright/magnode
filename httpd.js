@@ -27,13 +27,16 @@ function bail(){
 	var p = (magnode.require("route.setup"))(route, dbHost, configFile);
 	if(!listenPort) listenPort=8080;
 	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
-	console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
 	var env =
 		{ rdf: rdf.environment
 		, authz: {test: function(a,b,c,cb){cb(true);}}
 		};
 	(require('magnode/route.static'))(route, env, renders, __dirname+'/setup/static/', '/setup/static/');
-	require('http').createServer(magnode.require("http").createListener(route, env, renders)).listen(listenPort);
+	var httpRequest = magnode.require("http").createListener(route, env, renders);
+	magnode.startServers(httpRequest, httpInterfaces, function(err, ifaces){
+		var listenPort = ifaces[0].address().port;
+		console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
+	});
 }
 
 function printHelp(){
@@ -98,6 +101,26 @@ if(pidFile){
 	fs.writeFileSync(pidFile, process.pid);
 }
 
+// Allow placing settings inside a config file
+if(configFile){
+	try{
+		var configuration = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
+	}catch(e){
+		console.error(e.toString());
+		return;
+	}
+}else{
+	var configuration = {};
+}
+
+if(listenPort){
+	httpInterfaces = [listenPort];
+}else if(configuration.interfaces){
+	httpInterfaces = configuration.interfaces;
+}else{
+	httpInterfaces = [8080];
+}
+
 if(runSetup) return void bail();
 
 // Run cluster after setup because we don't want/need to cluster the setup interface
@@ -115,18 +138,6 @@ if(clusterSize){
 	}
 }
 
-// Allow placing settings inside a config file
-if(configFile){
-	try{
-		var configuration = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
-	}catch(e){
-		console.error(e.toString());
-		return;
-	}
-}else{
-	var configuration = {};
-}
-
 var dbHost = configuration.dbHost || dbHost;
 var siteSuperuser = configuration.siteSuperuser;
 var siteBase = configuration.siteBase || 'http://localhost/';
@@ -139,14 +150,6 @@ if(siteSecretKey && siteSecretKey.file){
 // Maybe the config defines a directory to make paths relative to... lets chdir there
 if(configuration.chdir){
 	process.chdir(configuration.chdir);
-}
-
-if(listenPort){
-	httpInterfaces = [listenPort];
-}else if(configuration.interfaces){
-	httpInterfaces = configuration.interfaces;
-}else{
-	httpInterfaces = [8080];
 }
 
 //console.log=function(){}
