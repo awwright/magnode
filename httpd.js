@@ -342,9 +342,10 @@ indexer.on('HTTPAuto_typeMongoDB_Put_Object', collectionsScan.indexer);
 // Allow people to define their own packages/extensions to use
 try {
 	fs.readdirSync('opt').forEach(function(v){
-		console.log('Import: opt/'+v+'/format.ttl');
+		var filename = 'opt/'+v+'/manifest.ttl';
+		console.log('Import: '+filename);
 		try {
-			magnode.require('scan.turtle').scanFileSync('opt/'+v+'/manifest.ttl', renders);
+			magnode.require('scan.turtle').scanFileSync(filename, renders);
 		}catch(e){
 			console.error(e.stack);
 		}
