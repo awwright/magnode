@@ -2,16 +2,14 @@
 , "id": "http://magnode.org/LinkMenuItem"
 , "label": "Link Menu Item"
 , "description": "Item found in a Link Menu"
+, "collection": "linkmenuitem"
+, "put": { "insertRevision": "revision", "storeResource": "linkmenuitem" }
 , "menu":
-	{ "http://localhost/Menu_SettingsMenu":
-		{ "title": "Link Menu Items"
-		, "weight": 0
-		}
+{ "http://localhost/Menu_SettingsMenu":
+	{ "title": "Link Menu Items"
+	, "weight": 0
 	}
-, "put":
-	{ "insertRevision": "revision"
-	, "storeResource": "linkmenuitem"
-	}
+}
 , "tablequery": {"fields":["_id","top","label","href"]}
 , "$schema": "http://json-schema.org/draft-04/schema#"
 , "type": "object"

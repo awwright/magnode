@@ -2,7 +2,8 @@
 , "id": "http://magnode.org/Page"
 , "label": "Plain page"
 , "description": "A static page of content with no author or timestamp"
-, "put": {"storeResource": "nodes"}
+, "collection": "page"
+, "put": { "insertRevision": "revision", "storeResource": "page" }
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":
 		{ "title": "Pages"

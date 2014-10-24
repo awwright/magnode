@@ -9,10 +9,7 @@
 		}
 	}
 , "collection": "post"
-, "put":
-	{ "insertRevision": "revision"
-	, "storeResource": "nodes"
-	}
+, "put": { "insertRevision": "revision", "storeResource": "post" }
 , "tablequery": {"fields":["_id","subject","label"]}
 , "$schema": "http://json-schema.org/draft-03/schema#"
 , "type": "object"
@@ -40,32 +37,7 @@
 	, "type":
 		{ "type": "array"
 		, "required": true
-		, "widget": "http://magnode.org/field/Taxonomy"
 		, "items": { "type": "string", "format": "uri" }
-		, "taxonomySources":
-			[
-				{ "taxonomyFilter": "http://magnode.org/MongoDBJSONSchema"
-				, "type": "string"
-				, "label": "Schema"
-				, "format": "uri"
-				, "widget": "http://magnode.org/field/selectresource"
-				, "range": "http://magnode.org/MongoDBJSONSchema"
-				, "selectLabel": "label"
-				, "selectNull": true
-				, "undefinedIf": ["",null]
-				, "default": ""
-				}
-			,
-				{ "taxonomyFilter": "http://magnode.org/PublishOption"
-				, "type": "array"
-				, "label": "Publishing Options"
-				, "format": "uri"
-				, "widget": "http://magnode.org/field/selectresource"
-				, "range": "http://magnode.org/PublishOption"
-				, "selectLabel": "label"
-				, "selectMulti": "checkbox"
-				}
-			]
 		}
 	, "label":
 		{ "type": "string"

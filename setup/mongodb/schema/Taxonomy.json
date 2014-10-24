@@ -11,7 +11,7 @@
 	}
 , "put":
 	{ "insertRevision": "revision"
-	, "storeResource": "nodes"
+	, "storeResource": "taxonomy"
 	}
 , "tablequery": { "fields": [ "_id", "subject", "label" ] }
 , "$schema": "http://json-schema.org/draft-04/schema#"

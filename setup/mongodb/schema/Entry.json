@@ -1,15 +1,13 @@
 { "_id": {"$ObjectId": "53edb956b3cc2dddbcc22edb"}
 , "id": "http://magnode.org/Entry"
 , "label": "Wiki Entry"
+, "collection": "entry"
+, "put": { "insertRevision": "revision", "storeResource": "entry" }
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":
 		{ "title": "Entries"
 		, "weight": 0
 		}
-	}
-, "put":
-	{ "insertRevision": "revision"
-	, "storeResource": "entry"
 	}
 , "$schema": "http://json-schema.org/draft-03/schema#"
 , "type": "object"

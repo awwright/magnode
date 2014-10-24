@@ -2,15 +2,13 @@
 , "id": "http://magnode.org/LinkMenu"
 , "label": "Link Menu"
 , "description": "A menu of links"
+, "collection": "menu"
+, "put": { "insertRevision": "revision", "storeResource": "menu" }
 , "menu":
 	{ "http://localhost/Menu_SettingsMenu":
 		{ "title": "Link Menus"
 		, "weight": 0
 		}
-	}
-, "put":
-	{ "insertRevision": "revision"
-	, "storeResource": "menu"
 	}
 , "tablequery": {"fields":["_id","subject","label"]}
 , "$schema": "http://json-schema.org/draft-03/schema#"

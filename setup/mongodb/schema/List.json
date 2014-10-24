@@ -1,8 +1,8 @@
 { "_id": {"$ObjectId": "5020deeeff744e9015b16b22"}
 , "id": "http://magnode.org/MongoDBList"
 , "label": "List of content"
-, "put": {"storeResource": "list"}
 , "collection": "list"
+, "put": {"storeResource": "list"}
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":
 		{ "title": "Lists"
@@ -33,7 +33,7 @@
 			, "properties":
 				{ "label":{"type":"string"}
 				, "text_content_field":{"type":"string"}
-				, "text_content_ifempty":{"type":"string"}
+				, "text_if_empty":{"type":"string"}
 				, "link_href_field":{"type":"string"}
 				, "link_href_rel":{"type":"string", "description":"Use the URI that matches this relation for the link target", "example":"self"}
 				, "link_rel":{"type":"string", "description":"How the link is related to the list"}

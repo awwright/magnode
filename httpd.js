@@ -252,7 +252,7 @@ if(err){
 	return;
 }
 listeners.push({name:'mongo', close:dbInstance.close.bind(dbInstance)});
-var usersDb = dbInstance.collection('nodes');
+var usersDb = dbInstance.collection('user');
 var schemaDb = dbInstance.collection('schema');
 var shadowDb = dbInstance.collection('shadow');
 
