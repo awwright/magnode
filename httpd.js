@@ -20,6 +20,7 @@ var debugMode = false;
 var magnode=require('magnode');
 var rdf=require('rdf');
 rdf.environment.setDefaultPrefix('http://localhost/');
+var unescapeMongoObject = magnode.require('mongoutils').unescapeObject;
 
 function bail(){
 	var route = new (magnode.require("route"));
@@ -234,6 +235,7 @@ function httpRequest(req, res){
 		var q = {base:{$lte:uri}, basez:{$gt:uri}};
 		resources["db-mongodb-namespace"].findOne(q, function(err, ns){
 			if(ns){
+				ns = unescapeMongoObject(ns);
 				var nsres = Object.create(resources);
 				for(var k in ns.option) nsres[k] = ns.option[k];
 			}
