@@ -6,12 +6,14 @@
 var path = require('path');
 var fs = require('fs');
 var errctx = require('domain');
+var crypto = require('crypto');
 
 var configFile = process.env.MAGNODE_CONF || null;
 var listenPort = null;
 var dbHost = process.env.MAGNODE_MONGODB || null;
 var httpInterfaces = [];
-var runSetup = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
+var setupMode = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
+for(var setupPassword=''; setupPassword.length<7;) setupPassword += Math.floor(Math.random()*0x3ff).toString(32).replace(/l/g,'w').replace(/o/g,'x').replace(/u/g,'y');
 var pidFile = null;
 var daemonize = null;
 var clusterSize = null;
@@ -21,24 +23,6 @@ var magnode=require('magnode');
 var rdf=require('rdf');
 rdf.environment.setDefaultPrefix('http://localhost/');
 var unescapeMongoObject = magnode.require('mongoutils').unescapeObject;
-
-function bail(){
-	var route = new (magnode.require("route"));
-	var renders = new (magnode.require("render"))(rdf.environment.createGraph(), []);
-	var p = (magnode.require("route.setup"))(route, dbHost, configFile);
-	if(!listenPort) listenPort=8080;
-	// In most cases we're probably sitting behind a gateway, but at least we know the URL to forward requests to
-	var env =
-		{ rdf: rdf.environment
-		, authz: {test: function(a,b,c,cb){cb(true);}}
-		};
-	(require('magnode/route.static'))(route, env, renders, __dirname+'/setup/static/', '/setup/static/');
-	var httpRequest = magnode.require("http").createListener(route, env, renders);
-	magnode.startServers(httpRequest, httpInterfaces, function(err, ifaces){
-		var listenPort = ifaces[0].address().port;
-		console.log('Visit setup page: http://localhost' + (listenPort===80?'':(':'+listenPort)) + p);
-	});
-}
 
 function printHelp(){
 	console.log('USAGE: '+process.argv[0]+' '+process.argv[1]+' [options]');
@@ -66,8 +50,8 @@ for(var i=0; i<argv.length; i++){
 	switch(argn){
 		case '--conf': case '-c': configFile=argValue(); break;
 		case '--port': case '-p': listenPort=parseInt(argValue()); break;
-		case '--setup': runSetup=true; break;
-		case '--no-setup': runSetup=false; break;
+		case '--setup': setupMode=true; break;
+		case '--no-setup': setupMode=false; break;
 		case '--debug': case '-d': debugMode=true; break;
 		case '--no-debug': debugMode=false; break;
 		case '--pidfile': pidFile=argValue(); break;
@@ -122,11 +106,9 @@ if(listenPort){
 	httpInterfaces = [8080];
 }
 
-if(runSetup) return void bail();
-
 // Run cluster after setup because we don't want/need to cluster the setup interface
 // The setup UI assumes there's only one process and runs stuff in memory
-if(clusterSize){
+if(clusterSize && !setupMode){
 	var cluster = require('cluster');
 	if(cluster.isMaster){
 		// Fork workers.
@@ -161,7 +143,7 @@ try{
 	if(!siteBase) throw new Error('Need siteBase');
 }catch(e){
 	console.error(e.stack||e.toString());
-	return void bail();
+	return;
 }
 
 // The default prefix is used for defaulty-things sorta
@@ -274,54 +256,71 @@ resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Header"] = rd
 resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Panel";
 resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer";
 
-var sessionStore = new (magnode.require("session.mac"))(
-	{ expires: 1000*60*60*24*14
-	, secret: siteSecretKey
-	});
+if(setupMode){
+	var userAuthz = new (magnode.require("authorization.superuser"))(siteSuperuser);
+	var httpAuthCredential = {authenticateCredential: function(credential, callback){
+		if(credential.username==="root" && setupPassword && setupPassword.length>4 && credential.password===setupPassword){
+			return void callback(null, {id:siteSuperuser});
+		}else{
+			return void callback(null);
+		}
+	}};
+	var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode', credentials:httpAuthCredential}, userAuthz);
+	// TODO maybe also send 503 (Service Unavailable) while setupMode is enabled
+	resources["authz"] = httpAuthBasic;
+}else{
+	var sessionStore = new (magnode.require("session.mac"))(
+		{ expires: 1000*60*60*24*14
+		, secret: siteSecretKey
+		} );
 
-// The Authorizers grant permissions to users
-var userAuthz = new (magnode.require("authorization.any"))(
-	[ new (magnode.require("authorization.superuser"))(siteSuperuser)
-	, new (magnode.require("authorization.usergroups.mongodb"))
-	] );
+	// The Authorizers grant permissions to users
+	var userAuthz = new (magnode.require("authorization.any"))(
+		[ new (magnode.require("authorization.superuser"))(siteSuperuser)
+		, new (magnode.require("authorization.usergroups.mongodb"))
+		] );
 
-// Provide login form for users to authenticate with
-var passwordHashMethods = [magnode.require('authentication.pbkdf2').compareCredential];
-var passwordGenerateRecord = magnode.require('authentication.pbkdf2').generateRecord;
-resources["password-hash"] = passwordGenerateRecord;
-var httpAuthCredential = new (magnode.require("authentication.mongodb"))(usersDb, shadowDb, null, passwordHashMethods);
-var httpAuthForm = new (magnode.require("authentication.form"))(
-	{ domain: "/"
-	, action: rdf.environment.resolve(':createSession')
-	, credentials: httpAuthCredential
-	}, userAuthz );
-var httpAuthSession = new (magnode.require("authentication.session"))(sessionStore, userAuthz);
-var httpAuthCookie = new (magnode.require("authentication.cookie"))(
-	{ domain: "/"
-	, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
-	, redirect: rdf.environment.resolve(':?from=login')
-	}, httpAuthSession);
-// Pass the authentication data to UserSession_typeAuth
-resources["http://magnode.org/Auth"] = httpAuthCookie;
-var httpAuthBearer = new (magnode.require("authentication.httpbearer"))({}, httpAuthSession);
+	// Provide login form for users to authenticate with
+	var passwordHashMethods = [magnode.require('authentication.pbkdf2').compareCredential];
+	var passwordGenerateRecord = magnode.require('authentication.pbkdf2').generateRecord;
+	resources["password-hash"] = passwordGenerateRecord;
 
-// Also support HTTP Basic authentication with username/password
-var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode', credentials:httpAuthCredential}, userAuthz);
+	var httpAuthCredential = new (magnode.require("authentication.mongodb"))(usersDb, shadowDb, null, passwordHashMethods);
 
-// Method authentication defines the various schemes in which a user may pass credentials to the application
-// Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
-var authz = new (magnode.require("authorization.any"))(
-	[ httpAuthForm
-	, httpAuthCookie
-	, httpAuthBearer
-	, httpAuthSession
-	, httpAuthBasic
-	// Anonymous authorization which requires no authorization
-	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
-	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
-	, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/Function_CreateSession'])
-	] );
-resources["authz"] = authz;
+	var httpAuthForm = new (magnode.require("authentication.form"))(
+			{ domain: "/"
+			, action: rdf.environment.resolve(':createSession')
+			, credentials: httpAuthCredential
+			}, userAuthz );
+	var httpAuthSession = new (magnode.require("authentication.session"))(sessionStore, userAuthz);
+	var httpAuthCookie = new (magnode.require("authentication.cookie"))(
+		{ domain: "/"
+		, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
+		, redirect: rdf.environment.resolve(':?from=login')
+		}, httpAuthSession);
+	// Pass the authentication data to UserSession_typeAuth
+	resources["http://magnode.org/Auth"] = httpAuthCookie;
+	var httpAuthBearer = new (magnode.require("authentication.httpbearer"))({}, httpAuthSession);
+
+	// Also support HTTP Basic authentication with username/password
+	var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode', credentials:httpAuthCredential}, userAuthz);
+
+	// Method authentication defines the various schemes in which a user may pass credentials to the application
+	// Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
+
+	var authz = new (magnode.require("authorization.any"))(
+		[ httpAuthForm
+		, httpAuthCookie
+		, httpAuthBearer
+		, httpAuthSession
+		, httpAuthBasic
+		// Anonymous authorization which requires no authorization
+		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
+		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
+		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/Function_CreateSession'])
+		] );
+	resources["authz"] = authz;
+}
 
 // Indexers for search results, caching, and other precomputation on resources
 // TODO Use of EventEmitter is essentially a hack, this will have to be built out custom later
@@ -360,18 +359,26 @@ for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
 }
 
-// Add a route at /createSession to authenticate other credentials (from httpAuthForm) and create a session, and set a cookie
-httpAuthCookie.routeSession(route, httpAuthForm);
+if(httpAuthCookie && httpAuthForm){
+	// Add a route at /createSession to authenticate other credentials (from httpAuthForm) and create a session, and set a cookie
+	httpAuthCookie.routeSession(route, httpAuthForm);
+}
 
 // Content
 // TODO move route.push out of the function call, use e.g.: route.push(magnode.require('route.status')())
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
 (magnode.require("route.transforms"))(route, resources, renders);
-httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':login'));
+if(httpAuthForm) httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':login'));
 (magnode.require("route.mongodb.id"))(route, resources, renders);
-(magnode.require("route.mongodb.subject"))(route, resources, renders);
+//(magnode.require("route.mongodb.subject"))(route, resources, renders);
 (magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
+
+if(setupMode){
+	var p = (magnode.require("route.setup"))(route, dbHost, configFile);
+	(require('magnode/route.static'))(route, resources, renders, __dirname+'/setup/static/', '/setup/static/');
+}
+
 
 }); // close mongodb.connect
 
@@ -386,6 +393,10 @@ function httpReady(err, httpInterfaces){
 		process.send({fork:"ready"});
 	}
 	httpInterfaces.forEach(function(v){ listeners.push({name:'httpd', close:v.close.bind(v)}); });
+	if(setupMode){
+		var listenPort = httpInterfaces[0].address().port;
+		console.log('Visit setup page: http://root:'+setupPassword+'@localhost' + (listenPort===80?'':(':'+listenPort)) + '/about:setup/');
+	}
 }
 
 var closingProcess = false;
