@@ -375,8 +375,11 @@ if(httpAuthForm) httpAuthForm.routeForm(route, resources, renders, rdf.environme
 (magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
 
 if(setupMode){
-	var p = (magnode.require("route.setup"))(route, dbHost, configFile);
+	var p = magnode.require("route.setup").routeSetup(route, dbHost, configFile);
 	(require('magnode/route.static'))(route, resources, renders, __dirname+'/setup/static/', '/setup/static/');
+	magnode.require("route.setup").formatters.forEach(function(v){
+		renders.add(v);
+	});
 }
 
 
