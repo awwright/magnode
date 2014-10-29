@@ -123,6 +123,13 @@ if(clusterSize && !setupMode){
 
 var dbHost = configuration.dbHost || dbHost;
 var siteSuperuser = configuration.siteSuperuser;
+if(!siteSuperuser){
+	// If no root user id is explicitly defined, select a random URI
+	siteSuperuser = 'urn:uuid:xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = Math.floor(Math.random()*16);
+		return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+	});
+}
 var siteBase = configuration.siteBase || 'http://localhost/';
 var sitePrefixes = configuration.sitePrefixes || {};
 // If none is specified, one will be generated randomly in memory at startup
@@ -257,6 +264,7 @@ resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Panel"] = rdf
 resources["http://magnode.org/theme/twentyonetwelve/DocumentRegion_Footer"] = rdf.environment.resolve(':about')+"#theme/twentyonetwelve/DocumentRegion_Footer";
 
 if(setupMode){
+	// setupMode gets a special reduced form of authorization where only the user with the randomly generated password has (root) access
 	var userAuthz = new (magnode.require("authorization.superuser"))(siteSuperuser);
 	var httpAuthCredential = {authenticateCredential: function(credential, callback){
 		if(credential.username==="root" && setupPassword && setupPassword.length>4 && credential.password===setupPassword){
@@ -265,7 +273,7 @@ if(setupMode){
 			return void callback(null);
 		}
 	}};
-	var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode', credentials:httpAuthCredential}, userAuthz);
+	var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode Setup', credentials:httpAuthCredential}, userAuthz);
 	// TODO maybe also send 503 (Service Unavailable) while setupMode is enabled
 	resources["authz"] = httpAuthBasic;
 }else{
