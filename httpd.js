@@ -384,7 +384,7 @@ if(httpAuthForm) httpAuthForm.routeForm(route, resources, renders, rdf.environme
 
 if(setupMode){
 	var p = magnode.require("route.setup").routeSetup(route, dbHost, configFile);
-	(require('magnode/route.static'))(route, resources, renders, __dirname+'/setup/static/', '/setup/static/');
+	(require('magnode/route.static'))(route, resources, renders, __dirname+'/setup/static/', '/about:setup/static/');
 	magnode.require("route.setup").formatters.forEach(function(v){
 		renders.add(v);
 	});
