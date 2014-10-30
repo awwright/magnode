@@ -102,6 +102,8 @@ if(listenPort){
 	httpInterfaces = [listenPort];
 }else if(configuration.interfaces){
 	httpInterfaces = configuration.interfaces;
+}else if(process.env.PORT){
+	httpInterfaces = [parseInt(process.env.PORT)];
 }else{
 	httpInterfaces = [8080];
 }
