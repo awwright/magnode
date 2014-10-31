@@ -1,9 +1,15 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix type: <http://magnode.org/> .
 @prefix view: <http://magnode.org/view/> .
 @prefix theme: <http://magnode.org/theme/twentyonetwelve/> .
 
+# Declare this theme to be a superset of the builtin theme
+# This might not do anything quite yet...
+# We'll have to manually declare all builtin transformers as instances of this theme too
+view:Transform rdfs:subClassOf theme:Transform .
+
 theme:DocumentHTML_typeHTMLBody
-	a view:Transform, theme:Transform, view:ModuleTransform ;
+	a view:Transform, theme:Transform, view:ModuleTransform, view:GetTransform, view:PutFormTransform, view:DeleteFormTransform ;
 	view:module <transform.js> ;
 	view:domain ( type:HTMLBody ) ;
 	view:optional type:DocumentTitle, type:HTMLBodyBlock_UserMenu, type:HTMLBodyBlock_ResourceMenu, theme:HTMLBodyRegion_Header, theme:HTMLBodyRegion_Panel, theme:HTMLBodyRegion_Footer ;
@@ -11,7 +17,7 @@ theme:DocumentHTML_typeHTMLBody
 	view:nice -1 .
 
 theme:HTMLBody_typePage
-	a view:Transform, theme:Transform, view:Jade ;
+	a view:Transform, theme:Transform, view:Jade, view:GetTransform ;
 	view:file <HTMLBody_typePost.jade> ;
 	view:templateRange type:HTMLBody, type:HTMLBodyPage ;
 	view:titleProperty "label" ;
@@ -19,7 +25,7 @@ theme:HTMLBody_typePage
 	view:range type:HTMLBody, type:HTMLBodyPage, type:DocumentTitle .
 
 theme:HTMLBody_typePost
-	a view:Transform, theme:Transform, view:Jade ;
+	a view:Transform, theme:Transform, view:Jade, view:GetTransform ;
 	view:file <HTMLBody_typePost.jade> ;
 	view:templateRange type:HTMLBody, type:HTMLBodyPost ;
 	view:titleProperty "label" ;
@@ -27,21 +33,21 @@ theme:HTMLBody_typePost
 	view:range type:HTMLBody, type:HTMLBodyPost, type:DocumentTitle .
 
 theme:HTMLBodyRegion_typeRegion_Header
-	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform ;
+	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform, view:GetTransform, view:PutFormTransform, view:DeleteFormTransform ;
 	view:module <../../lib/transform.HTMLBodyRegion_typeRegion.js> ;
 	view:regionLabel "Header" ;
 	view:domain ( theme:DocumentRegion_Header ) ;
 	view:range theme:HTMLBodyRegion_Header .
 
 theme:HTMLBodyRegion_typeRegion_Panel
-	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform ;
+	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform, view:GetTransform, view:PutFormTransform, view:DeleteFormTransform ;
 	view:module <../../lib/transform.HTMLBodyRegion_typeRegion.js> ;
 	view:regionLabel "Panel" ;
 	view:domain ( theme:DocumentRegion_Panel ) ;
 	view:range theme:HTMLBodyRegion_Panel .
 
 theme:HTMLBodyRegion_typeRegion_Footer
-	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform ;
+	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform, view:GetTransform, view:PutFormTransform, view:DeleteFormTransform ;
 	view:module <../../lib/transform.HTMLBodyRegion_typeRegion.js> ;
 	view:regionLabel "Footer" ;
 	view:domain ( theme:DocumentRegion_Footer ) ;
