@@ -6,7 +6,7 @@
 # Declare this theme to be a superset of the builtin theme
 # This might not do anything quite yet...
 # We'll have to manually declare all builtin transformers as instances of this theme too
-view:Transform rdfs:subClassOf theme:Transform .
+view:Core rdfs:subClassOf theme:Transform .
 
 theme:DocumentHTML_typeHTMLBody
 	a view:Transform, theme:Transform, view:ModuleTransform, view:GetTransform, view:PutFormTransform, view:DeleteFormTransform ;
