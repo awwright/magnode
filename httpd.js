@@ -369,6 +369,33 @@ for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
 }
 
+// Now parse the data that was defined in the manifests and import any functions they reference
+// First, dereference transforms to functions
+var matches = renders.db.match(null, rdf.rdfns('type'), 'http://magnode.org/view/Transform');
+matches.forEach(function(m){
+	if(renders.renders[m.subject]) return;
+	var types = renders.db.match(m.subject, rdf.rdfns('type')).map(function(v){return v.object;});
+	var mFunc;
+	types.some(function(t){ if(renders.renders[t]){ mFunc=t; return true; } });
+	if(mFunc){
+		renders.renders[m.subject]=renders.renders[mFunc];
+	}else{
+		console.error('No transform function found for '+m.subject.toNT()+' types='+types.map(function(v){return v.toNT()}));
+	}
+});
+// Dereference indexers
+var indexNames = {
+		'HTTPAuto_typeMongoDB_Put_Object': 'http://magnode.org/indexer/HTTPAuto_typeMongoDB_Put_Object'
+};
+for(var n in indexNames){
+	var matches = renders.db.match(null, rdf.rdfns('type'), indexNames[n]);
+	matches.forEach(function(m){
+		var module = renders.db.match(m.subject, 'http://magnode.org/indexer/module', null);
+		// Indexes must not do anything by themselves, but must be enabled by some user action
+		// TODO add indexer listeners here
+	});
+}
+
 if(httpAuthCookie && httpAuthForm){
 	// Add a route at /createSession to authenticate other credentials (from httpAuthForm) and create a session, and set a cookie
 	httpAuthCookie.routeSession(route, httpAuthForm);
