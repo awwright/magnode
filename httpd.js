@@ -354,7 +354,7 @@ indexer.on('HTTPAuto_typeMongoDB_Put_Object', collectionsScan.indexer);
 try {
 	fs.readdirSync('opt').forEach(function(v){
 		var filename = 'opt/'+v+'/manifest.ttl';
-		console.log('Import: '+filename);
+		console.log('Import manifest: '+filename);
 		try {
 			magnode.require('scan.turtle').scanFileSync(filename, renders);
 		}catch(e){
@@ -368,6 +368,14 @@ try {
 for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
 }
+
+// Load Function/formatter/transformer definitions
+var matches = renders.db.match(null, 'http://magnode.org/view/moduleSource', null);
+matches.forEach(function(m){
+	console.log('Import module: '+m.object);
+	var filepath = m.object.toString().replace(/^file:\/\/\//, '/');
+	renders.renders[m.subject] = require(filepath);
+});
 
 // Now parse the data that was defined in the manifests and import any functions they reference
 // First, dereference transforms to functions
