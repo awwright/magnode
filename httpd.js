@@ -193,6 +193,28 @@ var transformTypes =
 	];
 var renders = new magnode.Render(transformDb, transformTypes);
 
+// Allow people to define their own packages/extensions to use
+try {
+	fs.readdirSync('opt').forEach(function(v){
+		var filename = 'opt/'+v+'/manifest.ttl';
+		console.log('Import manifest: '+filename);
+		try {
+			magnode.require('scan.turtle').scanFileSync(filename, renders);
+		}catch(e){
+			console.error(e.stack);
+		}
+	});
+}catch(e){
+}
+
+// Load Function/formatter/transformer definitions
+var matches = renders.db.match(null, 'http://magnode.org/view/moduleSource', null);
+matches.forEach(function(m){
+	console.log('Import module: '+m.object);
+	var filepath = m.object.toString().replace(/^file:\/\/\//, '/');
+	renders.renders[m.subject] = require(filepath);
+});
+
 // Handle HTTP requests
 var route = new magnode.Route;
 var handleRequest = magnode.require('http').handleRequest;
@@ -274,7 +296,7 @@ if(setupMode){
 		}else{
 			return void callback(null);
 		}
-	}};
+	}, methods:{}};
 	var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode Setup', credentials:httpAuthCredential}, userAuthz);
 	// TODO maybe also send 503 (Service Unavailable) while setupMode is enabled
 	resources["authz"] = httpAuthBasic;
@@ -332,6 +354,17 @@ if(setupMode){
 	resources["authz"] = authz;
 }
 
+// Import known passwordHashMethods
+var matches = renders.db.match(null, rdf.rdfns('type'), 'http://magnode.org/PasswordHashFn');
+matches.forEach(function(m){
+	// FIXME add some way to selectively disable this?
+	console.log('Import PasswordHashFn: '+m.subject);
+	httpAuthCredential.methods[m.subject] = renders.renders[m.subject];
+	renders.db.match(m.subject, 'http://magnode.org/PasswordHashName', null).forEach(function(n){
+		httpAuthCredential.methods[n.object] = renders.renders[m.subject];
+	});
+});
+
 // Indexers for search results, caching, and other precomputation on resources
 // TODO Use of EventEmitter is essentially a hack, this will have to be built out custom later
 // Most events should be triggered with a link relation to a Function stored in the function database (i.e. `renders`)
@@ -350,32 +383,10 @@ var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMon
 route.push(collectionsScan.route);
 indexer.on('HTTPAuto_typeMongoDB_Put_Object', collectionsScan.indexer);
 
-// Allow people to define their own packages/extensions to use
-try {
-	fs.readdirSync('opt').forEach(function(v){
-		var filename = 'opt/'+v+'/manifest.ttl';
-		console.log('Import manifest: '+filename);
-		try {
-			magnode.require('scan.turtle').scanFileSync(filename, renders);
-		}catch(e){
-			console.error(e.stack);
-		}
-	});
-}catch(e){
-}
-
 // Import other configuration options if any, like "title" and "logo"
 for(var f in (configuration&&configuration.option||{})){
 	resources[f] = configuration.option[f];
 }
-
-// Load Function/formatter/transformer definitions
-var matches = renders.db.match(null, 'http://magnode.org/view/moduleSource', null);
-matches.forEach(function(m){
-	console.log('Import module: '+m.object);
-	var filepath = m.object.toString().replace(/^file:\/\/\//, '/');
-	renders.renders[m.subject] = require(filepath);
-});
 
 // Now parse the data that was defined in the manifests and import any functions they reference
 // First, dereference transforms to functions
