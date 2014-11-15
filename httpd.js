@@ -360,7 +360,7 @@ matches.forEach(function(m){
 	// FIXME add some way to selectively disable this?
 	console.log('Import PasswordHashFn: '+m.subject);
 	httpAuthCredential.methods[m.subject] = renders.renders[m.subject];
-	renders.db.match(m.subject, 'http://magnode.org/PasswordHashName', null).forEach(function(n){
+	renders.db.match(m.subject, 'http://magnode.org/passwordHashName', null).forEach(function(n){
 		httpAuthCredential.methods[n.object] = renders.renders[m.subject];
 	});
 });
