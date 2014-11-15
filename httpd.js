@@ -405,6 +405,16 @@ for(var n in indexNames){
 	});
 }
 
+// Setup static routes as defined by themes, if any
+var matches = renders.db.match(null, rdf.rdfns('type'), 'http://magnode.org/StaticRoute');
+matches.forEach(function(m){
+	var docRoot = renders.db.match(m.subject, 'http://magnode.org/staticRouteRoot', null)[0].object.toString();
+	var docRootPath = docRoot.replace(/file:\/\/\//, '/');
+	var docNamespace = renders.db.match(m.subject, 'http://magnode.org/staticRouteNamespace', null)[0].object.toString();
+	console.log(m.subject+' Serve '+docNamespace+' => '+docRootPath);
+	(require('magnode/route.static'))(route, resources, renders, docRootPath, docNamespace);
+});
+
 if(httpAuthCookie && httpAuthForm){
 	// Add a route at /createSession to authenticate other credentials (from httpAuthForm) and create a session, and set a cookie
 	httpAuthCookie.routeSession(route, httpAuthForm);
