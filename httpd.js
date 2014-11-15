@@ -391,6 +391,7 @@ matches.forEach(function(m){
 		console.error('No transform function found for '+m.subject.toNT()+' types='+types.map(function(v){return v.toNT()}));
 	}
 });
+
 // Dereference indexers
 var indexNames = {
 		'HTTPAuto_typeMongoDB_Put_Object': 'http://magnode.org/indexer/HTTPAuto_typeMongoDB_Put_Object'

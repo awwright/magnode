@@ -17,11 +17,6 @@
 	url = git://github.com/Acubed/contenttype.git
 	semver = ~1
 	npm = contenttype
-[submodule "node_modules/jade.src"]
-	path = node_modules/jade.src
-	url = git://github.com/visionmedia/jade.git
-	semver = 0.15
-	npm = jade
 [submodule "node_modules/mongodb"]
 	path = node_modules/mongodb
 	url = http://github.com/mongodb/node-mongodb-native.git
@@ -49,3 +44,32 @@
 	url = git://github.com/Acubed/node-iri.git
 	semver = ~1
 	npm = iri
+[submodule "node_modules/jade"]
+	path = node_modules/jade
+	url = https://github.com/jadejs/jade.git
+	npm = jade
+	semver = ~1.7.0
+[submodule "node_modules/character-parser"]
+	path = node_modules/character-parser
+	url = https://github.com/ForbesLindesay/character-parser.git
+	npm = character-parser
+[submodule "node_modules/constantinople"]
+	path = node_modules/constantinople
+	url = https://github.com/ForbesLindesay/constantinople.git
+	npm = constantinople
+[submodule "node_modules/acorn-globals"]
+	path = node_modules/acorn-globals
+	url = https://github.com/ForbesLindesay/acorn-globals.git
+	npm = acorn-globals
+[submodule "node_modules/acorn"]
+	path = node_modules/acorn
+	url = http://marijnhaverbeke.nl/git/acorn
+	npm = acorn
+[submodule "node_modules/void-elements"]
+	path = node_modules/void-elements
+	url = git://github.com/hemanth/void-elements
+	npm = void-elements
+[submodule "node_modules/with"]
+	path = node_modules/with
+	url = https://github.com/ForbesLindesay/with.git
+	npm = with
