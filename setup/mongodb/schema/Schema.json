@@ -17,7 +17,7 @@
 	[ {"rel":"type", "href":"http://magnode.org/MongoDBJSONSchema"}
 	, {"rel":"self", "href":"{+id}"}
 	]
-, "allOf": [ {"$ref": "http://json-schema.org/draft-04/hyper-schema#"} ]
+, "allOf": [ {"(disabled)$ref": "http://json-schema.org/draft-04/hyper-schema#"} ]
 , "properties":
 	{ "_id": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
 	, "_parent": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }

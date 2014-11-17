@@ -22,6 +22,7 @@ var debugMode = false;
 var magnode=require('magnode');
 var rdf=require('rdf');
 rdf.environment.setDefaultPrefix('http://localhost/');
+rdf.environment.setPrefix('http:', 'http:');
 var unescapeMongoObject = magnode.require('mongoutils').unescapeObject;
 
 function printHelp(){
