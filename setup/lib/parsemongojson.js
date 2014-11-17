@@ -1,12 +1,14 @@
 var ObjectId = require('mongodb').ObjectID;
 var fs = require('fs');
 
+var mongoutils = require('../../lib/mongoutils');
+
 module.exports.parseMongoJSON = function parseMongoJSON(str, base){
-	return JSON.parse(str, function(k, v){return module.exports.parser(k, v, base);});
+	return JSON.parse(str, function(k, v){return JSONParser(k, v, base);});
 }
 
 // Like mongoutils.escapeObject but also replaces <http://localhost/> URIs
-module.exports.parser = function parser(k, v, base){
+function JSONParser(k, v, base){
 	var prefix = "http://localhost/";
 	base = base||"http://localhost/";
 	if(!v) return v;
@@ -17,10 +19,10 @@ module.exports.parser = function parser(k, v, base){
 		var obj = {};
 		for(var n in v){
 			// urlencode [%.$]
-			var key = n.replace(/^http:\/\/localhost\//, base).replace(/%/g,'%25').replace(/\x2E/g, '%2E').replace(/\x24/g, '%24');
+			var key = mongoutils.escapeKey(n.replace(/^http:\/\/localhost\//, base));
 			obj[key] = v[n];
 		}
-		v = obj;
+		return obj;
 	}
 	return v;
 }
