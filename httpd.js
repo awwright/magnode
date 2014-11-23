@@ -411,9 +411,11 @@ var indexNames = {
 for(var n in indexNames){
 	var matches = renders.db.match(null, rdf.rdfns('type'), indexNames[n]);
 	matches.forEach(function(m){
-		var module = renders.db.match(m.subject, 'http://magnode.org/indexer/module', null);
+		var moduleId = renders.db.match(m.subject, 'http://magnode.org/indexer/module', null);
+		var module = renders.renders[moduleId[0].object];
 		// Indexes must not do anything by themselves, but must be enabled by some user action
-		// TODO add indexer listeners here
+		console.log('Indexer '+n+' -> '+moduleId[0].object);
+		indexer.on(n, module);
 	});
 }
 
