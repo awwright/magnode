@@ -216,8 +216,30 @@ matches.forEach(function(m){
 	renders.renders[m.subject] = require(filepath);
 });
 
-// Handle HTTP requests
+
+// Load router definitions
+// A single instance of a router should typically be able to handle any number of namespaces
+// Or better put: Initialize exactly one router per database, databases handling multiple namespaces and other things
 var route = new magnode.Route;
+var matches = renders.db.match(null, rdf.rdfns('type'), 'http://magnode.org/Route');
+matches.forEach(function(m){
+	var moduleId = renders.db.match(m.subject, 'http://magnode.org/route/module', null)[0].object;
+	var module = renders.renders[moduleId];
+	console.log('Router: ' + m.subject + ' @ ' + moduleId);
+	route.push(module(route, resources, renders, m.subject));
+});
+// Static router too because they're cool
+// TODO merge this into above
+var matches = renders.db.match(null, rdf.rdfns('type'), 'http://magnode.org/StaticRoute');
+matches.forEach(function(m){
+	var docRoot = renders.db.match(m.subject, 'http://magnode.org/staticRouteRoot', null)[0].object.toString();
+	var docRootPath = docRoot.replace(/file:\/\/\//, '/');
+	var docNamespace = renders.db.match(m.subject, 'http://magnode.org/staticRouteNamespace', null)[0].object.toString();
+	console.log(m.subject+' Serve '+docNamespace+' => '+docRootPath);
+	(require('magnode/route.static'))(route, resources, renders, docRootPath, docNamespace);
+});
+
+// Handle HTTP requests
 var handleRequest = magnode.require('http').handleRequest;
 function httpRequest(req, res){
 	var c = errctx.create();
@@ -418,16 +440,6 @@ for(var n in indexNames){
 		indexer.on(n, module);
 	});
 }
-
-// Setup static routes as defined by themes, if any
-var matches = renders.db.match(null, rdf.rdfns('type'), 'http://magnode.org/StaticRoute');
-matches.forEach(function(m){
-	var docRoot = renders.db.match(m.subject, 'http://magnode.org/staticRouteRoot', null)[0].object.toString();
-	var docRootPath = docRoot.replace(/file:\/\/\//, '/');
-	var docNamespace = renders.db.match(m.subject, 'http://magnode.org/staticRouteNamespace', null)[0].object.toString();
-	console.log(m.subject+' Serve '+docNamespace+' => '+docRootPath);
-	(require('magnode/route.static'))(route, resources, renders, docRootPath, docNamespace);
-});
 
 if(httpAuthCookie && httpAuthForm){
 	// Add a route at /createSession to authenticate other credentials (from httpAuthForm) and create a session, and set a cookie
