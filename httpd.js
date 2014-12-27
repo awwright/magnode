@@ -197,12 +197,22 @@ var renders = new magnode.Render(transformDb, transformTypes);
 // Allow people to define their own packages/extensions to use
 try {
 	fs.readdirSync('opt').forEach(function(v){
-		var filename = 'opt/'+v+'/manifest.ttl';
-		console.log('Import manifest: '+filename);
-		try {
-			magnode.require('scan.turtle').scanFileSync(filename, renders);
-		}catch(e){
-			console.error(e.stack);
+		var manifestPaths = [
+			'opt/'+v+'/manifest.ttl',
+			'opt/'+v+'/'+v+'.manifest.ttl',
+		];
+		var loaded = manifestPaths.some(function(path){
+			if(!fs.existsSync(path)) return;
+			try {
+				magnode.require('scan.turtle').scanFileSync(path, renders);
+				console.log('Import manifest: '+path);
+				return true;
+			}catch(e){
+				console.error(e.stack);
+			}
+		});
+		if(!loaded){
+			console.error('No manifest file found in opt/'+v);
 		}
 	});
 }catch(e){
