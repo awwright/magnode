@@ -289,7 +289,9 @@ function httpRequest(req, res){
 		});
 	});
 }
-magnode.startServers(httpRequest, httpInterfaces, httpReady);
+function startServers(){
+	magnode.startServers(httpRequest, httpInterfaces, httpReady);
+}
 
 // Load the database of webpages
 var mongodb = require('mongodb');
@@ -411,7 +413,7 @@ var libDir = path.dirname(require.resolve('magnode/render'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
-var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders);
+var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders, startServers);
 // Enable this OR route.mongodb.subject
 route.push(collectionsScan.route);
 indexer.on('HTTPAuto_typeMongoDB_Put_Object', collectionsScan.indexer);
