@@ -83,8 +83,13 @@ if(daemonize){
 	});
 	return;
 }
+
+// Keep track of open event listeners
+var listeners = [];
+
 if(pidFile){
-	fs.writeFileSync(pidFile, process.pid);
+	fs.writeFileSync(pidFile, process.pid+'\n');
+	listeners.push({name:'pidfile', close:fs.unlink.bind(null, pidFile)});
 }
 
 // Allow placing settings inside a config file
@@ -163,9 +168,6 @@ rdf.environment.setPrefix("magnode", "http://magnode.org/");
 rdf.environment.setPrefix("meta", rdf.environment.resolve(':about#'));
 rdf.environment.setPrefix("uuid", "urn:uuid:");
 for(var prefix in sitePrefixes) rdf.environment.setPrefix(prefix, sitePrefixes[prefix]);
-
-// Keep track of open event listeners
-var listeners = [];
 
 // Close the process on many kinds of events
 process.on('SIGINT', closeProcess);
