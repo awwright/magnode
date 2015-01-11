@@ -19,18 +19,26 @@ theme:DocumentHTML_typeHTMLBody
 theme:HTMLBody_typePage
 	a view:Transform, theme:Transform, view:Jade, view:GetTransform ;
 	view:file <HTMLBody_typePost.jade> ;
-	view:templateRange type:HTMLBody, type:HTMLBodyPage ;
-	view:titleProperty "label" ;
 	view:domain ( type:Page ) ;
-	view:range type:HTMLBody, type:HTMLBodyPage, type:DocumentTitle .
+	view:range type:HTMLBody, type:HTMLBodyPage .
+
+theme:DocumentTitle_typePage
+	a view:Transform, theme:Transform, view:Title, view:GetTransform ;
+	view:domain ( type:Page ) ;
+	view:titleProperty "label" ;
+	view:range type:DocumentTitle .
 
 theme:HTMLBody_typePost
 	a view:Transform, theme:Transform, view:Jade, view:GetTransform ;
 	view:file <HTMLBody_typePost.jade> ;
-	view:templateRange type:HTMLBody, type:HTMLBodyPost ;
-	view:titleProperty "label" ;
 	view:domain ( type:Post ) ;
-	view:range type:HTMLBody, type:HTMLBodyPost, type:DocumentTitle .
+	view:range type:HTMLBody, type:HTMLBodyPost .
+
+theme:DocumentTitle_typePost
+	a view:Transform, theme:Transform, view:Title, view:GetTransform ;
+	view:domain ( type:Post ) ;
+	view:titleProperty "label" ;
+	view:range type:DocumentTitle .
 
 theme:HTMLBodyRegion_typeRegion_Header
 	a view:Transform, theme:Transform, <http://magnode.org/transform/HTMLBodyRegion_typeRegion>, view:ModuleTransform, view:GetTransform, view:PutFormTransform, view:DeleteFormTransform ;

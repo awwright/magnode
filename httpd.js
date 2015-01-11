@@ -188,9 +188,10 @@ var transformDb = rdf.environment.createGraph();
 resources["db-transforms"] = transformDb;
 resources["db-rdfa"] = transformDb;
 var transformTypes =
-	[ magnode.require('transform.Jade')
-	, magnode.require('transform.ModuleTransform')
+	[ magnode.require('transform.ModuleTransform')
 	, magnode.require('transform.SubtypeTransform')
+	, magnode.require('transform.Title')
+	, magnode.require('transform.Jade')
 	];
 var renders = new magnode.Render(transformDb, transformTypes);
 
