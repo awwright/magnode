@@ -15,7 +15,13 @@ Information on new releases is published on <https://groups.google.com/group/mag
 
 For complete documentation, see the documentation in docs/ or online at <https://magnode.org/doc/setup>.
 
-Assuming dependencies are already configured, you can begin with:
+Configure dependencies:
 
-	$ cp -a setup/example-blog/* ./
-	$ ./httpd.js
+	$ git submodule update --init
+
+Run setup:
+
+	$ MAGNODE_MONGODB='mongodb://localhost/magnode' ./httpd.js --setup
+
+Done!
+
