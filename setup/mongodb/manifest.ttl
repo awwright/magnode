@@ -3,6 +3,20 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 # List off all the files and the collection they get imported into
+<system.indexes/nodes.subject.json> a :MongoDocument; :collection "system.indexes" .
+<schema/Schema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<../jsonschema/jsonschema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<../jsonschema/hyperschema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/DocumentRegion.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/Entry.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/LinkMenu.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/LinkMenuItem.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/List.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/OnlineAccount.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/Page.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/Post.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/Taxonomy.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/Usergroup.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <documentregion/footer.json> a :MongoDocument; :collection "documentregion" .
 <documentregion/header.json> a :MongoDocument; :collection "documentregion" .
 <documentregion/panel.json> a :MongoDocument; :collection "documentregion" .
@@ -14,18 +28,6 @@
 <linkmenu/settings.json> a :MongoDocument; :collection "linkmenu" .
 <nodes/frontpage.json> a :MongoDocument; :collection "list" .
 <nodes/intro.json> a :MongoDocument; :collection "nodes" .
-<schema/DocumentRegion.json> a :MongoDocument; :collection "schema" .
-<schema/Entry.json> a :MongoDocument; :collection "schema" .
-<schema/LinkMenu.json> a :MongoDocument; :collection "schema" .
-<schema/LinkMenuItem.json> a :MongoDocument; :collection "schema" .
-<schema/List.json> a :MongoDocument; :collection "schema" .
-<schema/OnlineAccount.json> a :MongoDocument; :collection "schema" .
-<schema/Page.json> a :MongoDocument; :collection "schema" .
-<schema/Post.json> a :MongoDocument; :collection "schema" .
-<schema/Schema.json> a :MongoDocument; :collection "schema" .
-<schema/Taxonomy.json> a :MongoDocument; :collection "schema" .
-<schema/Usergroup.json> a :MongoDocument; :collection "schema" .
-<system.indexes/nodes.subject.json> a :MongoDocument; :collection "system.indexes" .
 <taxonomy/PublishOption.json> a :MongoDocument; :collection "taxonomy" .
 <taxonomy/promoted.json> a :MongoDocument; :collection "taxonomy" .
 <taxonomy/published.json> a :MongoDocument; :collection "taxonomy" .
@@ -39,7 +41,7 @@
 		rdfs:label "Base";
 		:required true;
 		:default true;
-		:files ( <schema/Schema.json> <system.indexes/nodes.subject.json> )
+		:files ( <schema/Schema.json> <system.indexes/nodes.subject.json> <../jsonschema/jsonschema.json> <../jsonschema/hyperschema.json> )
 	]
 	[
 		a :Feature;
