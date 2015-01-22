@@ -5,7 +5,7 @@
 # List off all the files and the collection they get imported into
 <system.indexes/nodes.subject.json> a :MongoDocument; :collection "system.indexes" .
 <schema/Schema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<../jsonschema/jsonschema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<../jsonschema/schema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <../jsonschema/hyperschema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/DocumentRegion.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/Entry.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
@@ -41,7 +41,7 @@
 		rdfs:label "Base";
 		:required true;
 		:default true;
-		:files ( <schema/Schema.json> <system.indexes/nodes.subject.json> <../jsonschema/jsonschema.json> <../jsonschema/hyperschema.json> )
+		:files ( <schema/Schema.json> <system.indexes/nodes.subject.json> <../jsonschema/schema.json> <../jsonschema/hyperschema.json> )
 	]
 	[
 		a :Feature;
