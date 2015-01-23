@@ -338,6 +338,7 @@ if(setupMode){
 	var httpAuthBasic = new (magnode.require("authentication.httpbasic"))({realm:'Magnode Setup', credentials:httpAuthCredential}, userAuthz);
 	// TODO maybe also send 503 (Service Unavailable) while setupMode is enabled
 	resources["authz"] = httpAuthBasic;
+	resources["http://magnode.org/Auth"] = null;
 }else{
 	var sessionStore = new (magnode.require("session.mac"))(
 		{ expires: 1000*60*60*24*14
