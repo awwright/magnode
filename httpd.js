@@ -309,6 +309,7 @@ if(err){
 }
 listeners.push({name:'mongo', close:dbInstance.close.bind(dbInstance)});
 var usersDb = dbInstance.collection('user');
+var usergroupsDb = dbInstance.collection('group');
 var schemaDb = dbInstance.collection('schema');
 var shadowDb = dbInstance.collection('shadow');
 
@@ -351,7 +352,8 @@ if(setupMode){
 	// The Authorizers grant permissions to users
 	var userAuthz = new (magnode.require("authorization.any"))(
 		[ new (magnode.require("authorization.superuser"))(siteSuperuser)
-		, new (magnode.require("authorization.usergroups.mongodb"))
+		, new (magnode.require("authorization.superuser.mongodb"))(usersDb, rdf.environment.resolve(':Usergroup/Administrator'))
+		, new (magnode.require("authorization.usergroups.mongodb"))(usersDb, usergroupsDb)
 		] );
 
 	// Provide login form for users to authenticate with
