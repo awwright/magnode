@@ -7,14 +7,18 @@
 	{ "http://localhost/Menu_ManagementMenu": {"weight": 0}
 	}
 , "permissions": {"ownerField": "subject", "description":"Turn this into a link relation"}
-, "$schema": "http://json-schema.org/draft-03/schema#"
+, "$schema": "http://json-schema.org/draft-04/schema#"
 , "$base": "http://xmlns.com/foaf/0.1/"
 , "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/OnlineAccount"}
+	, {"rel":"self", "href":"{+subject}"}
+	]
 , "properties":
-	{ "_id": { "type": "ObjectId", "readonly": true}
+	{ "_id": { "type": "ObjectId", "widget":"http://magnode.org/field/ObjectId", "readonly": true}
 	, "_parent": { "type": "ObjectId", "readonly": true }
 	, "subject": { "type": "string", "format": "uri"}
-	, "type": { "type": "array", "widget": "http://magnode.org/field/Taxonomy", "items": { "type": "string", "format": "uri" } }
+	, "type": { "type": "array", "items": { "type": "string", "format": "uri" } }
 	, "accountName": { "type": "string", "title": "Username", "widget": "http://magnode.org/field/Label"}
 	, "password": { "type": "shadow", "title": "Password", "widget":"http://magnode.org/field/shadow"}
 	, "name": { "type": "string", "title": "Name", "widget": "http://magnode.org/field/Label"}
