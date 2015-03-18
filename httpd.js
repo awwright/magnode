@@ -286,7 +286,7 @@ function httpRequest(req, res){
 	c.run(function(){
 		// 1. Listen on specified interfaces, adjust authority as specified
 		// 2. Calculate request-uri
-		// 3. Apply aliases, e.g. https://example.com:8443/ => http://example.com/
+		// 3. Apply aliases, e.g. https://example.com:8443/ => http://example.com/ (TODO)
 		// 4. Apply namespace rules to request
 		// 5. Apply CURIE prefixing/absolute URL rewriting
 		var uri = require('url').resolve('http://'+req.headers.host, req.url);
@@ -294,7 +294,6 @@ function httpRequest(req, res){
 			var authority = httpd.magnodeOptions.authority;
 			if(authority[authority.length-1]!='/') authority+='/';
 			uri = uri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
-			console.log('X:', uri);
 		}
 		var host = (new (require('iri').IRI)(uri).host() || '').split('.');
 		// Returns "www.example.com", "*.example.com", "*.com", "*"
@@ -381,10 +380,10 @@ if(setupMode){
 	var httpAuthCredential = new (magnode.require("authentication.mongodb"))(usersDb, shadowDb, null, passwordHashMethods);
 
 	var httpAuthForm = new (magnode.require("authentication.form"))(
-			{ domain: "/"
-			, action: rdf.environment.resolve(':createSession')
-			, credentials: httpAuthCredential
-			}, userAuthz );
+		{ domain: "/"
+		, action: rdf.environment.resolve(':createSession')
+		, credentials: httpAuthCredential
+		}, userAuthz );
 	var httpAuthSession = new (magnode.require("authentication.session"))(sessionStore, userAuthz);
 	var httpAuthCookie = new (magnode.require("authentication.cookie"))(
 		{ domain: "/"
@@ -466,7 +465,7 @@ matches.forEach(function(m){
 
 // Dereference indexers
 var indexNames = {
-		'HTTPAuto_typeMongoDB_Put_Object': 'http://magnode.org/indexer/HTTPAuto_typeMongoDB_Put_Object'
+	'HTTPAuto_typeMongoDB_Put_Object': 'http://magnode.org/indexer/HTTPAuto_typeMongoDB_Put_Object'
 };
 for(var n in indexNames){
 	var matches = renders.db.match(null, rdf.rdfns('type'), indexNames[n]);
