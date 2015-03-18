@@ -258,6 +258,7 @@ matches.forEach(function(m){
 // Handle HTTP requests
 var handleRequest = magnode.require('http').handleRequest;
 function httpRequest(req, res){
+	var httpd = this;
 	var c = errctx.create();
 	c.add(req);
 	c.add(res);
@@ -283,14 +284,30 @@ function httpRequest(req, res){
 		//closeProcess(3);
 	});
 	c.run(function(){
+		// 1. Listen on specified interfaces, adjust authority as specified
+		// 2. Calculate request-uri
+		// 3. Apply aliases, e.g. https://example.com:8443/ => http://example.com/
+		// 4. Apply namespace rules to request
+		// 5. Apply CURIE prefixing/absolute URL rewriting
 		var uri = require('url').resolve('http://'+req.headers.host, req.url);
-		var q = {base:{$lte:uri}, basez:{$gt:uri}};
+		if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
+			var authority = httpd.magnodeOptions.authority;
+			if(authority[authority.length-1]!='/') authority+='/';
+			uri = uri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
+			console.log('X:', uri);
+		}
+		var host = (new (require('iri').IRI)(uri).host() || '').split('.');
+		// Returns "www.example.com", "*.example.com", "*.com", "*"
+		var parts = host.slice(1).map(function(v,i){return '*.'+host.slice(i+1).join('.');}).concat('*', host.join('.'));
+		var q = {host:{$in:parts}, base:{$lte:uri}, basez:{$gt:uri}};
 		resources["db-mongodb-namespace"].findOne(q, function(err, ns){
 			if(ns){
 				ns = unescapeMongoObject(ns);
 				var nsres = Object.create(resources);
 				for(var k in ns.option) nsres[k] = ns.option[k];
 			}
+			req.requestLine = req.url;
+			req.uri = uri;
 			handleRequest(req, res, route, nsres||resources, renders);
 		});
 	});
