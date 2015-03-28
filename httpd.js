@@ -488,6 +488,7 @@ if(httpAuthCookie && httpAuthForm){
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
 (magnode.require("route.transforms"))(route, resources, renders);
+(magnode.require("route.transformsttl"))(route, resources, renders);
 if(httpAuthForm) httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':login'));
 (magnode.require("route.mongodb.id"))(route, resources, renders);
 //(magnode.require("route.mongodb.subject"))(route, resources, renders);
