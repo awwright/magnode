@@ -2,6 +2,7 @@
     "$schema": "http://json-schema.org/draft-04/hyper-schema#",
     "id": "http://json-schema.org/draft-04/hyper-schema#",
     "title": "JSON Hyper-Schema",
+    "type": "object",
     "allOf": [
         {
             "$ref": "http://json-schema.org/draft-04/schema#"

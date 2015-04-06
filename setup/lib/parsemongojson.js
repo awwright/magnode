@@ -39,15 +39,10 @@ module.exports.importDocument = function importDocument(dbClient, collectionName
 	if(typeof collectionName=='string') collection = dbClient.collection(collectionName);
 	else collection = collectionName;
 	var where = {};
-	/*
-	if(record.subject){
-		where.subject=record.subject;
-		delete record._id;
-	}else{
-		where._id=record._id;
-	}
-	*/
-	where._id=record._id;
+	if(record._id) where._id=record._id;
+	else if(record.id) where.id=record.id;
+	else if(record.subject) where.id=record.subject;
+	else throw new Error('Document needs an _id, id, or subject property');
 	collection.update(where, record, {upsert:true}, callback);
 }
 
