@@ -288,8 +288,24 @@ function httpRequest(req, res){
 		// 2. Calculate request-uri
 		// 3. Apply aliases, e.g. https://example.com:8443/ => http://example.com/ (TODO)
 		// 4. Apply namespace rules to request
-		// 5. Apply CURIE prefixing/absolute URL rewriting
-		var uri = require('url').resolve('http://'+req.headers.host, req.url);
+		// 5. (in <lib/http.js>) Apply CURIE prefixing/absolute URL rewriting
+
+		// request-target = origin-form / absolute-form / authority-form / asterisk-form
+		var requestLine = req.uri || req.url;
+		var uri;
+		if(requestLine[0]=='/'){ // origin-form
+			uri = 'http://' + req.headers['host'] + requestLine;
+		}else if(requestLine.match(/^[a-z][a-z0-9+.-]*:/)){ // absolute-form
+			// This won't match if the scheme has anything uppercase. Maybe let's leave it this way.
+			uri = requestLine;
+		}else if(requestLine==='*'){ // asterisk-form
+			uri = req.url;
+		}else{ // other illegal form
+			// Not handling authority-form. Re-examine this when a need presents itself.
+			res.statusCode = 400;
+			res.end('Invalid request-target\n');
+			return;
+		}
 		if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
 			var authority = httpd.magnodeOptions.authority;
 			if(authority[authority.length-1]!='/') authority+='/';
