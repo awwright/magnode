@@ -17,8 +17,10 @@ var httpdExe = __dirname + '/../httpd.js';
 var statusCode = 0;
 
 process.on('exit', function(){
-	//console.log('Exit ' + statusCode);
-	process.exit(statusCode);
+	console.log('Exit ' + statusCode);
+	process.nextTick(function(){
+		process.exit(statusCode);
+	});
 });
 
 function printHelp(){
@@ -111,7 +113,8 @@ function runFile(filename, callback){
 	}
 	function spawnHttpd(){
 		// Import base.json data TODO
-		child = spawn('httpd.js', {env:{'PORT':'0', 'MAGNODE_MONGODB':'mongodb://localhost/'+db.databaseName, 'MAGNODE_CONF':'t/runner.conf.json'}, stdio:[null,'pipe',2]});
+		var env = {'PORT':'0', 'MAGNODE_MONGODB':'mongodb://localhost/'+db.databaseName, 'MAGNODE_CONF':'t/runner.conf.json'};
+		child = spawn('httpd.js', [], {env:env, stdio:[null,'pipe',2]});
 		var childLog = '';
 		child.stdout.on('data', function onData(str){
 			//console.log(str.toString());
@@ -127,6 +130,9 @@ function runFile(filename, callback){
 		child.on('close', function(){
 			//console.log('https.js died');
 			finishTest();
+		});
+		child.on('error', function(e){
+			console.log('child error:', e);
 		});
 	}
 	function runRequests(child, client){
@@ -214,4 +220,3 @@ function runFile(filename, callback){
 		});
 	}
 }
-
