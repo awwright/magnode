@@ -1,0 +1,9 @@
+{
+	"siteBase": "http://runner.local/",
+	"siteSuperuser": "http://runner.local/user/root",
+	"sitePrefixes":{
+	},
+	"option": {
+		"title": "Test Runner"
+	}
+}
