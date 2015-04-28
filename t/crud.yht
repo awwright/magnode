@@ -1,0 +1,68 @@
+title: Run the full lifecycle of resource creation, retreival, update, and deletion
+import:
+	-
+		collection: schema
+		file: setup/mongodb/schema/Post.json
+	-
+		collection: user
+		file: t/data/user.root.json
+	-
+		collection: shadow
+		file: t/data/shadow.root.json
+default: |
+	Resource: http://example.com/resource
+	Accept: application/json;q=1
+	--user: root:hunter2
+---
+
+label: Non-existant resource returns 404 Not Found
+request: |
+	Method: DELETE
+assert: |
+	assert.equal(response.statusCode, 404)
+---
+
+label: Non-existant resource returns 404 Not Found
+request: |
+	Method: GET
+assert: |
+	assert.equal(response.statusCode, 404)
+---
+
+label: Uploading over non-existant resource returns 201 Created
+request: |
+	Method: PUT
+	Content-Type: application/json;profile=http://magnode.org/Post
+body: |
+	{
+	"subject":"http://example.com/resource",
+	"type":["http://magnode.org/Post"],
+	"label":"FooTown",
+	"body":"Bar1"
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Newly created resource returns 200 OK
+request: |
+	Method: GET
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, 'Bar1');
+---
+
+label: Delete resource returns 200 OK
+request: |
+	Method: DELETE
+assert: |
+	//assert.equal(response.statusCode, 200);
+	assert.include([200,204], response.statusCode, 'returns 200 OK or 204 No Content');
+---
+
+label: Deleted resource returns 404 Not Found or 410 Gone
+request: |
+	Method: GET
+assert: |
+	assert.include([404,410], response.statusCode); // Not Found or Gone
+---

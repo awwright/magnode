@@ -1,0 +1,6 @@
+{ "_id": {"$ObjectId":"54b1aa6926adf2b317969e9f"}
+, "type": ["http://magnode.org/OnlineAccount"]
+, "subject": "http://runner.local/user/root"
+, "accountName": "root"
+, "password": {"$ObjectId":"54b1a3300b4bfbab613cc85d"}
+}
