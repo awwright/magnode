@@ -171,14 +171,15 @@ function runFile(filename, callback){
 			options.port = client.port;
 			options.method = headers.Method;
 			options.path = headers.Resource;
+			delete headers.Method;
+			delete headers.Resource;
 			options.headers = headers;
 			var label = requestData.label || (options.method+' '+options.path);
 			if(requestData.body) headers['Content-Length']=requestData.body.length+'';
 			console.log(filename+' #'+i+'/'+requests.length+' '+options.method+' <'+options.path+'> '+label);
-			if(1){
+			if(1){ // make this a switch sometime in the future (--verbose? --reporter=foo?)
 				console.log('    > '+options.method+' '+options.path+' HTTP/1.1');
 				Object.keys(headers).forEach(function(n){
-					if(n=='Method' || n=='Resource') return;
 					var v = headers[n];
 					if(typeof v=='string') v=[v];
 					v.forEach(function(w){ console.log('    > '+n+': '+w); });
