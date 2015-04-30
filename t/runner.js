@@ -114,7 +114,7 @@ function runFile(filename, callback){
 	function spawnHttpd(){
 		// Import base.json data TODO
 		var env = {'PORT':'0', 'MAGNODE_MONGODB':'mongodb://localhost/'+db.databaseName, 'MAGNODE_CONF':'t/runner.conf.json'};
-		child = spawn('httpd.js', [], {env:env, stdio:[null,'pipe',2]});
+		child = spawn('httpd.js', ['--debug'], {env:env, stdio:[null,'pipe',null]});
 		var childLog = '';
 		child.stdout.on('data', function onData(str){
 			//console.log(str.toString());
@@ -173,8 +173,17 @@ function runFile(filename, callback){
 			options.path = headers.Resource;
 			options.headers = headers;
 			var label = requestData.label || (options.method+' '+options.path);
-			if(requestData.body) headers['Content-Length']=requestData.body.length;
+			if(requestData.body) headers['Content-Length']=requestData.body.length+'';
 			console.log(filename+' #'+i+'/'+requests.length+' '+options.method+' <'+options.path+'> '+label);
+			if(1){
+				console.log('    > '+options.method+' '+options.path+' HTTP/1.1');
+				Object.keys(headers).forEach(function(n){
+					if(n=='Method' || n=='Resource') return;
+					var v = headers[n];
+					if(typeof v=='string') v=[v];
+					v.forEach(function(w){ console.log('    > '+n+': '+w); });
+				});
+			}
 			var req = http.request(options);
 			if(requestData.id) requestNames[requestData.id]=req;
 			req.on('error', function(e){
@@ -198,9 +207,14 @@ function runFile(filename, callback){
 					});
 					if(failures){
 						statusCode = 1;
-						console.log('Document body:');
-						console.log(res.statusCode);
-						console.log(res.body);
+						console.log('      < HTTP/'+res.httpVersion+' '+res.statusCode);
+						Object.keys(res.headers).forEach(function(n){
+							var v = res.headers[n];
+							if(typeof v=='string') v=[v];
+							v.forEach(function(w){ console.log('      < '+n+': '+w); });
+						});
+						console.log('      <');
+						console.log(res.body.replace(/^/gm, '      < '));
 					}else{
 						console.log('    \u001b[32m\u2713\u001b[39m');
 					}
