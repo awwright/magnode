@@ -23,6 +23,8 @@ request: |
 body: |
 	{ "id": "http://example.com/Item"
 	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Item"} ]
+	, "collection": "item"
+	, "put": {}
 	, "type": "object"
 	, "properties":
 		{ "subject": {"type":"string"}
