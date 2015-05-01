@@ -1,0 +1,75 @@
+title: Run the full lifecycle of resource creation, retreival, update, and deletion
+import:
+	-
+		collection: schema
+		file: setup/mongodb/schema/Schema.json
+	-
+		collection: user
+		file: t/data/user.root.json
+	-
+		collection: shadow
+		file: t/data/shadow.root.json
+default: |
+	Resource: http://example.com/resource
+	Accept: application/json;q=1
+	--user: root:hunter2
+---
+
+label: Uploading resource type returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/Item
+	Content-Type: application/json;profile=http://magnode.org/MongoDBJSONSchema
+body: |
+	{ "id": "http://example.com/Item"
+	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Item"} ]
+	, "collection": "item"
+	, "put": {}
+	, "type": "object"
+	, "properties":
+		{ "subject": {"type":"string"}
+		}
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Uploading resource projection type returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/Item_view_Tags
+	Content-Type: application/json;profile=http://magnode.org/MongoDBJSONSchema
+body: |
+	{ "id": "http://example.com/Item_view_Tags"
+	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Item_view_Tags"} ]
+	, "collection": "item"
+	, "put":
+		{ "storeResource": "item"
+		, "projectionTarget": "http://example.com/Item"
+		, "projectionMapping": {"subject":null, "tags":null}
+		}
+	, "type": "object"
+	, "properties":
+		{ "tags": {"type":"array", "items":{"type":"string"}}
+		}
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Uploading instance of the custom type returns 201 Created
+request: |
+	Method: PUT
+	Content-Type: application/json;profile=http://example.com/Item_view_Tags
+body: |
+	{"subject":"http://example.com/resource", "tags":["one", "two"]}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Deleted resource returns 404 Not Found or 410 Gone
+request: |
+	Method: GET
+assert: |
+	assert.equal(response.statusCode, 200); // Found
+---
