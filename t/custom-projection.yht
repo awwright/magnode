@@ -10,7 +10,6 @@ import:
 		collection: shadow
 		file: t/data/shadow.root.json
 default: |
-	Resource: http://example.com/resource
 	Accept: application/json;q=1
 	--user: root:hunter2
 ---
@@ -28,10 +27,33 @@ body: |
 	, "type": "object"
 	, "properties":
 		{ "subject": {"type":"string"}
+		, "label": {"type": "string"}
+		, "tags": {"type":"array", "items":{"type":"string"}}
 		}
 	}
 assert: |
 	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Uploading instance of the base type returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/purse
+	Content-Type: application/json;profile=http://example.com/Item
+body: |
+	{"subject":"http://example.com/purse", "label":"Guess Small Red Purse"}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Retreiving instance of base type returns 200
+request: |
+	Method: GET
+	Resource: http://example.com/purse
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, "Guess Small Red Purse");
+	assert.notInclude(response.body, "fashion");
 ---
 
 label: Uploading resource projection type returns 201 Created
@@ -50,26 +72,52 @@ body: |
 		}
 	, "type": "object"
 	, "properties":
-		{ "tags": {"type":"array", "items":{"type":"string"}}
+		{ "subject": {"type":"string"}
+		, "tags": {"type":"array", "items":{"type":"string"}}
 		}
 	}
 assert: |
 	assert.equal(response.statusCode, 201); // Created
 ---
 
-label: Uploading instance of the custom type returns 201 Created
+label: Updating with projection returns 204 No Content
 request: |
 	Method: PUT
+	Resource: http://example.com/purse
 	Content-Type: application/json;profile=http://example.com/Item_view_Tags
 body: |
-	{"subject":"http://example.com/resource", "tags":["one", "two"]}
+	{"subject":"http://example.com/purse", "tags":["fashion", "purse"]}
+assert: |
+	assert.equal(response.statusCode, 204); // No Content
+---
+
+label: Resource returns updated tags
+request: |
+	Method: GET
+	Resource: http://example.com/purse
+assert: |
+	assert.equal(response.statusCode, 200); // Found
+	assert.include(response.body, "Guess Small Red Purse");
+	assert.include(response.body, "fashion");
+---
+
+label: Uploading new instance in projection type returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/chest
+	Content-Type: application/json;profile=http://example.com/Item_view_Tags
+	Slug: Chest of drawers (All Wood) Natural Stain
+body: |
+	{"subject":"http://example.com/chest", "tags":["furniture", "chest"]}
 assert: |
 	assert.equal(response.statusCode, 201); // Created
 ---
 
-label: Deleted resource returns 404 Not Found or 410 Gone
+label: Resource returns updated tags
 request: |
 	Method: GET
+	Resource: http://example.com/chest
 assert: |
 	assert.equal(response.statusCode, 200); // Found
+	assert.include(response.body, "furniture");
 ---
