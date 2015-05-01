@@ -72,11 +72,27 @@ function parseHeaders(data){
 	return headers;
 }
 
-runFiles(0, function(){ console.log('Done'); });
+var fileFailures = {};
+runFiles(0, function(){
+	console.log('Done');
+	for(var n in fileFailures){
+		if(fileFailures[n]){
+			console.log('  \u001b[31m\u2718\u001b[39m '+n+' ('+fileFailures[n]+' failures)');
+		}else{
+			console.log('  \u001b[32m\u2713\u001b[39m '+n);
+		}
+	}
+});
 function runFiles(i, callback){
 	var nextFile = files[i];
 	if(!nextFile) return void callback();
-	runFile(nextFile, function(){ runFiles(i+1, callback); });
+	runFile(nextFile, function(err, failures, res){
+		fileFailures[nextFile] = failures;
+		if(failures){
+			statusCode = 1;
+		}
+		runFiles(i+1, callback);
+	});
 }
 function runFile(filename, callback){
 	console.log('Run file: '+filename);
@@ -86,6 +102,7 @@ function runFile(filename, callback){
 	var requests = [];
 	var requestNames = {};
 	var defaultRequest = {};
+	var fileFailures = 0;
 	yaml.loadAll(fs.readFileSync(filename, 'utf-8').replace(/\t/g, '    '), function(v){ requests.push(v); });
 	var db, child;
 	var running = true;
@@ -207,7 +224,7 @@ function runFile(filename, callback){
 						}
 					});
 					if(failures){
-						statusCode = 1;
+						fileFailures++;
 						console.log('      < HTTP/'+res.httpVersion+' '+res.statusCode);
 						Object.keys(res.headers).forEach(function(n){
 							var v = res.headers[n];
@@ -231,7 +248,7 @@ function runFile(filename, callback){
 		db.dropDatabase(function(){
 			db.close();
 			child.kill();
-			callback(null, requests);
+			callback(null, fileFailures, requests);
 		});
 	}
 }
