@@ -66,8 +66,7 @@ body: |
 	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Item_view_Tags"} ]
 	, "collection": "item"
 	, "put":
-		{ "storeResource": "item"
-		, "projectionTarget": "http://example.com/Item"
+		{ "projectionTarget": "http://example.com/Item"
 		, "projectionMapping": {"subject":null, "tags":null}
 		}
 	, "type": "object"
