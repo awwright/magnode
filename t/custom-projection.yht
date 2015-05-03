@@ -30,6 +30,7 @@ body: |
 		, "label": {"type": "string"}
 		, "tags": {"type":"array", "items":{"type":"string"}}
 		}
+	, "default": {"foo":"default-bar"}
 	}
 assert: |
 	assert.equal(response.statusCode, 201); // Created
@@ -112,11 +113,12 @@ assert: |
 	assert.equal(response.statusCode, 201); // Created
 ---
 
-label: Resource returns updated tags
+label: Resource returns created instance with default values
 request: |
 	Method: GET
 	Resource: http://example.com/chest
 assert: |
 	assert.equal(response.statusCode, 200); // Found
 	assert.include(response.body, "furniture");
+	assert.include(response.body, "default-bar");
 ---
