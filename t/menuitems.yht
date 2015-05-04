@@ -1,0 +1,76 @@
+title: Test the indexing of menu items
+import:
+	-
+		collection: schema
+		file: setup/mongodb/schema/Schema.json
+	-
+		collection: schema
+		file: setup/mongodb/schema/LinkMenu.json
+	-
+		collection: schema
+		file: setup/mongodb/schema/LinkMenuItem.json
+	-
+		collection: schema
+		file: setup/mongodb/schema/DocumentRegion.json
+	-
+		collection: documentregion
+		file: setup/mongodb/documentregion/header.json
+	-
+		collection: documentregion
+		file: setup/mongodb/documentregion/panel.json
+	-
+		collection: documentregion
+		file: setup/mongodb/documentregion/footer.json
+	-
+		collection: linkmenu
+		file: setup/mongodb/linkmenu/main.json
+	-
+		collection: linkmenu
+		file: setup/mongodb/linkmenu/management.json
+	-
+		collection: linkmenu
+		file: setup/mongodb/linkmenu/settings.json
+	-
+		collection: user
+		file: t/data/user.root.json
+	-
+		collection: shadow
+		file: t/data/shadow.root.json
+default: |
+	--user: root:hunter2
+---
+
+label: Uploading over non-existant resource returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/Item
+	Accept: application/json;q=1
+	Content-Type: application/json;profile=http://magnode.org/MongoDBJSONSchema
+body: |
+	{ "id": "http://example.com/Item"
+	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Item"} ]
+	, "collection": "item"
+	, "put": {}
+	, "type": "object"
+	, "properties":
+		{ "subject": {"type":"string"}
+		}
+	, "menuitems":
+		[ {
+			"parent": "http://runner.local/Menu_ManagementMenu",
+			"label": "List of Items"
+		} ]
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Front page shows new menu item
+request: |
+	Method: GET
+	Resource: http://example.com/Item
+	Accept: application/xhtml+xml
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, 'List of Items');
+---
