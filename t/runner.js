@@ -131,7 +131,7 @@ function runFile(filename, callback){
 	function spawnHttpd(){
 		// Import base.json data TODO
 		var env = {'PORT':'0', 'MAGNODE_MONGODB':'mongodb://localhost/'+db.databaseName, 'MAGNODE_CONF':'t/runner.conf.json'};
-		child = spawn('httpd.js', ['--debug'], {env:env, stdio:[null,'pipe',null]});
+		child = spawn('httpd.js', ['--debug'], {env:env, stdio:[null,'pipe','pipe']});
 		var childLog = '';
 		child.stdout.on('data', function onData(str){
 			//console.log(str.toString());
@@ -144,8 +144,16 @@ function runFile(filename, callback){
 				runRequests(child, {port:parseInt(m[1])});
 			}
 		});
+		child.stderr.on('data', function onData(str){
+			//console.log(str.toString());
+			childLog += '\u001b[31m'+str.toString()+'\u001b[39m';
+		});
 		child.on('close', function(){
-			//console.log('https.js died');
+			if(running){
+				console.error('httpd.js unexpectedly closed:');
+				console.error(childLog.replace(/^/mg, '| '));
+				fileFailures++;
+			}
 			finishTest();
 		});
 		child.on('error', function(e){
