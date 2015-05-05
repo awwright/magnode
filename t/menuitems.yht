@@ -68,9 +68,28 @@ assert: |
 label: Front page shows new menu item
 request: |
 	Method: GET
-	Resource: http://example.com/Item
+	Resource: http://magnode.org/MongoDBJSONSchema
 	Accept: application/xhtml+xml
 assert: |
 	assert.equal(response.statusCode, 200); // OK
 	assert.include(response.body, 'List of Items');
+---
+
+label: Deleting the resource deletes the menu item
+request: |
+	Method: DELETE
+	Resource: http://example.com/Item
+	Accept: application/xhtml+xml
+assert: |
+	assert.equal(response.statusCode, 204); // No Content
+---
+
+label: Front page no longer shows menu item
+request: |
+	Method: GET
+	Resource: http://magnode.org/MongoDBJSONSchema
+	Accept: application/xhtml+xml
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.notInclude(response.body, 'List of Items');
 ---
