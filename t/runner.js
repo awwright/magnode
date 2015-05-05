@@ -10,10 +10,9 @@ var mongodb = require('mongodb');
 
 var parseMongoJSON = require('../setup/lib/parsemongojson');
 
-var endpoint = 'http://localhost:8080/';
-
 var files = [];
 var httpdExe = __dirname + '/../httpd.js';
+var verbose = false;
 var statusCode = 0;
 
 process.on('exit', function(){
@@ -39,7 +38,7 @@ function argValue(){
 for(var i=0; i<argv.length; i++){
 	var argn = argv[i].split('=',1)[0];
 	switch(argn){
-		case '--endpoint': case '-e': endpoint=argValue(); break;
+		case '--verbose': case '-v': verbose=true; break;
 		case '--exe': case '-x': httpdExe=argValue(); break;
 		case '--help':
 		case '-?':
