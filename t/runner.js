@@ -133,7 +133,7 @@ function runFile(filename, callback){
 		child = spawn('httpd.js', ['--debug'], {env:env, stdio:[null,'pipe','pipe']});
 		var childLog = '';
 		child.stdout.on('data', function onData(str){
-			//console.log(str.toString());
+			if(verbose) process.stdout.write(str.toString());
 			childLog += str.toString();
 			var m;
 			if(m=childLog.match(/HTTP server listening on IPv4 0.0.0.0:(\d+)/)){
@@ -144,7 +144,7 @@ function runFile(filename, callback){
 			}
 		});
 		child.stderr.on('data', function onData(str){
-			//console.log(str.toString());
+			if(verbose) process.stdout.write('\u001b[31m'+str.toString()+'\u001b[39m');
 			childLog += '\u001b[31m'+str.toString()+'\u001b[39m';
 		});
 		child.on('close', function(){
