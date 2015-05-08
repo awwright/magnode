@@ -444,11 +444,15 @@ matches.forEach(function(m){
 // Indexers for search results, caching, and other precomputation on resources
 // TODO Use of EventEmitter is essentially a hack, this will have to be built out custom later
 // Most events should be triggered with a link relation to a Function stored in the function database (i.e. `renders`)
-var indexer = new (require('events').EventEmitter);
-resources['indexer'] = indexer;
-indexer.on('HTTPAuto_typeMongoDB_Put_Operations', magnode.require("indexer.mongodblist"));
-indexer.on('HTTPAuto_typeMongoDB_Put_Object', magnode.require("indexer.linkmenuitem"));
-indexer.on('HTTPAuto_typeMongoDB_Put_Object', magnode.require("indexer.nodes"));
+var indexer = resources['indexer'] = {
+	HTTPAuto_typeMongoDB_Put_Operations: new magnode.Hook,
+	HTTPAuto_typeMongoDB_Put_Object: new magnode.Hook,
+	HTTPAuto_typeMongoDB_Delete_Object: new magnode.Hook,
+};
+indexer['HTTPAuto_typeMongoDB_Put_Operations'].register(magnode.require("indexer.mongodblist"));
+indexer['HTTPAuto_typeMongoDB_Put_Object'].register(magnode.require("indexer.linkmenuitem").Put);
+indexer['HTTPAuto_typeMongoDB_Delete_Object'].register(magnode.require("indexer.linkmenuitem").Delete);
+indexer['HTTPAuto_typeMongoDB_Put_Object'].register(magnode.require("indexer.nodes"));
 
 var libDir = path.dirname(require.resolve('magnode/render'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
@@ -457,7 +461,7 @@ magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders, startServers);
 // Enable this OR route.mongodb.subject
 route.push(collectionsScan.route);
-indexer.on('HTTPAuto_typeMongoDB_Put_Object', collectionsScan.indexer);
+indexer['HTTPAuto_typeMongoDB_Put_Object'].register(collectionsScan.indexer);
 
 // Import other configuration options if any, like "title" and "logo"
 for(var f in (configuration&&configuration.option||{})){
