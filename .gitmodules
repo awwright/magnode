@@ -73,3 +73,6 @@
 	path = node_modules/with
 	url = https://github.com/ForbesLindesay/with.git
 	npm = with
+[submodule "node_modules/q"]
+	path = node_modules/q
+	url = https://github.com/kriskowal/q.git
