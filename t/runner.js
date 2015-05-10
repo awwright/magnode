@@ -129,18 +129,21 @@ function runFile(filename, callback){
 	}
 	function spawnHttpd(){
 		// Import base.json data TODO
-		var env = {'PORT':'0', 'MAGNODE_MONGODB':'mongodb://localhost/'+db.databaseName, 'MAGNODE_CONF':'t/runner.conf.json'};
-		child = spawn('httpd.js', ['--debug'], {env:env, stdio:[null,'pipe','pipe']});
+		var env = Object.create(process.env);
+		env['PORT'] = '0';
+		env['MAGNODE_MONGODB'] = 'mongodb://localhost/'+db.databaseName;
+		env['MAGNODE_CONF'] = 't/runner.conf.json';
+		child = spawn(httpdExe, ['--debug'], {env:env, stdio:[null,'pipe','pipe']});
 		var childLog = '';
 		child.stdout.on('data', function onData(str){
 			if(verbose) process.stdout.write(str.toString());
 			childLog += str.toString();
 			var m;
-			if(m=childLog.match(/HTTP server listening on IPv4 0.0.0.0:(\d+)/)){
+			if(m=childLog.match(/HTTP server listening on IPv. (0.0.0.0|\[::\]):(\d+)/)){
 				childLog = undefined;
 				child.stdout.removeListener('data', onData);
-				//console.log('Server came up on port '+m[1]);
-				runRequests(child, {port:parseInt(m[1])});
+				//console.log('Server came up on port '+m[2]);
+				runRequests(child, {port:parseInt(m[2])});
 			}
 		});
 		child.stderr.on('data', function onData(str){
