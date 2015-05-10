@@ -1,0 +1,154 @@
+title: Run the full lifecycle of resource creation, retreival, update, and deletion
+import:
+	-
+		collection: schema
+		file: setup/mongodb/schema/Schema.json
+	-
+		collection: schema
+		file: setup/mongodb/schema/List.json
+	-
+		collection: user
+		file: t/data/user.root.json
+	-
+		collection: shadow
+		file: t/data/shadow.root.json
+default: |
+	Accept: application/json;q=1
+	--user: root:hunter2
+---
+
+label: Uploading 'Artist' type returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/Artist
+	Content-Type: application/json;profile=http://magnode.org/MongoDBJSONSchema
+body: |
+	{ "id": "http://example.com/Artist"
+	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Artist"} ]
+	, "collection": "artist"
+	, "put": {}
+	, "type": "object"
+	, "properties":
+		{ "subject": {"type":"string"}
+		, "label": {"type": "string"}
+		, "artist": {"type":"array", "items":{"type":"string"}}
+		}
+	, "default": {"foo":"default-bar"}
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Uploading instance of Artist returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/artist/eagles
+	Content-Type: application/json;profile=http://example.com/Artist
+body: |
+	{ "_id": {"$ObjectId":"554fe668737b3277ea691b06"}
+	, "subject": "http://example.com/artist/eagles"
+	, "label": "Eagles"
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Uploading 'Track' type returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/Track
+	Content-Type: application/json;profile=http://magnode.org/MongoDBJSONSchema
+body: |
+	{ "id": "http://example.com/Track"
+	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Track"} ]
+	, "collection": "track"
+	, "put": {}
+	, "type": "object"
+	, "properties":
+		{ "subject": {"type":"string"}
+		, "title": {"type": "string"}
+		, "artist": {"type":"ObjectId"}
+		}
+	, "default": {"foo":"default-bar"}
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Uploading instance of Track returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/track/hotel-california
+	Content-Type: application/json;profile=http://example.com/Track
+body: |
+	{ "subject": "http://example.com/track/hotel-california"
+	, "artist": {"$ObjectID":"554fe668737b3277ea691b06"}
+	, "title": "Hotel California"
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+label: Retreiving instance of base type returns 200
+request: |
+	Method: GET
+	Resource: http://example.com/track/hotel-california
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, "Hotel California");
+---
+
+label: Create list of tracks
+request: |
+	Method: PUT
+	Resource: http://example.com/list/tracks
+	Content-Type: application/json;profile=http://magnode.org/MongoDBList
+body: |
+	{ "subject": "http://example.com/list/tracks"
+	, "type": ["http://magnode.org/MongoDBList", "http://example.com/Published"]
+	, "label": "Home page"
+	, "schema":
+		{"links":[{"rel":"self", "href":"{+subject}"}]
+		, "description":"This should probably be a {ref: 'http://magnode.org/Post.json'}"
+		}
+	, "output_type": "table"
+	, "collection": "track"
+	, "filter": {}
+	, "fields":
+		[
+			{ "label": "id"
+			, "text_content_field": "_id"
+			}
+		,
+			{ "label": "Artist"
+			, "dereferenceField":
+				{ "foreignCollection": "artist"
+				, "localProperty": "artist"
+				}
+			, "text_content_field": "label"
+			
+			}
+		,
+			{ "label": "Title"
+			, "text_content_field": "title"
+			}
+		]
+	, "pager": {"limit": 10}
+	, "sort": [{"field":"posted", "order":-1}, {"field":"_id", "order":-1}]
+	}
+
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+
+label: Retreiving instance of base type returns 200
+request: |
+	Method: GET
+	Resource: http://example.com/list/tracks
+	Accept: application/xhtml+xml
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, "Hotel California");
+	assert.include(response.body, "Eagles");
+---
