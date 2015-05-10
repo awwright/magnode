@@ -445,14 +445,15 @@ matches.forEach(function(m){
 // TODO Use of EventEmitter is essentially a hack, this will have to be built out custom later
 // Most events should be triggered with a link relation to a Function stored in the function database (i.e. `renders`)
 var indexer = resources['indexer'] = {
-	HTTPAuto_typeMongoDB_Put_Operations: new magnode.Hook,
-	HTTPAuto_typeMongoDB_Put_Object: new magnode.Hook,
-	HTTPAuto_typeMongoDB_Delete_Object: new magnode.Hook,
+	MongoDB_Cache_Put: new magnode.Hook,
+	MongoDB_Cache_Delete: new magnode.Hook,
+	MongoDB_Index_Put: new magnode.Hook,
+	MongoDB_Index_Delete: new magnode.Hook,
 };
-indexer['HTTPAuto_typeMongoDB_Put_Operations'].register(magnode.require("indexer.mongodblist"));
-indexer['HTTPAuto_typeMongoDB_Put_Object'].register(magnode.require("indexer.linkmenuitem").Put);
-indexer['HTTPAuto_typeMongoDB_Delete_Object'].register(magnode.require("indexer.linkmenuitem").Delete);
-indexer['HTTPAuto_typeMongoDB_Put_Object'].register(magnode.require("indexer.nodes"));
+indexer['MongoDB_Cache_Put'].register(magnode.require("indexer.mongodblist"));
+indexer['MongoDB_Index_Put'].register(magnode.require("indexer.linkmenuitem").Put);
+indexer['MongoDB_Index_Delete'].register(magnode.require("indexer.linkmenuitem").Delete);
+indexer['MongoDB_Index_Put'].register(magnode.require("indexer.nodes"));
 
 var libDir = path.dirname(require.resolve('magnode/render'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
@@ -461,7 +462,7 @@ magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 var collectionsScan = magnode.require('scan.MongoDBJSONSchemaTransform').scanMongoCollection(dbInstance, schemaDb, renders, startServers);
 // Enable this OR route.mongodb.subject
 route.push(collectionsScan.route);
-indexer['HTTPAuto_typeMongoDB_Put_Object'].register(collectionsScan.indexer);
+indexer['MongoDB_Index_Put'].register(collectionsScan.indexer);
 
 // Import other configuration options if any, like "title" and "logo"
 for(var f in (configuration&&configuration.option||{})){
@@ -485,7 +486,7 @@ matches.forEach(function(m){
 
 // Dereference indexers
 var indexNames = {
-	'HTTPAuto_typeMongoDB_Put_Object': 'http://magnode.org/indexer/HTTPAuto_typeMongoDB_Put_Object'
+	'MongoDB_Index_Put': 'http://magnode.org/indexer/MongoDB_Index_Put'
 };
 for(var n in indexNames){
 	var matches = renders.db.match(null, rdf.rdfns('type'), indexNames[n]);
@@ -493,8 +494,8 @@ for(var n in indexNames){
 		var moduleId = renders.db.match(m.subject, 'http://magnode.org/indexer/module', null);
 		var module = renders.renders[moduleId[0].object];
 		// Indexes must not do anything by themselves, but must be enabled by some user action
-		console.log('Indexer '+n+' -> '+moduleId[0].object);
-		indexer.on(n, module);
+		console.log('Indexer '+n+' -> '+moduleId[0].object+' ('+moduleId[0].subject+')');
+		indexer[n].register(module);
 	});
 }
 
