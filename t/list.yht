@@ -75,29 +75,6 @@ assert: |
 	assert.equal(response.statusCode, 201); // Created
 ---
 
-label: Uploading instance of Track returns 201 Created
-request: |
-	Method: PUT
-	Resource: http://example.com/track/hotel-california
-	Content-Type: application/json;profile=http://example.com/Track
-body: |
-	{ "subject": "http://example.com/track/hotel-california"
-	, "artist": {"$ObjectID":"554fe668737b3277ea691b06"}
-	, "title": "Hotel California"
-	}
-assert: |
-	assert.equal(response.statusCode, 201); // Created
----
-
-label: Retreiving instance of base type returns 200
-request: |
-	Method: GET
-	Resource: http://example.com/track/hotel-california
-assert: |
-	assert.equal(response.statusCode, 200); // OK
-	assert.include(response.body, "Hotel California");
----
-
 label: Create list of tracks
 request: |
 	Method: PUT
@@ -124,9 +101,10 @@ body: |
 			, "dereferenceField":
 				{ "foreignCollection": "artist"
 				, "localProperty": "artist"
+				, "remoteProperty": "subject"
+				, "select": "label"
 				}
 			, "text_content_field": "label"
-			
 			}
 		,
 			{ "label": "Title"
@@ -136,16 +114,91 @@ body: |
 	, "pager": {"limit": 10}
 	, "sort": [{"field":"posted", "order":-1}, {"field":"_id", "order":-1}]
 	}
-
 assert: |
 	assert.equal(response.statusCode, 201); // Created
 ---
 
+label: Uploading instance of Track returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://example.com/track/hotel-california
+	Content-Type: application/json;profile=http://example.com/Track
+body: |
+	{ "subject": "http://example.com/track/hotel-california"
+	, "artist": "http://example.com/artist/eagles"
+	, "title": "Hotel California"
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
 
 label: Retreiving instance of base type returns 200
 request: |
 	Method: GET
+	Resource: http://example.com/track/hotel-california
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, "Hotel California");
+	assert.include(response.body, "554fe668737b3277ea691b06");
+---
+
+label: List returns content
+request: |
+	Method: GET
 	Resource: http://example.com/list/tracks
+	Accept: application/xhtml+xml
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, "Hotel California");
+	assert.include(response.body, "Eagles");
+---
+
+label: Creating another list of tracks indexes existing content
+request: |
+	Method: PUT
+	Resource: http://example.com/list/tracks2
+	Content-Type: application/json;profile=http://magnode.org/MongoDBList
+body: |
+	{ "subject": "http://example.com/list/tracks"
+	, "type": ["http://magnode.org/MongoDBList", "http://example.com/Published"]
+	, "label": "Home page"
+	, "schema":
+		{"links":[{"rel":"self", "href":"{+subject}"}]
+		, "description":"This should probably be a {ref: 'http://magnode.org/Post.json'}"
+		}
+	, "output_type": "table"
+	, "collection": "track"
+	, "filter": {}
+	, "fields":
+		[
+			{ "label": "id"
+			, "text_content_field": "_id"
+			}
+		,
+			{ "label": "Artist"
+			, "dereferenceField":
+				{ "foreignCollection": "artist"
+				, "localProperty": "artist"
+				, "remoteProperty": "_id"
+				, "select": "label"
+				}
+			, "text_content_field": "label"
+			}
+		,
+			{ "label": "Title"
+			, "text_content_field": "title"
+			}
+		]
+	, "pager": {"limit": 10}
+	, "sort": [{"field":"posted", "order":-1}, {"field":"_id", "order":-1}]
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+label: New list returns existing content
+request: |
+	Method: GET
+	Resource: http://example.com/list/tracks2
 	Accept: application/xhtml+xml
 assert: |
 	assert.equal(response.statusCode, 200); // OK
