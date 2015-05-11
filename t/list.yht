@@ -139,7 +139,6 @@ request: |
 assert: |
 	assert.equal(response.statusCode, 200); // OK
 	assert.include(response.body, "Hotel California");
-	assert.include(response.body, "554fe668737b3277ea691b06");
 ---
 
 label: List returns content
