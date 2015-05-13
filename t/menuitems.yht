@@ -75,6 +75,42 @@ assert: |
 	assert.include(response.body, 'List of Items');
 ---
 
+label: Updating resource
+request: |
+	Method: PUT
+	Resource: http://example.com/Item
+	Accept: application/json;q=1
+	Content-Type: application/json;profile=http://magnode.org/MongoDBJSONSchema
+body: |
+	{ "id": "http://example.com/Item"
+	, "links": [ {"rel":"self", "href":"{+subject}"}, {"rel":"type", "href":"http://example.com/Item"} ]
+	, "collection": "item"
+	, "put": {}
+	, "type": "object"
+	, "properties":
+		{ "subject": {"type":"string"}
+		}
+	, "menuitems":
+		[ {
+			"parent": "http://runner.local/Menu_ManagementMenu",
+			"label": "All Items"
+		} ]
+	}
+assert: |
+	assert.equal(response.statusCode, 204); // No Content
+---
+
+label: Front page shows new menu item
+request: |
+	Method: GET
+	Resource: http://magnode.org/MongoDBJSONSchema
+	Accept: application/xhtml+xml
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.notInclude(response.body, 'List of Items');
+	assert.include(response.body, 'All Items');
+---
+
 label: Deleting the resource deletes the menu item
 request: |
 	Method: DELETE
@@ -92,4 +128,5 @@ request: |
 assert: |
 	assert.equal(response.statusCode, 200); // OK
 	assert.notInclude(response.body, 'List of Items');
+	assert.notInclude(response.body, 'All Items');
 ---
