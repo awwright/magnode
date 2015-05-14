@@ -16,11 +16,7 @@
 	]
 , "properties":
 	{ "_id":
-		{ "type": "ObjectId"
-		, "readonly": true
-		}
-	, "_parent":
-		{ "type": "ObjectId"
+		{ "instance": "ObjectId"
 		, "readonly": true
 		}
 	, "subject":

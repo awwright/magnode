@@ -24,7 +24,7 @@
 		, "readonly": true
 		}
 	, "_parent":
-		{ "type": "ObjectId"
+		{ "instance": "ObjectId"
 		, "readonly": true
 		}
 	, "subject":
@@ -82,7 +82,7 @@
 		, "selectNull": true
 		}
 	, "posted":
-		{ "type": "Date"
+		{ "instance": "Date"
 		, "widget": "http://magnode.org/field/Date"
 		, "dateDefault": "now"
 		}

@@ -13,8 +13,7 @@
 , "schema":
 	{ "type": "object"
 	, "properties":
-		{ "_id": { "type": "ObjectId", "readonly": true }
-		, "_parent": { "type": "ObjectId", "readonly": true }
+		{ "_id": { "instance": "ObjectId", "readonly": true }
 		, "subject": { "type": "string", "format": "uri" }
 		, "type": { "type": "array", "widget": "http://magnode.org/field/Taxonomy", "items": { "type": "string", "format": "uri" } }
 		, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }

@@ -16,7 +16,7 @@
 	, {"rel":"self", "href":"{+subject}"}
 	]
 , "properties":
-	{ "_id": {"type": "ObjectId", "widget":"http://magnode.org/field/ObjectId"}
+	{ "_id": {"instance": "ObjectId", "widget":"http://magnode.org/field/ObjectId"}
 	, "slug": {"type":"string"}
 	, "description": {"type":"string"}
 	, "collection": {"type":"string", "required":true}

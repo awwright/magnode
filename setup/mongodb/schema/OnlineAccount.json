@@ -15,8 +15,7 @@
 	, {"rel":"self", "href":"{+subject}"}
 	]
 , "properties":
-	{ "_id": { "type": "ObjectId", "widget":"http://magnode.org/field/ObjectId", "readonly": true}
-	, "_parent": { "type": "ObjectId", "readonly": true }
+	{ "_id": { "instance": "ObjectId", "widget":"http://magnode.org/field/ObjectId", "readonly": true}
 	, "subject": { "type": "string", "format": "uri"}
 	, "type": { "type": "array", "items": { "type": "string", "format": "uri" } }
 	, "accountName": { "type": "string", "title": "Username", "widget": "http://magnode.org/field/Label"}

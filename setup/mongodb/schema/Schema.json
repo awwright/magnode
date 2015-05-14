@@ -19,8 +19,8 @@
 	]
 , "allOf": [ {"(disabled)$ref": "http://json-schema.org/draft-04/hyper-schema#"} ]
 , "properties":
-	{ "_id": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
-	, "_parent": { "type": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
+	{ "_id": { "instance": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
+	, "_parent": { "instance": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
 	, "id": { "type": "string", "format": "uri", "required": true }
 	, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "collection": { "type": "string", "widget": "http://magnode.org/field/Label" }

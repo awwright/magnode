@@ -18,12 +18,12 @@
 	]
 , "properties":
 	{ "_id":
-		{ "type": "ObjectId"
+		{ "instance": "ObjectId"
 		, "widget": "http://magnode.org/field/ObjectId"
 		, "readonly": true
 		}
 	, "_parent":
-		{ "type": "ObjectId"
+		{ "instance": "ObjectId"
 		, "readonly": true
 		}
 	, "subject":
@@ -91,11 +91,11 @@
 		, "default": {}
 		}
 	, "created":
-		{ "type":"Date"
+		{ "instance":"Date"
 		, "required":true
 		}
 	, "owner":
-		{"type": "ObjectId"
+		{ "instance": "ObjectId"
 		, "widget":"http://magnode.org/field/ObjectId"
 		}
 	, "body":
