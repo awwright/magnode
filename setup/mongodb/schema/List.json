@@ -15,9 +15,10 @@
 	[ {"rel":"type", "href":"http://magnode.org/MongoDBList"}
 	, {"rel":"self", "href":"{+subject}"}
 	]
+, "required": ["subject", "collection", "fields"]
 , "properties":
 	{ "_id": {"instance": "ObjectId", "widget":"http://magnode.org/field/ObjectId"}
-	, "slug": {"type":"string"}
+	, "subject": {"type":"string", "format":"uri"}
 	, "description": {"type":"string"}
 	, "collection": {"type":"string", "required":true}
 	, "output_type": {"type":"string"}
