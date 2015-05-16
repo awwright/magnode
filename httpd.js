@@ -12,6 +12,7 @@ var configFile = process.env.MAGNODE_CONF || null;
 var listenPort = null;
 var dbHost = process.env.MAGNODE_MONGODB || null;
 var httpInterfaces = [];
+var importManifests = [];
 var setupMode = (process.env.MAGNODE_SETUP && process.env.MAGNODE_SETUP!=='0');
 for(var setupPassword=''; setupPassword.length<7;) setupPassword += Math.floor(Math.random()*0x3ff).toString(32).replace(/l/g,'w').replace(/o/g,'x').replace(/u/g,'y');
 var pidFile = null;
@@ -34,8 +35,9 @@ function printHelp(){
 	console.log(' -p --port <int>         Listen on a particular TCP port');
 	console.log(' -d --debug              Enable debugging features (performance and possible security implications)');
 	console.log('    --no-debug           Disable debugging features (default)');
-	console.log('    --setup              Start in setup mode');
+	console.log('    --setup              Start in setup (single-user) mode');
 	console.log('    --no-setup           Run normally');
+	console.log('    --manifest <file>    Import a manifest file or directory of modules');
 	console.log('    --pidfile <file>     Write process id to a pid file');
 	console.log('    --background         Fork process to background (default if --pidfile is specified)');
 	console.log('    --foreground         Run process in foreground (default without --pidfile)');
@@ -55,6 +57,7 @@ for(var i=0; i<argv.length; i++){
 		case '--no-setup': setupMode=false; break;
 		case '--debug': case '-d': debugMode=true; break;
 		case '--no-debug': debugMode=false; break;
+		case '--manifest': importManifests.push(argValue()); break;
 		case '--pidfile': pidFile=argValue(); break;
 		case '--background': daemonize=true; break;
 		case '--foreground': daemonize=false; break;
@@ -112,6 +115,15 @@ if(listenPort){
 	httpInterfaces = [parseInt(process.env.PORT)];
 }else{
 	httpInterfaces = [8080];
+}
+
+if(!importManifests.length && configuration && configuration.importManifests && configFile){
+	importManifests = configuration.importManifests.map(function(v){
+		return path.resolve(path.dirname(configFile), v);
+	});
+}
+if(!importManifests.length){
+	importManifests = ['opt'];
 }
 
 // Run cluster after setup because we don't want/need to cluster the setup interface
@@ -199,16 +211,24 @@ var renders = new magnode.Render(transformDb, transformTypes);
 
 // Allow people to define their own packages/extensions to use
 var optList = [];
-try {
-	optList = fs.readdirSync('opt');
-}catch(e){
-}
+importManifests.forEach(function(file){
+	try {
+		var fileStat = fs.statSync(file);
+		if(fileStat.isDirectory()){
+			fs.readdirSync(file).forEach(function(v){
+				optList.push([
+					file+'/'+v+'/manifest.ttl',
+					file+'/'+v+'/'+v+'.manifest.ttl'
+				]);
+			});
+		}else if(fileStat.isFile()){
+			optList.push([file]);
+		}
+	}catch(e){
+	}
+});
 
-optList.forEach(function(v){
-	var manifestPaths = [
-		'opt/'+v+'/manifest.ttl',
-		'opt/'+v+'/'+v+'.manifest.ttl',
-	];
+optList.forEach(function(manifestPaths){
 	var loaded = manifestPaths.some(function(path){
 		if(!fs.existsSync(path)) return;
 		try {
@@ -220,7 +240,7 @@ optList.forEach(function(v){
 		}
 	});
 	if(!loaded){
-		console.error('No manifest file found in opt/'+v);
+		console.error('No manifest file found at '+manifestPaths[0]);
 	}
 });
 
