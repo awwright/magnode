@@ -52,6 +52,30 @@ assert: |
 	assert.include(response.body, 'Bar1');
 ---
 
+label: Uploading over existing resource returns 204 No Content
+request: |
+	Method: PUT
+	Content-Type: application/json;profile=http://magnode.org/Post
+body: |
+	{
+	"subject":"http://example.com/resource",
+	"type":["http://magnode.org/Post"],
+	"label":"BazTown",
+	"body":"Bar2"
+	}
+assert: |
+	assert.equal(response.statusCode, 204); // Created
+---
+
+label: Newly created resource returns 200 OK
+request: |
+	Method: GET
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.notInclude(response.body, 'Bar1');
+	assert.include(response.body, 'Bar2');
+---
+
 label: Delete resource returns 200 OK
 request: |
 	Method: DELETE
