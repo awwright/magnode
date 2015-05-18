@@ -462,7 +462,6 @@ matches.forEach(function(m){
 });
 
 // Indexers for search results, caching, and other precomputation on resources
-// TODO Use of EventEmitter is essentially a hack, this will have to be built out custom later
 // Most events should be triggered with a link relation to a Function stored in the function database (i.e. `renders`)
 var indexer = resources['indexer'] = {
 	MongoDB_Cache_Put: new magnode.Hook,

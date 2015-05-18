@@ -16,6 +16,7 @@
 <schema/Page.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/Post.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/Taxonomy.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/Term.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/Term" .
 <schema/Usergroup.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <documentregion/footer.json> a :MongoDocument; :collection "documentregion" .
 <documentregion/header.json> a :MongoDocument; :collection "documentregion" .
@@ -76,7 +77,7 @@
 		rdfs:label "Taxonomy";
 		:required false;
 		:default true;
-		:files ( <schema/Taxonomy.json> )
+		:files ( <schema/Taxonomy.json> <schema/Term.json> )
 	]
 	[
 		a :Feature;

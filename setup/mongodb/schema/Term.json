@@ -1,0 +1,25 @@
+{ "_id": {"$ObjectId":"5555a3396dc76b9c87a37fc5"}
+, "id": "http://magnode.org/Term"
+, "label": "Taxonomy Term"
+, "description": "A term in a vocabulary that can be referenced by a resource for determining how it is classified within that taxonomy"
+, "collection": "term"
+, "ViewTransform": {}
+, "put":
+	{ "insertRevision": "revision"
+	, "storeResource": "term"
+	}
+, "tablequery": { "fields": [ "_id", "subject", "label" ] }
+, "$schema": "http://json-schema.org/draft-04/schema#"
+, "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/Term"}
+	, {"rel":"self", "href":"{+subject}"}
+	]
+, "properties":
+	{ "_id": { "type": "ObjectId", "readonly": true }
+	, "subject": { "type": "string", "format": "uri" }
+	, "top": { "type": "ObjectId", "description": "Which vocabulary the term exists under", "required": true }
+	, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
+	, "tablequery": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
+	}
+}
