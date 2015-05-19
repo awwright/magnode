@@ -1,0 +1,9 @@
+Here goes all the terms that can describe content more abstractly, i.e. not a schema.
+
+Properties can be listed in this order:
+
+* _id
+* id
+* label
+* type
+* description

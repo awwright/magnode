@@ -1,14 +1,13 @@
 { "_id": {"$ObjectId":"53edbaba2341948e66ec6ce6"}
 , "subject": "http://localhost/Published"
-, "type": [ "http://magnode.org/PublishOption", "http://magnode.org/Term" ]
-, "ViewTransform": {}
-, "label": "Published"
+, "type": [ "http://localhost/PublishOption" ]
+, "label": "Published to public"
+, "description": "The resource is published and viewable on the general Internet"
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":
 		{ "title": "Published Resources"
 		, "weight": 2
 		}
 	}
-, "permissions": {}
 , "tablequery": { "fields": [ "_id", "subject", "label" ] }
 }

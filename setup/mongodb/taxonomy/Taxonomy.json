@@ -1,0 +1,6 @@
+{ "_id": {"$ObjectId":"51b0a361582c9333d6d36b75"}
+, "id": "http://magnode.org/term/Taxonomy"
+, "type": ["http://magnode.org/term/Taxonomy"]
+, "label": "Taxonomy"
+, "description": "The root taxonomy: A vocabulary with terms by which a resource can be described. Different vocabularies can apply different rules on how a term affects documents that the term applies to."
+}
