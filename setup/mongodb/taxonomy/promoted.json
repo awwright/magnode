@@ -1,7 +1,8 @@
 { "_id": {"$ObjectId":"51b0a47d582c9333d6d36b77"}
 , "subject": "http://localhost/Promoted"
 , "type": [ "http://localhost/PublishOption" ]
-, "label": "Published to front page"
+, "label": "Promoted"
+, "description": "Published to front page"
 , "menu":
 	{ "http://localhost/Menu_ManagementMenu":
 		{ "title": "Promoted Resources"

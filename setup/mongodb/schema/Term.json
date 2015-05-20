@@ -18,7 +18,7 @@
 , "properties":
 	{ "_id": { "type": "ObjectId", "readonly": true }
 	, "subject": { "type": "string", "format": "uri" }
-	, "top": { "type": "ObjectId", "description": "Which vocabulary the term exists under", "required": true }
+	, "type": { "type": "array", "items": {"instance":"ObjectId"}, "description": "Taxonomies that the term exists under", "required": true }
 	, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "tablequery": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
 	}

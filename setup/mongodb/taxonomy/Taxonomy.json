@@ -2,5 +2,5 @@
 , "id": "http://magnode.org/term/Taxonomy"
 , "type": ["http://magnode.org/term/Taxonomy"]
 , "label": "Taxonomy"
-, "description": "The root taxonomy: A vocabulary with terms by which a resource can be described. Different vocabularies can apply different rules on how a term affects documents that the term applies to."
+, "description": "The root taxonomy, containing resources that are terms."
 }

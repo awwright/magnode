@@ -15,8 +15,7 @@
 <schema/OnlineAccount.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/Page.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/Post.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Taxonomy.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Term.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/Term" .
+<schema/Term.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/Usergroup.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <documentregion/footer.json> a :MongoDocument; :collection "documentregion" .
 <documentregion/header.json> a :MongoDocument; :collection "documentregion" .
@@ -29,9 +28,11 @@
 <linkmenu/settings.json> a :MongoDocument; :collection "linkmenu" .
 <nodes/frontpage.json> a :MongoDocument; :collection "list" .
 <nodes/intro.json> a :MongoDocument; :collection "nodes" .
-<taxonomy/PublishOption.json> a :MongoDocument; :collection "taxonomy" .
-<taxonomy/promoted.json> a :MongoDocument; :collection "taxonomy" .
-<taxonomy/published.json> a :MongoDocument; :collection "taxonomy" .
+<taxonomy/Taxonomy.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
+<taxonomy/PublishOption.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
+<taxonomy/PublishOptionLocal.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
+<taxonomy/promoted.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
+<taxonomy/published.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
 
 # List off groups of files that should be imported together
 <#bundles> :bundleCollection (
