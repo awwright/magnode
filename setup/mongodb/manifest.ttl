@@ -78,7 +78,7 @@
 		rdfs:label "Taxonomy";
 		:required false;
 		:default true;
-		:files ( <schema/Taxonomy.json> <schema/Term.json> )
+		:files ( <schema/Term.json> <taxonomy/Taxonomy.json> )
 	]
 	[
 		a :Feature;

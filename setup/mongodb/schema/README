@@ -1,3 +1,5 @@
+The MongoDBJSONSchema is a way of classifying content, instances of it are also instances of Taxonomy.
+
 Properties can go in this order:
 
 _id (an ObjectId)
