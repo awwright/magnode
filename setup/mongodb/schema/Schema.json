@@ -62,4 +62,15 @@
 		}
 	, "tablequery": { "type": "object"}
 	}
+, "default":
+	{ "label": ""
+	, "description": ""
+	, "$schema": "http://json-schema.org/draft-04/schema#"
+	, "type": "object"
+	, "links":
+		[ {"rel":"type", "href":""}
+		, {"rel":"self", "href":"{+subject}"}
+		]
+	, "properties": {}
+	}
 }
