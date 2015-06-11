@@ -22,10 +22,6 @@
 		, "widget": "http://magnode.org/field/ObjectId"
 		, "readonly": true
 		}
-	, "_parent":
-		{ "instance": "ObjectId"
-		, "readonly": true
-		}
 	, "subject":
 		{ "type": "string"
 		, "required": true

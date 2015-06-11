@@ -18,8 +18,7 @@
 	]
 , "default": []
 , "properties":
-	{ "_id": { "type": "ObjectId", "readonly": true }
-	, "_parent": { "type": "ObjectId", "readonly": true }
+	{ "_id": { "instance": "ObjectId", "readonly": true }
 	, "subject": { "type": "string", "format": "uri" }
 	, "type":
 		{ "type": "array"

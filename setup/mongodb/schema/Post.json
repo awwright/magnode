@@ -19,12 +19,8 @@
 	]
 , "properties":
 	{ "_id":
-		{ "type": "ObjectId"
-		, "widget": "http://magnode.org/field/ObjectId"
-		, "readonly": true
-		}
-	, "_parent":
 		{ "instance": "ObjectId"
+		, "widget": "http://magnode.org/field/ObjectId"
 		, "readonly": true
 		}
 	, "subject":
