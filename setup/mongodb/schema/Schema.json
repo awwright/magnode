@@ -15,14 +15,15 @@
 , "type": "object"
 , "links":
 	[ {"rel":"type", "href":"http://magnode.org/MongoDBJSONSchema"}
-	, {"rel":"type", "href":"http://magnode.org/term/Taxonomy"}
 	, {"rel":"self", "href":"{+id}"}
 	]
-, "allOf": [ {"(disabled)$ref": "http://json-schema.org/draft-04/hyper-schema#"} ]
+, "allOf": [ {"$ref": "http://json-schema.org/draft-04/hyper-schema#"} ]
+, "required": ["id", "type"]
 , "properties":
 	{ "_id": { "instance": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
-	, "id": { "type": "string", "format": "uri", "required": true }
+	, "id": { "type": "string", "format": "uri" }
 	, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
+	, "description": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "collection": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "put":
 		{ "type": "object"

@@ -16,6 +16,7 @@
 	[ {"rel":"type", "href":"http://magnode.org/Page"}
 	, {"rel":"type", "href":"{+subject}"}
 	]
+, "required": ["subject", "type", "created"]
 , "properties":
 	{ "_id":
 		{ "instance": "ObjectId"
@@ -24,12 +25,10 @@
 		}
 	, "subject":
 		{ "type": "string"
-		, "required": true
 		, "format": "uri"
 		}
 	, "type":
 		{ "type": "array"
-		, "required": true
 		, "widget": "http://magnode.org/field/Taxonomy"
 		, "items": { "type": "string", "format": "uri" }
 		, "taxonomySources":
@@ -88,7 +87,6 @@
 		}
 	, "created":
 		{ "instance":"Date"
-		, "required":true
 		}
 	, "owner":
 		{ "instance": "ObjectId"

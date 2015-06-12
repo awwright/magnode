@@ -17,6 +17,7 @@
 	[ {"rel":"type", "href":"http://magnode.org/Post"}
 	, {"rel":"self", "href":"{+subject}"}
 	]
+, "required": ["subject", "type"]
 , "properties":
 	{ "_id":
 		{ "instance": "ObjectId"
@@ -25,14 +26,12 @@
 		}
 	, "subject":
 		{ "type": "string"
-		, "required": true
 		, "format": "uri"
 		, "widget": "http://magnode.org/field/URI"
 		, "tokenPattern": "/{posted.Y}/{posted.m}/{posted.d}/{label.formatURL}"
 		}
 	, "type":
 		{ "type": "array"
-		, "required": true
 		, "items": { "type": "string", "format": "uri" }
 		}
 	, "label":
