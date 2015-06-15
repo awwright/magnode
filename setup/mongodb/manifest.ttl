@@ -7,6 +7,10 @@
 <schema/Schema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <../jsonschema/schema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <../jsonschema/hyperschema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/AuthCallback.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/AuthClient.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+<schema/AuthEndpoint.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
+
 <schema/DocumentRegion.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/Entry.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
 <schema/LinkMenu.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
@@ -50,7 +54,7 @@
 		rdfs:label "User Accounts";
 		:required true;
 		:default true;
-		:files ( <schema/OnlineAccount.json> <schema/Usergroup.json> )
+		:files ( <schema/OnlineAccount.json> <schema/Usergroup.json> <schema/AuthEndpoint.json> <schema/AuthClient.json> <schema/AuthCallback.json> )
 	]
 	[
 		a :Feature;

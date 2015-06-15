@@ -463,12 +463,14 @@ matches.forEach(function(m){
 
 // Indexers for search results, caching, and other precomputation on resources
 // Most events should be triggered with a link relation to a Function stored in the function database (i.e. `renders`)
+// TODO initialize this from manifest
 var indexer = resources['indexer'] = {
 	MongoDB_Cache_Put: new magnode.Hook,
 	MongoDB_Cache_Delete: new magnode.Hook,
 	MongoDB_Index_Put: new magnode.Hook,
 	MongoDB_Index_Delete: new magnode.Hook,
 };
+// Now add some index/calculation operations
 indexer['MongoDB_Cache_Put'].register(magnode.require("indexer.mongodblist"));
 indexer['MongoDB_Index_Put'].register(magnode.require("indexer.linkmenuitem").Put);
 indexer['MongoDB_Index_Delete'].register(magnode.require("indexer.linkmenuitem").Delete);

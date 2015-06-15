@@ -1,0 +1,26 @@
+{ "_id": {"$ObjectId": "5579dc458933bb810831e185"}
+, "id": "http://magnode.org/AuthEndpoint"
+, "label": "AuthEndpoint"
+, "description": "An authority managing user identities and authenticating credentials"
+, "collection": "auth_endpoint"
+, "tablequery": {"fields":["_id","subject","label"]}
+, "$schema": "http://json-schema.org/draft-04/schema#"
+, "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/AuthEndpoint"}
+	, {"rel":"self", "href":"{+subject}"}
+	]
+, "required": ["subject"]
+, "properties":
+	{ "_id":
+		{ "instance": "ObjectId"
+		, "widget": "http://magnode.org/field/ObjectId"
+		, "readonly": true
+		}
+	, "subject":
+		{ "type": "string"
+		, "format": "uri"
+		, "widget": "http://magnode.org/field/URI"
+		}
+	}
+}

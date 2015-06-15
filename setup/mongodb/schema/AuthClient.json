@@ -1,0 +1,44 @@
+{ "_id": {"$ObjectId": "5576a49f8e6f0e8c91596c61"}
+, "id": "http://magnode.org/AuthClient"
+, "label": "AuthClient"
+, "description": "A client to an AuthEndpoint that wants to get a bearer token or verify a user's identity"
+, "collection": "auth_client"
+, "tablequery": {"fields":["_id","subject","label"]}
+, "$schema": "http://json-schema.org/draft-04/schema#"
+, "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/AuthClient"}
+	, {"rel":"self", "href":"{+subject}"}
+	]
+, "required": ["subject", "client_type"]
+, "properties":
+	{ "_id":
+		{ "instance": "ObjectId"
+		, "widget": "http://magnode.org/field/ObjectId"
+		, "readonly": true
+		}
+	, "subject":
+		{ "type": "string"
+		, "format": "uri"
+		, "widget": "http://magnode.org/field/URI"
+		}
+	, "client_type":
+		{ "type": "string"
+		, "enum": ["confidential", "public"]
+		}
+	, "client_id":
+		{ "type": "string"
+		, "maxLength": 255
+		}
+	, "client_secret":
+		{ "type": "array"
+		, "items":
+			{"type":"object", "description":"Random token issued to clients, typically hashed"}
+		}
+	, "redirect_uri":
+		{ "type": "array"
+		, "items":
+			{"type":"string", "description":"A redirection endpoint for the client"}
+		}
+	}
+}

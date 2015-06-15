@@ -1,0 +1,39 @@
+{ "_id": {"$ObjectId": "5579ea560a6c970895e2d303"}
+, "id": "http://magnode.org/AuthCallback"
+, "label": "AuthCallback"
+, "description": "Resource processing an authorization code from an AuthEndpoint, which may be a remote server. Typically needs a corresponding AuthClient entry for the AuthEndpoint to refer to."
+, "collection": "auth_callback"
+, "tablequery": {"fields":["_id","subject","label"]}
+, "$schema": "http://json-schema.org/draft-04/schema#"
+, "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/AuthCallback"}
+	, {"rel":"self", "href":"{+subject}"}
+	]
+, "required": ["subject", "endpoint"]
+, "properties":
+	{ "_id":
+		{ "instance": "ObjectId"
+		, "widget": "http://magnode.org/field/ObjectId"
+		, "readonly": true
+		}
+	, "subject":
+		{ "type": "string"
+		, "format": "uri"
+		, "widget": "http://magnode.org/field/URI"
+		}
+	, "endpoint":
+		{ "type": "string"
+		, "format": "uri"
+		, "widget": "http://magnode.org/field/URI"
+		}
+	, "client_id":
+		{ "type": "string"
+		, "maxLength": 255
+		}
+	, "client_secret":
+		{ "type": "string"
+		, "maxLength": 255
+		}
+	}
+}
