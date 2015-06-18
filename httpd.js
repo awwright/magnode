@@ -395,6 +395,7 @@ if(setupMode){
 	// TODO maybe also send 503 (Service Unavailable) while setupMode is enabled
 	resources["authz"] = httpAuthBasic;
 	resources["http://magnode.org/Auth"] = null;
+	resources["credentials"] = null;
 }else{
 	var sessionStore = new (magnode.require("session.mac"))(
 		{ expires: 1000*60*60*24*14
@@ -428,6 +429,7 @@ if(setupMode){
 		}, httpAuthSession);
 	// Pass the authentication data to UserSession_typeAuth
 	resources["http://magnode.org/Auth"] = httpAuthCookie;
+	resources["credentials"] = httpAuthCredential;
 	var httpAuthBearer = new (magnode.require("authentication.httpbearer"))({}, httpAuthSession);
 
 	// Also support HTTP Basic authentication with username/password
@@ -446,6 +448,7 @@ if(setupMode){
 		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
 		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
 		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/Function_CreateSession'])
+		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/AuthEndpoint'])
 		] );
 	resources["authz"] = authz;
 }
