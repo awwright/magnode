@@ -17,6 +17,7 @@
 , "properties":
 	{ "_id": { "instance": "ObjectId", "widget":"http://magnode.org/field/ObjectId", "readonly": true}
 	, "subject": { "type": "string", "format": "uri"}
+	, "realm": { "instance": "ObjectId", "widget":"http://magnode.org/field/ObjectId", "description":"Reference to an AuthEndpoint" }
 	, "type": { "type": "array", "items": { "type": "string", "format": "uri" } }
 	, "accountName": { "type": "string", "title": "Username", "widget": "http://magnode.org/field/Label"}
 	, "password": { "type": "shadow", "title": "Password", "widget":"http://magnode.org/field/shadow"}
