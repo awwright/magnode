@@ -415,21 +415,13 @@ if(setupMode){
 	resources["password-hash"] = passwordGenerateRecord;
 
 	var httpAuthCredential = new (magnode.require("authentication.mongodb"))(usersDb, shadowDb, null, passwordHashMethods);
-
-	var httpAuthForm = new (magnode.require("authentication.form"))(
-		{ domain: "/"
-		, action: rdf.environment.resolve(':createSession')
-		, credentials: httpAuthCredential
-		}, userAuthz );
 	var httpAuthSession = new (magnode.require("authentication.session"))(sessionStore, userAuthz);
-	var httpAuthCookie = new (magnode.require("authentication.cookie"))(
-		{ domain: "/"
-		, secure: false // FIXME enable this as much as possible, especially if logging in over HTTPS
-		, redirect: rdf.environment.resolve(':?from=login')
-		}, httpAuthSession);
+	var httpAuthCookie = new (magnode.require("authentication.cookie"))({}, httpAuthSession);
+
 	// Pass the authentication data to UserSession_typeAuth
 	resources["http://magnode.org/Auth"] = httpAuthCookie;
-	resources["credentials"] = httpAuthCredential;
+	resources["http://magnode.org/CredentialStore"] = httpAuthCredential;
+	resources["http://magnode.org/SessionManager"] = httpAuthSession;
 	var httpAuthBearer = new (magnode.require("authentication.httpbearer"))({}, httpAuthSession);
 
 	// Also support HTTP Basic authentication with username/password
@@ -439,8 +431,7 @@ if(setupMode){
 	// Whichever are authentic are subsequently checked that the credential grants the requested permission, and if so, defers to the authorizers
 
 	var authz = new (magnode.require("authorization.any"))(
-		[ httpAuthForm
-		, httpAuthCookie
+		[ httpAuthCookie
 		, httpAuthBearer
 		, httpAuthSession
 		, httpAuthBasic
@@ -523,18 +514,12 @@ for(var n in indexNames){
 	});
 }
 
-if(httpAuthCookie && httpAuthForm){
-	// Add a route at /createSession to authenticate other credentials (from httpAuthForm) and create a session, and set a cookie
-	httpAuthCookie.routeSession(route, httpAuthForm);
-}
-
 // Content
 // TODO move route.push out of the function call, use e.g.: route.push(magnode.require('route.status')())
 (magnode.require("route.status"))(route);
 (magnode.require("route.routes"))(route);
 (magnode.require("route.transforms"))(route, resources, renders);
 (magnode.require("route.transformsttl"))(route, resources, renders);
-if(httpAuthForm) httpAuthForm.routeForm(route, resources, renders, rdf.environment.resolve(':login'));
 (magnode.require("route.mongodb.id"))(route, resources, renders);
 //(magnode.require("route.mongodb.subject"))(route, resources, renders);
 (magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
