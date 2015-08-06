@@ -1,3 +1,5 @@
+var htmlns = "http://www.w3.org/1999/xhtml";
+
 function logError(e){
 	if(typeof console=='object' && console.log){
 		console.log(e);
@@ -135,7 +137,14 @@ function populateForms(doc){
 			var a = new WidgetAutocomplete(field, m&&m[2]||'');
 			field.parentNode.appendChild(a.results);
 			a.onselect = function(e){
-				this.input.value = e.element && e.element.firstElementChild.textContent;
+				var value = e.element.textContent;
+				var e_a = e.element && e.element.firstElementChild;
+				if(e_a && e_a.href){
+					value += ' <'+e_a.href+'>';
+				}else if(e_a.className=='label-create'){
+					value += ' (_:new'+0+')';
+				}
+				this.input.value = value;
 			};
 		}catch(e){logError(e);}
 	})(es[i]);
