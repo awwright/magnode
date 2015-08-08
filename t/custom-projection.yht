@@ -4,6 +4,12 @@ import:
 		collection: schema
 		file: setup/mongodb/schema/Schema.json
 	-
+		collection: schema
+		file: setup/jsonschema/hyperschema.json
+	-
+		collection: schema
+		file: setup/jsonschema/schema.json
+	-
 		collection: user
 		file: t/data/user.root.json
 	-

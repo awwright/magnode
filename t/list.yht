@@ -5,6 +5,12 @@ import:
 		file: setup/mongodb/schema/Schema.json
 	-
 		collection: schema
+		file: setup/jsonschema/hyperschema.json
+	-
+		collection: schema
+		file: setup/jsonschema/schema.json
+	-
+		collection: schema
 		file: setup/mongodb/schema/List.json
 	-
 		collection: user
@@ -67,7 +73,7 @@ body: |
 	, "properties":
 		{ "subject": {"type":"string"}
 		, "title": {"type": "string"}
-		, "artist": {"type":"ObjectId"}
+		, "artist": {"instance":"ObjectId"}
 		}
 	, "default": {"foo":"default-bar"}
 	}
