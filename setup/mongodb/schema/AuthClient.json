@@ -1,7 +1,7 @@
 { "_id": {"$ObjectId": "5576a49f8e6f0e8c91596c61"}
 , "id": "http://magnode.org/AuthClient"
 , "label": "AuthClient"
-, "description": "A client authorized to receive a bearer token from an AuthEndpoint on this server",
+, "description": "A client authorized to receive a bearer token from an AuthEndpoint on this server"
 , "collection": "auth_client"
 , "tablequery": {"fields":["_id","subject","label"]}
 , "$schema": "http://json-schema.org/draft-04/schema#"

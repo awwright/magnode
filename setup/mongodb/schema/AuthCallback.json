@@ -1,7 +1,7 @@
 { "_id": {"$ObjectId": "5579ea560a6c970895e2d303"}
 , "id": "http://magnode.org/AuthCallback"
 , "label": "AuthCallback"
-, "description": "Resource processing an authorization code from an AuthEndpoint, which may be local or remote",
+, "description": "Resource processing an authorization code from an AuthEndpoint, which may be local or remote"
 , "collection": "auth_callback"
 , "tablequery": {"fields":["_id","subject","label"]}
 , "$schema": "http://json-schema.org/draft-04/schema#"

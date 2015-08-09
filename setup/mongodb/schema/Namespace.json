@@ -1,0 +1,22 @@
+{ "_id": {"$ObjectId": "54203bfcf50a7e116fb1c9c7"}
+, "id": "http://magnode.org/Namespace"
+, "label": "Namespace"
+, "description": "A namespace that a site/origin runs under"
+, "collection": "namespace"
+, "put": { "insertRevision": "revision", "storeResource": "namespace" }
+, "collection": "namespace"
+, "$schema": "http://json-schema.org/draft-04/schema#"
+, "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/Namespace"}
+	]
+, "properties":
+	{ "_id": { "type": "ObjectId", "readonly": true }
+	, "base": { "type": "string", "format": "uri" }
+	, "basez": { "type": "string", "description":"First string, in sorting order, that does not fall within 'base'" }
+	, "option": { "type": "object", "description": "" }
+	, "render": { "type": "array", "items": {"type":"string", "format":"uri"}, "description":"List of Transformer types to require" }
+	, "up": { "type": "ObjectId", "description":"Parent namespace to apply" }
+	}
+, "tablequery": {"fields": ["_id","base"]}
+}
