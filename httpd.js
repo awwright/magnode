@@ -275,6 +275,26 @@ matches.forEach(function(m){
 	(require('magnode/route.static'))(route, resources, renders, docRootPath, docNamespace);
 });
 
+var namespaceResolve = new magnode.Hook;
+namespaceResolve.reduce = magnode.Hook.concat;
+namespaceResolve.register(function(uri, httpd, resources){
+	var defer = require('q').defer();
+	if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
+		var authority = httpd.magnodeOptions.authority;
+		if(authority[authority.length-1]!='/') authority+='/';
+		uri = uri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
+	}
+	var host = (new (require('iri').IRI)(uri).host() || '').split('.');
+	// Returns "www.example.com", "*.example.com", "*.com", "*"
+	var parts = host.slice(1).map(function(v,i){return '*.'+host.slice(i+1).join('.');}).concat('*', host.join('.'));
+	var q = {host:{$in:parts}, base:{$lte:uri}, basez:{$gt:uri}};
+	resources["db-mongodb-namespace"].findOne(q, function(err, ns){
+		if(ns) ns = unescapeMongoObject(ns);
+		defer.resolve(ns);
+	});
+	return defer.promise;
+});
+
 // Handle HTTP requests
 var handleRequest = magnode.require('http').handleRequest;
 function httpRequest(req, res){
@@ -308,7 +328,7 @@ function httpRequest(req, res){
 		// 2. Calculate request-uri
 		// 3. Apply aliases, e.g. https://example.com:8443/ => http://example.com/ (TODO)
 		// 4. Apply namespace rules to request
-		// 5. (in <lib/http.js>) Apply CURIE prefixing/absolute URL rewriting
+		// 5. (in <lib/http.js>) Apply CURIE prefixing, absolute URL rewriting, and sameAs/synonyms
 
 		// request-target = origin-form / absolute-form / authority-form / asterisk-form
 		var requestLine = req.uri || req.url;
@@ -331,20 +351,19 @@ function httpRequest(req, res){
 			if(authority[authority.length-1]!='/') authority+='/';
 			uri = uri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
 		}
-		var host = (new (require('iri').IRI)(uri).host() || '').split('.');
-		// Returns "www.example.com", "*.example.com", "*.com", "*"
-		var parts = host.slice(1).map(function(v,i){return '*.'+host.slice(i+1).join('.');}).concat('*', host.join('.'));
-		var q = {host:{$in:parts}, base:{$lte:uri}, basez:{$gt:uri}};
-		resources["db-mongodb-namespace"].findOne(q, function(err, ns){
+		namespaceResolve.emit(uri, httpd, resources).then(function(results){
+			var ns = results.reduce(function(prev, cur){
+				if(!prev) return cur;
+				return cur.base.length>=prev.base.length ? cur : prev ;
+			}, null);
 			if(ns){
-				ns = unescapeMongoObject(ns);
 				var nsres = Object.create(resources);
 				for(var k in ns.option) nsres[k] = ns.option[k];
 			}
 			req.requestLine = req.url;
 			req.uri = uri;
 			handleRequest(req, res, route, nsres||resources, renders);
-		});
+		}).done();
 	});
 }
 function startServers(){
@@ -525,11 +544,13 @@ for(var n in indexNames){
 (magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
 
 if(setupMode){
-	var p = magnode.require("route.setup").routeSetup(route, dbHost, configFile);
+	var setupPage = magnode.require("route.setup");
+	var p = setupPage.routeSetup(route, dbHost, configFile);
 	(require('magnode/route.static'))(route, resources, renders, __dirname+'/setup/static/', '/about:setup/static/');
-	magnode.require("route.setup").formatters.forEach(function(v){
+	setupPage.formatters.forEach(function(v){
 		renders.add(v);
 	});
+	namespaceResolve.register(setupPage.namespace);
 }
 
 
