@@ -164,7 +164,7 @@ request: |
 	Resource: http://example.com/list/tracks2
 	Content-Type: application/json;profile=http://magnode.org/MongoDBList
 body: |
-	{ "subject": "http://example.com/list/tracks"
+	{ "subject": "http://example.com/list/tracks2"
 	, "type": ["http://magnode.org/MongoDBList", "http://example.com/Published"]
 	, "label": "Home page"
 	, "schema":
@@ -200,6 +200,7 @@ body: |
 assert: |
 	assert.equal(response.statusCode, 201); // Created
 ---
+
 label: New list returns existing content
 request: |
 	Method: GET
