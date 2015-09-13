@@ -201,7 +201,7 @@ assert: |
 	assert.equal(response.statusCode, 201); // Created
 ---
 
-label: New list returns existing content
+label: New list returns existing content (currently fails)
 request: |
 	Method: GET
 	Resource: http://example.com/list/tracks2
