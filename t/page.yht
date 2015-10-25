@@ -23,6 +23,7 @@ default: |
 	--user: root:hunter2
 ---
 
+
 label: Pre-retrieving page returns 404 Not Found
 request: |
 	Method: GET
@@ -52,7 +53,6 @@ request: |
 	Content-Type: application/json;profile=http://magnode.org/Page
 body: |
 	{ "subject": "http://example.com/about-us"
-	, "type": ["http://magnode.org/Page"]
 	, "created": "2015-01-01T01:02:03Z"
 	, "label": "About Us"
 	, "body": "<h1>About Us</h1>"
@@ -72,13 +72,12 @@ assert: |
 ---
 
 
-
 label: Delete resource returns 200
 request: |
 	Method: DELETE
 	Resource: http://example.com/about-us
 assert: |
-	assert.equal(response.statusCode, 200); // OK
+	assert.include([200, 204], response.statusCode); // OK
 ---
 
 
@@ -87,8 +86,9 @@ request: |
 	Method: DELETE
 	Resource: http://example.com/about-us
 assert: |
-	assert.equal(response.statusCode, 404); // Not Found
+	assert.include([404, 410], response.statusCode); // Not Found, Gone
 ---
+
 
 label: Re-retrieving page returns 404 Not Found
 request: |

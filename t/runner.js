@@ -244,7 +244,7 @@ function runFile(filename, callback){
 						console.log('      <');
 						console.log(res.body.replace(/^/gm, '      < '));
 					}else{
-						console.log('    \u001b[32m\u2713\u001b[39m');
+						console.log('    \u001b[32m\u2713\u001b[39m Pass');
 					}
 					runRequest(i+1);
 				});
