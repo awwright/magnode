@@ -1,0 +1,100 @@
+title: Run the full lifecycle of resource creation, retreival, update, and deletion
+import:
+	-
+		collection: schema
+		file: setup/mongodb/schema/Schema.json
+	-
+		collection: schema
+		file: setup/jsonschema/hyperschema.json
+	-
+		collection: schema
+		file: setup/jsonschema/schema.json
+	-
+		collection: schema
+		file: setup/mongodb/schema/Page.json
+	-
+		collection: user
+		file: t/data/user.root.json
+	-
+		collection: shadow
+		file: t/data/shadow.root.json
+default: |
+	Accept: application/json;q=1
+	--user: root:hunter2
+---
+
+label: Pre-retrieving page returns 404 Not Found
+request: |
+	Method: GET
+	Resource: http://example.com/about-us
+assert: |
+	assert.equal(response.statusCode, 404); // Not Found
+---
+
+
+label: Create with invalid instance returns 400 Client Error
+request: |
+	Method: PUT
+	Resource: http://magnode.org/about-us
+	Content-Type: application/json;profile=http://magnode.org/Page
+body: |
+	{ "a_few_missing_fields": "things like: label, body, created"
+	}
+assert: |
+	assert.equal(response.statusCode, 400); // Client Error
+---
+
+
+label: Uploading instance of Page returns 201 Created
+request: |
+	Method: PUT
+	Resource: http://magnode.org/about-us
+	Content-Type: application/json;profile=http://magnode.org/Page
+body: |
+	{ "subject": "http://example.com/about-us"
+	, "type": ["http://magnode.org/Page"]
+	, "created": "2015-01-01T01:02:03Z"
+	, "label": "About Us"
+	, "body": "<h1>About Us</h1>"
+	}
+assert: |
+	assert.equal(response.statusCode, 201); // Created
+---
+
+
+label: Retreiving resource returns 200
+request: |
+	Method: GET
+	Resource: http://example.com/about-us
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+	assert.include(response.body, "About Us");
+---
+
+
+
+label: Delete resource returns 200
+request: |
+	Method: DELETE
+	Resource: http://example.com/about-us
+assert: |
+	assert.equal(response.statusCode, 200); // OK
+---
+
+
+label: Delete resource again returns 410 Gone or 404 Not Found
+request: |
+	Method: DELETE
+	Resource: http://example.com/about-us
+assert: |
+	assert.equal(response.statusCode, 404); // Not Found
+---
+
+label: Re-retrieving page returns 404 Not Found
+request: |
+	Method: GET
+	Resource: http://example.com/about-us
+assert: |
+	assert.equal(response.statusCode, 404); // Not Found
+---
+
