@@ -290,7 +290,16 @@ namespaceResolve.register(function(uri, httpd, resources){
 	var parts = host.slice(1).map(function(v,i){return '*.'+host.slice(i+1).join('.');}).concat('*', host.join('.'));
 	var q = {host:{$in:parts}, base:{$lte:uri}, basez:{$gt:uri}};
 	resources["db-mongodb-namespace"].findOne(q, function(err, ns){
-		if(ns) ns = unescapeMongoObject(ns);
+		var resource = uri;
+		var staticresources = resources;
+		if(ns){
+			ns = unescapeMongoObject(ns);
+			// See if the URI is a CURIE-style reference to another URI
+			var resourceCurie = resource.match(/^[^:]+:\/\/[^\/?#]+(\/(([^\/?#:]*):.*))$/); // http://example.com/{prefix}:{suffix}
+			if(resourceCurie && resourceCurie[2]) var resourceLong = staticresources.rdf.resolve(resourceCurie[2]);
+			var resourceAbs = resource.match(/^[^:]+:\/\/[^\/?#]+\/\/(.*$)/); // http://example.com//{uri}
+			ns.resource = (resourceAbs&&resourceAbs[1]) || resourceLong || resource;
+		}
 		defer.resolve(ns);
 	});
 	return defer.promise;
@@ -332,7 +341,7 @@ function httpRequest(req, res){
 		// 5. (in <lib/http.js>) Apply CURIE prefixing, absolute URL rewriting, and sameAs/synonyms
 
 		// request-target = origin-form / absolute-form / authority-form / asterisk-form
-		var requestLine = req.uri || req.url;
+		var requestLine = req.requestLine = req.url;
 		var uri;
 		if(requestLine[0]=='/'){ // origin-form
 			uri = 'http://' + req.headers['host'] + requestLine;
@@ -347,6 +356,7 @@ function httpRequest(req, res){
 			res.end('Invalid request-target\n');
 			return;
 		}
+		req.requestUri = uri;
 		if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
 			var authority = httpd.magnodeOptions.authority;
 			if(authority[authority.length-1]!='/') authority+='/';
