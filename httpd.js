@@ -275,8 +275,9 @@ matches.forEach(function(m){
 	(require('magnode/route.static'))(route, resources, renders, docRootPath, docNamespace);
 });
 
+// Namespace resolution... Look at a URI/authority and determine who 'owns' it
 var namespaceResolve = new magnode.Hook;
-namespaceResolve.reduce = magnode.Hook.concat;
+namespaceResolve.reduce = magnode.Hook.concat; // Get a list of all results from all hooks
 namespaceResolve.register(function(uri, httpd, resources){
 	var defer = require('q').defer();
 	if(httpd.magnodeOptions && httpd.magnodeOptions.authority){

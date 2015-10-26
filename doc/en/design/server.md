@@ -55,12 +55,28 @@ When resource is dereferenced:
 3. Use the Accept headers and configuration information to select a variant from the remaining set. Return it to the client.
 
 
+### Request Namespaces
+
+Sometimes a request can't be handled only by identifying a resource to be acted on:
+
+* Formatted error pages
+* Persisting resources (PUT)
+* Non-authortatively describing third party resources (e.g. a request for `http://www.w3.org/` that is made to the HTTP server at `example.com`)
+
+To handle these cases, we deploy a "namespace" resolution mechanism. It returns data like the following:
+
+* Actual URI requested by the client, including Host header with port number, modified scheme for going over TLS, etc.
+* Mapped URI, the name that a resource would actually go by (e.g. with `s` in `https:` stripped, or port number stripped, or authority is changed)
+* Rendering rules, which themes to render resources with
+* Storage rules, which data sources resources are available from and where they are to be stored to
+
+
 ### Serving a Request
 
 An HTTP server needs to satisfy a great number of requirements as laid out in the HTTP specification.
 
 1. If desired, setup a timer to respond with 408 (Request Timeout) and kill the connection, to close old, lingering TCP connections.
-2. Return with 505 (HTTP Version Not Supported) here if appropriate
+2. If appropriate, return with 505 (HTTP Version Not Supported)
 3. If desired, and if the server is marked offline or the request would bring the server over capacity (particularly non-safe, non-cachable requests), return 503 (Service Unavailable).
 4. If no Host request-header is provided, return 400 (Bad Request) (required per 14.23)
 5. If there is a Content-Type request-header, then:
@@ -176,6 +192,7 @@ Removes a resource from the database.
 3. Return 200 (OK)
 
 The status code to return for DELETE has been the subject of some debate on the various mailing lists, because it is an idempotent operation. However, it is of no harm to indicate to the client what particular effect or change the request had. So note that because DELETE is a “resourceful” request, this subroutine will never be called if the resource doesn’t exist, but instead will return 410 (Gone) or 404 (Not Found) as appropriate.
+
 
 ### CONNECT request
 
