@@ -354,6 +354,7 @@ function httpRequest(req, res){
 		}
 		namespaceResolve.emit(uri, httpd, resources).then(function(results){
 			var ns = results.reduce(function(prev, cur){
+				// pick the namespace that provides the longest `base`
 				if(!prev) return cur;
 				return cur.base.length>=prev.base.length ? cur : prev ;
 			}, null);
