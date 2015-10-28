@@ -356,12 +356,22 @@ function httpRequest(req, res){
 			res.end('Invalid request-target\n');
 			return;
 		}
+		// Save the request URI, pre-rewriting
 		req.requestUri = uri;
+		// If the interface is defined to only resolve to one authority, replace it here
 		if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
 			var authority = httpd.magnodeOptions.authority;
 			if(authority[authority.length-1]!='/') authority+='/';
 			uri = uri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
 		}
+		req.uri = uri;
+		// Determine which namespace (including authority) this request is operating under
+		// The namespace defines which data sources to use, which renders to use, and how to handle errors and uploads
+		// We pass in the request-URI (absolute), http server instance the request came in from, and global resources
+		// Get back an array of results, items contain:
+		// * base, all request URIs with this prefix fall into this namespace
+		// * option, list of resources applicable to this namespace only
+		// * uri, the actual URI that the request is identifiying, after applying path aliases, etc
 		namespaceResolve.emit(uri, httpd, resources).then(function(results){
 			var ns = results.reduce(function(prev, cur){
 				// pick the namespace that provides the longest `base`
@@ -371,9 +381,8 @@ function httpRequest(req, res){
 			if(ns){
 				var nsres = Object.create(resources);
 				for(var k in ns.option) nsres[k] = ns.option[k];
+				if(ns.uri) req.uri = ns.uri;
 			}
-			req.requestLine = req.url;
-			req.uri = uri;
 			handleRequest(req, res, route, nsres||resources, renders);
 		}).done();
 	});

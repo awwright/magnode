@@ -9,6 +9,7 @@
 , "type": "object"
 , "links":
 	[ {"rel":"type", "href":"http://magnode.org/Namespace"}
+	, {"rel":"self", "href":"http://localhost/about:setup/mongodb/namespace/{_id}"}
 	]
 , "properties":
 	{ "_id": { "type": "ObjectId", "readonly": true }

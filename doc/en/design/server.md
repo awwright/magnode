@@ -65,8 +65,8 @@ Sometimes a request can't be handled only by identifying a resource to be acted 
 
 To handle these cases, we deploy a "namespace" resolution mechanism. It returns data like the following:
 
-* Actual URI requested by the client, including Host header with port number, modified scheme for going over TLS, etc.
-* Mapped URI, the name that a resource would actually go by (e.g. with `s` in `https:` stripped, or port number stripped, or authority is changed)
+* Request URI: Actual URI requested by the client, including Host header with port number, modified scheme for going over TLS, etc.
+* Effective URI: the name that a resource would actually go by (e.g. with `s` in `https:` stripped, or port number stripped, or authority is changed)
 * Rendering rules, which themes to render resources with
 * Storage rules, which data sources resources are available from and where they are to be stored to
 
