@@ -305,6 +305,16 @@ namespaceResolve.register(function(uri, httpd, resources){
 	return defer.promise;
 });
 
+// Import custom-defined namespaces
+// FIXME make this configurable as to which namespaces are loaded, as this will affect routing by merely being loaded
+var matches = renders.db.match(null, rdf.rdfns('type'), 'http://magnode.org/NamespaceModule');
+matches.forEach(function(m){
+	var moduleId = renders.db.match(m.subject, 'http://magnode.org/route/module', null)[0].object;
+	var module = renders.renders[moduleId];
+	console.log('Namespace: ' + m.subject + ' @ ' + moduleId);
+	namespaceResolve.register(module.namespace);
+});
+
 // Handle HTTP requests
 var handleRequest = magnode.require('http').handleRequest;
 function httpRequest(req, res){
