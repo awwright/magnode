@@ -391,7 +391,7 @@ function httpRequest(req, res){
 			if(ns){
 				var nsres = Object.create(resources);
 				for(var k in ns.option) nsres[k] = ns.option[k];
-				if(ns.uri) req.uri = ns.uri;
+				if(ns.resource) nsres.resource = ns.resource;
 			}
 			handleRequest(req, res, route, nsres||resources, renders);
 		}).done();
