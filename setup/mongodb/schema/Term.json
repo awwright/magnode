@@ -16,10 +16,15 @@
 	, {"rel":"self", "href":"{+subject}"}
 	]
 , "properties":
-	{ "_id": { "instance": "ObjectId", "readonly": true }
+	{ "_id": { "instance": "ObjectId", "widget": "http://magnode.org/field/ObjectId", "readonly": true }
 	, "subject": { "type": "string", "format": "uri" }
-	, "type": { "type": "array", "items": {"instance":"ObjectId"}, "description": "Taxonomies that the term exists under", "required": true }
+	, "type": { "type": "array", "items": {"instance":"ObjectId", "widget": "http://magnode.org/field/ObjectId"}, "description": "Taxonomies that the term exists under", "required": true }
 	, "label": { "type": "string", "widget": "http://magnode.org/field/Label" }
 	, "tablequery": { "type": "object", "widget": "http://magnode.org/field/JSON", "default": {} }
+	}
+, "default":
+	{ "subject": ""
+	, "type": []
+	, "label": ""
 	}
 }
