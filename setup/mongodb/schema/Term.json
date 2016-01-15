@@ -8,7 +8,22 @@
 	{ "insertRevision": "revision"
 	, "storeResource": "term"
 	}
-, "tablequery": { "fields": [ "_id", "subject", "label" ] }
+, "tablequery":
+	{ "fields":
+		[
+			{
+				"label": "_id",
+				"text_content_field": "_id",
+				"link_href_rel": "self"
+			},
+			"subject",
+			{
+				"label": "label",
+				"text_content_field": "label",
+				"link_href_rel": "self"
+			}
+		]
+	}
 , "$schema": "http://json-schema.org/draft-04/schema#"
 , "type": "object"
 , "links":

@@ -1,6 +1,7 @@
 { "_id": {"$ObjectId":"51b0a47d582c9333d6d36b77"}
 , "subject": "http://localhost/Promoted"
-, "type": [ "http://localhost/PublishOption" ]
+, "type": [ {"$ObjectId":"51b0a36d582c9333d6d36b76"} ]
+, "_type_uri": [ "http://localhost/PublishOption" ]
 , "label": "Promoted"
 , "description": "Published to front page"
 , "menu":

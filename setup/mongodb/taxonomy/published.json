@@ -1,6 +1,7 @@
 { "_id": {"$ObjectId":"53edbaba2341948e66ec6ce6"}
 , "subject": "http://localhost/Published"
-, "type": [ "http://localhost/PublishOption" ]
+, "type": [ {"$ObjectId":"51b0a36d582c9333d6d36b76"} ]
+, "_type_uri": [ "http://localhost/PublishOption" ]
 , "label": "Published to public"
 , "description": "The resource is published and viewable on the general Internet"
 , "menu":
