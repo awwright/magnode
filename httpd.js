@@ -295,12 +295,18 @@ namespaceResolve.register(function(uri, httpd, resources){
 		var staticresources = resources;
 		if(ns){
 			ns = unescapeMongoObject(ns);
-			// See if the URI is a CURIE-style reference to another URI
-			var resourceCurie = resource.match(/^[^:]+:\/\/[^\/?#]+(\/(([^\/?#:]*):.*))$/); // http://example.com/{prefix}:{suffix}
-			if(resourceCurie && resourceCurie[2]) var resourceLong = staticresources.rdf.resolve(resourceCurie[2]);
-			var resourceAbs = resource.match(/^[^:]+:\/\/[^\/?#]+\/\/(.*$)/); // http://example.com//{uri}
-			ns.resource = (resourceAbs&&resourceAbs[1]) || resourceLong || resource;
+		}else{
+			ns = {
+				base: '',
+				option: {},
+				render: [],
+			};
 		}
+		// See if the URI is a CURIE-style reference to another URI
+		var resourceCurie = resource.match(/^[^:]+:\/\/[^\/?#]+(\/(([^\/?#:]*):.*))$/); // http://example.com/{prefix}:{suffix}
+		if(resourceCurie && resourceCurie[2]) var resourceLong = staticresources.rdf.resolve(resourceCurie[2]);
+		var resourceAbs = resource.match(/^[^:]+:\/\/[^\/?#]+\/\/(.*$)/); // http://example.com//{uri}
+		ns.resource = (resourceAbs&&resourceAbs[1]) || resourceLong || resource;
 		defer.resolve(ns);
 	});
 	return defer.promise;

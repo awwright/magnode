@@ -14,7 +14,7 @@
 		rdfs:label "Base";
 		:required true;
 		:default true;
-		:files ( 
+		:files (
 			[ a :MongoDocument; :collection "schema"; :document <schema/Schema.json> ]
 			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/nodes.subject.json> ]
 			[ a :MongoDocument; :collection "schema"; :document <../jsonschema/schema.json> ]
@@ -23,6 +23,7 @@
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <../jsonschema/hyperschema.json>; :target "http://json-schema.org/draft-04/hyper-schema#" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Schema.json>; :target "http://magnode.org/MongoDBJSONSchema" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Namespace.json>; :target "http://magnode.org/Namespace" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Namespace"; :document <namespace.default.json>; :target "http://magnode.org/Namespace" ]
 		)
 	]
 	[
@@ -36,6 +37,7 @@
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/AuthEndpoint.json>; :target "http://magnode.org/AuthEndpoint" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/AuthClient.json>; :target "http://magnode.org/AuthClient" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/AuthCallback.json>; :target "http://magnode.org/AuthCallback" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/AuthEndpoint"; :document <authendpoint.default.json>; :target "http://localhost/login" ]
 		)
 	]
 	[
@@ -106,7 +108,7 @@
 		:default false;
 		:files (
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/List"; :document <nodes/frontpage.json>; :target "http://localhost/" ]
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <nodes/intro.json>; :target "http://localhost/post/intro" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Post"; :document <nodes/intro.json>; :target "http://localhost/post/intro" ]
 		)
 	]
 ) .

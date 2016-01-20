@@ -2,7 +2,7 @@
 , "id": "http://magnode.org/LinkMenu"
 , "label": "Link Menu"
 , "description": "A menu of links"
-, "collection": "menu"
+, "collection": "linkmenu"
 , "put": { "insertRevision": "revision", "storeResource": "menu" }
 , "menu":
 	{ "http://localhost/Menu_SettingsMenu":
