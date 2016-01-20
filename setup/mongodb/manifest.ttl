@@ -23,7 +23,7 @@
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <../jsonschema/hyperschema.json>; :target "http://json-schema.org/draft-04/hyper-schema#" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Schema.json>; :target "http://magnode.org/MongoDBJSONSchema" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Namespace.json>; :target "http://magnode.org/Namespace" ]
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Namespace"; :document <namespace.default.json>; :target "http://magnode.org/Namespace" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Namespace"; :document <namespace.default.json>; :target "http://localhost/about:setup/namespace/default" ]
 		)
 	]
 	[

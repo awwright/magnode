@@ -9,13 +9,13 @@
 , "type": "object"
 , "links":
 	[ {"rel":"type", "href":"http://magnode.org/Namespace"}
-	, {"rel":"self", "href":"http://localhost/about:setup/mongodb/namespace/{_id}"}
-	, {"rel":"self", "href":"http://localhost/about:setup/mongodb/namespace.base/{base}"}
+	, {"rel":"self", "href":"http://localhost/about:setup/namespace/{slug}"}
 	]
 , "required": ["base"]
 , "properties":
 	{ "_id": { "type": "ObjectId", "readonly": true }
-	, "base": { "type": "string", "format": "uri", "required":true }
+	, "slug": { "type": "string", "required":true, "minLength":1 }
+	, "base": { "type": "string", "required":true }
 	, "basez": { "type": "string", "description":"First string, in sorting order, that does not fall within 'base'" }
 	, "option": { "type": "object", "description": "" }
 	, "render": { "type": "array", "items": {"type":"string", "format":"uri"}, "description":"List of Transformer types to require" }

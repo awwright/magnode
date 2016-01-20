@@ -582,12 +582,12 @@ for(var n in indexNames){
 (magnode.require("route.mongodbconn"))(route, resources, renders, rdf.environment.resolve(':mongodb/'), dbInstance);
 
 if(setupMode){
-	var setupPage = magnode.require("route.setup");
-	var p = setupPage.routeSetup(route, dbHost, configFile);
+	var setupPage = magnode.require("route.setup").routeSetup(dbHost, configFile);
 	(require('magnode/route.static'))(route, resources, renders, __dirname+'/setup/static/', '/about:setup/static/');
 	setupPage.formatters.forEach(function(v){
 		renders.add(v);
 	});
+	route.push(setupPage.route);
 	namespaceResolve.register(setupPage.namespace);
 }
 
