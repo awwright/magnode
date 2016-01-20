@@ -15,8 +15,9 @@
 , "type": "object"
 , "links":
 	[ {"rel":"type", "href":"http://magnode.org/Usergroup"}
+	, {"rel":"self", "href":"{+subject}"}
 	]
-, "default": []
+, "default": {}
 , "properties":
 	{ "_id": { "instance": "ObjectId", "readonly": true }
 	, "subject": { "type": "string", "format": "uri" }
@@ -100,6 +101,10 @@
 					, "description": "List of actions to be authorized"
 					, "items": {"type": "string"}
 					, "default": []
+					}
+				, "description":
+					{ "type": "string"
+					, "default": ""
 					}
 				}
 			, "default": {"type": [], "where": [], "action": []}

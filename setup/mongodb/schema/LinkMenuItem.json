@@ -13,6 +13,9 @@
 , "tablequery": {"fields":["_id","top","label","href"]}
 , "$schema": "http://json-schema.org/draft-04/schema#"
 , "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/LinkMenuItem"}
+	]
 , "properties":
 	{ "_id":
 		{ "instance": "ObjectId"

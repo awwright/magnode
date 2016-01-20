@@ -118,6 +118,7 @@ if(listenPort){
 
 if(!importManifests.length && configuration && configuration.importManifests && configFile){
 	importManifests = configuration.importManifests.map(function(v){
+		// Resolve importManifest paths relative to config file
 		return path.resolve(path.dirname(configFile), v);
 	});
 }

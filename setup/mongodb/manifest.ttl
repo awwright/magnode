@@ -3,40 +3,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 # List off all the files and the collection they get imported into
-<system.indexes/nodes.subject.json> a :MongoDocument; :collection "system.indexes" .
-<schema/Schema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<../jsonschema/schema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<../jsonschema/hyperschema.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/AuthCallback.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/AuthClient.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/AuthEndpoint.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Namespace.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/DocumentRegion.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Entry.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/LinkMenu.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/LinkMenuItem.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/List.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/OnlineAccount.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Page.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Post.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Term.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<schema/Usergroup.json> a :MongoDocument; :collection "schema" ; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema" .
-<documentregion/footer.json> a :MongoDocument; :collection "documentregion" .
-<documentregion/header.json> a :MongoDocument; :collection "documentregion" .
-<documentregion/panel.json> a :MongoDocument; :collection "documentregion" .
-<group/administrator.json> a :MongoDocument; :collection "group" .
-<group/author.json> a :MongoDocument; :collection "group" .
-<group/user.json> a :MongoDocument; :collection "group" .
-<linkmenu/main.json> a :MongoDocument; :collection "linkmenu" .
-<linkmenu/management.json> a :MongoDocument; :collection "linkmenu" .
-<linkmenu/settings.json> a :MongoDocument; :collection "linkmenu" .
-<nodes/frontpage.json> a :MongoDocument; :collection "list" .
-<nodes/intro.json> a :MongoDocument; :collection "nodes" .
-<taxonomy/Taxonomy.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
-<taxonomy/PublishOption.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
-<taxonomy/PublishOptionLocal.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
-<taxonomy/promoted.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
-<taxonomy/published.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
+# <taxonomy/PublishOptionLocal.json> a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term" .
 
 # List off groups of files that should be imported together
 <#bundles> :bundleCollection (
@@ -47,56 +14,100 @@
 		rdfs:label "Base";
 		:required true;
 		:default true;
-		:files ( <schema/Schema.json> <system.indexes/nodes.subject.json> <../jsonschema/schema.json> <../jsonschema/hyperschema.json> <schema/Namespace.json> )
+		:files ( 
+			[ a :MongoDocument; :collection "schema"; :document <schema/Schema.json> ]
+			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/nodes.subject.json> ]
+			[ a :MongoDocument; :collection "schema"; :document <../jsonschema/schema.json> ]
+			[ a :MongoDocument; :collection "schema"; :document <../jsonschema/hyperschema.json> ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <../jsonschema/schema.json>; :target "http://json-schema.org/draft-04/schema#"]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <../jsonschema/hyperschema.json>; :target "http://json-schema.org/draft-04/hyper-schema#" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Schema.json>; :target "http://magnode.org/MongoDBJSONSchema" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Namespace.json>; :target "http://magnode.org/Namespace" ]
+		)
 	]
 	[
 		a :Feature;
 		rdfs:label "User Accounts";
 		:required true;
 		:default true;
-		:files ( <schema/OnlineAccount.json> <schema/Usergroup.json> <schema/AuthEndpoint.json> <schema/AuthClient.json> <schema/AuthCallback.json> )
+		:files (
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/OnlineAccount.json>; :target "http://magnode.org/OnlineAccount" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Usergroup.json>; :target "http://magnode.org/Usergroup" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/AuthEndpoint.json>; :target "http://magnode.org/AuthEndpoint" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/AuthClient.json>; :target "http://magnode.org/AuthClient" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/AuthCallback.json>; :target "http://magnode.org/AuthCallback" ]
+		)
 	]
 	[
 		a :Feature;
 		rdfs:label "Basic Content Types";
 		:required false;
 		:default true;
-		:files ( <schema/List.json> <schema/Entry.json> <schema/Page.json> <schema/Post.json> )
-	]
-	[
-		a :Feature;
-		rdfs:label "Sample Data";
-		:required false;
-		:default true;
-		:files ( <nodes/frontpage.json> <nodes/intro.json> )
+		:files (
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/List.json>; :target "http://magnode.org/List" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Entry.json>; :target "http://magnode.org/Entry" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Page.json>; :target "http://magnode.org/Page" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Post.json>; :target "http://magnode.org/Post" ]
+		)
 	]
 	[
 		a :Feature;
 		rdfs:label "Theme Data";
 		:required false;
 		:default true;
-		:files ( <schema/DocumentRegion.json> <schema/LinkMenu.json> <schema/LinkMenuItem.json> <documentregion/footer.json> <documentregion/header.json> <documentregion/panel.json> <linkmenu/main.json> <linkmenu/management.json> <linkmenu/settings.json> )
+		:files (
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/DocumentRegion.json>; :target "http://magnode.org/DocumentRegion" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/LinkMenu.json>; :target "http://magnode.org/LinkMenu" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/LinkMenuItem.json>; :target "http://magnode.org/LinkMenuItem" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/DocumentRegion"; :document <documentregion/footer.json>; :target "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Footer"  ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/DocumentRegion"; :document <documentregion/header.json>; :target "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Header"  ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/DocumentRegion"; :document <documentregion/panel.json>; :target "http://localhost/about#theme/twentyonetwelve/DocumentRegion_Panel"  ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/LinkMenu"; :document <linkmenu/main.json>; :target "http://localhost/Menu_MainMenu" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/LinkMenu"; :document <linkmenu/management.json>; :target "http://localhost/Menu_ManagementMenu" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/LinkMenu"; :document <linkmenu/settings.json>; :target "http://localhost/Menu_SettingsMenu" ]
+		)
 	]
 	[
 		a :Feature;
 		rdfs:label "Taxonomy";
 		:required false;
 		:default true;
-		:files ( <schema/Term.json> <taxonomy/Taxonomy.json> )
+		:files (
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Term.json>; :target "http://localhost/Term" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/Taxonomy.json>; :target "http://localhost/Taxonomy" ]
+		)
 	]
 	[
 		a :Feature;
 		rdfs:label "Publish Options";
 		:required false;
 		:default true;
-		:files ( <taxonomy/PublishOption.json> <taxonomy/promoted.json> <taxonomy/published.json> )
+		:files (
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/PublishOption.json>; :target "http://localhost/taxonomy/PublishOption" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/promoted.json>; :target "http://localhost/taxonomy/PublishOption/promoted" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/published.json>; :target "http://localhost/taxonomy/PublishOption/published" ]
+		)
 	]
 	[
 		a :Feature;
-		rdfs:label "Sample UserGroups";
+		rdfs:label "Default UserGroups";
 		:required false;
 		:default true;
-		:files ( <group/administrator.json> <group/author.json> <group/user.json> )
+		:files (
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Usergroup"; :document <group/administrator.json>; :target "http://localhost/Usergroup/Administrator" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Usergroup"; :document <group/author.json>; :target "http://localhost/Usergroup/Author" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Usergroup"; :document <group/user.json>; :target "http://localhost/Usergroup/User" ]
+		)
+	]
+	[
+		a :Feature;
+		rdfs:label "Sample Data";
+		:required false;
+		:default false;
+		:files (
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/List"; :document <nodes/frontpage.json>; :target "http://localhost/" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <nodes/intro.json>; :target "http://localhost/post/intro" ]
+		)
 	]
 ) .
 

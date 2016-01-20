@@ -12,6 +12,10 @@
 	}
 , "$schema": "http://json-schema.org/draft-04/schema#"
 , "type": "object"
+, "links":
+	[ {"rel":"type", "href":"http://magnode.org/DocumentRegion"}
+	, {"rel":"self", "href":"{+subject}"}
+	]
 , "properties":
 	{ "_id":
 		{ "instance": "ObjectId"

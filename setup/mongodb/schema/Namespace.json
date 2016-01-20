@@ -10,6 +10,7 @@
 , "links":
 	[ {"rel":"type", "href":"http://magnode.org/Namespace"}
 	, {"rel":"self", "href":"http://localhost/about:setup/mongodb/namespace/{_id}"}
+	, {"rel":"self", "href":"http://localhost/about:setup/mongodb/namespace.base/{base}"}
 	]
 , "required": ["base"]
 , "properties":
