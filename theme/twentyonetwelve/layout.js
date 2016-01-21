@@ -141,7 +141,7 @@ function populateForms(doc){
 				var e_a = e.element && e.element.firstElementChild;
 				if(e_a && e_a.href){
 					value += ' <'+e_a.href+'>';
-				}else if(e_a.className=='label-create'){
+				}else if(e_a && e_a.className=='label-create'){
 					value += ' (_:new'+0+')';
 				}
 				this.input.value = value;
@@ -219,7 +219,8 @@ WidgetAutocomplete.prototype.runSearch = function runSearch() {
 	}
 	function haveResults(e){
 		while(self.results.lastChild) self.results.removeChild(self.results.lastChild);
-		self.results.appendChild(e.getElementsByTagName('ul')[0].cloneNode(true));
+		var autocompleteSrc = e.getElementsByClassName('autocomplete')[0] || e.getElementsByTagNameNS(htmlns,'ul')[0];
+		self.results.appendChild(autocompleteSrc.cloneNode(true));
 		var list = self.results.getElementsByTagName('li');
 		for(var i=0; i<list.length; i++) (function(li){
 			var alist = li.getElementsByTagName('a');
