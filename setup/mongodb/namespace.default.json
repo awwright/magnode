@@ -1,0 +1,5 @@
+{ "_id" : {"$ObjectId":"54ed0b4ce6d06edf6954c131"}
+, "slug" : "default"
+, "base" : ""
+, "label" : "Default"
+}
