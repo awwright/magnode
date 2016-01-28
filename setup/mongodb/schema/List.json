@@ -27,6 +27,7 @@
 	, "label": {"type":"string"}
 	, "type": {"type":"array", "items":{"type":"string"}}
 	, "schema": {"type":"object"}
+	, "filter": {"type":"object"}
 	, "fields":
 		{ "type":"array"
 		, "items":
