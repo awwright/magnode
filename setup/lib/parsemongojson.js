@@ -33,11 +33,14 @@ module.exports.readFileSync = function readFileSync(filename, base){
 }
 
 module.exports.importDocument = function importDocument(dbClient, collectionName, record, callback){
-	// FIXME use ensureIndex
-	if(collectionName=='system.indexes') return void callback();
 	var collection;
 	if(typeof collectionName=='string') collection = dbClient.collection(collectionName);
 	else collection = collectionName;
+	if(collectionName=='system.indexes'){
+		collection = dbClient.collection(record.collection);
+		collection.createIndex(record.key, record.options, callback);
+		return;
+	}
 	var where = {};
 	if(record._id) where._id=record._id;
 	else if(record.id) where.id=record.id;

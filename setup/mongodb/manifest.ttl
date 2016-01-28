@@ -17,6 +17,7 @@
 		:files (
 			[ a :MongoDocument; :collection "schema"; :document <schema/Schema.json> ]
 			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/nodes.subject.json> ]
+			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/schema.id.json> ]
 			[ a :MongoDocument; :collection "schema"; :document <../jsonschema/schema.json> ]
 			[ a :MongoDocument; :collection "schema"; :document <../jsonschema/hyperschema.json> ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <../jsonschema/schema.json>; :target "http://json-schema.org/draft-04/schema#"]
@@ -46,7 +47,7 @@
 		:required false;
 		:default true;
 		:files (
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/List.json>; :target "http://magnode.org/List" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/List.json>; :target "http://magnode.org/MongoDBList" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Entry.json>; :target "http://magnode.org/Entry" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Page.json>; :target "http://magnode.org/Page" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Post.json>; :target "http://magnode.org/Post" ]

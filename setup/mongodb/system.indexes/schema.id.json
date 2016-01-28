@@ -1,0 +1,4 @@
+{ "collection": "schema"
+, "key": { "id": 1 }
+, "options": {"unique": true, "sparse": true}
+}
