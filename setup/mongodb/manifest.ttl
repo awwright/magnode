@@ -15,9 +15,11 @@
 		:required true;
 		:default true;
 		:files (
-			[ a :MongoDocument; :collection "schema"; :document <schema/Schema.json> ]
 			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/nodes.subject.json> ]
 			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/schema.id.json> ]
+			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/namespace.base.json> ]
+			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/namespace.slug.json> ]
+			[ a :MongoDocument; :collection "schema"; :document <schema/Schema.json> ]
 			[ a :MongoDocument; :collection "schema"; :document <../jsonschema/schema.json> ]
 			[ a :MongoDocument; :collection "schema"; :document <../jsonschema/hyperschema.json> ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <../jsonschema/schema.json>; :target "http://json-schema.org/draft-04/schema#"]
@@ -76,8 +78,8 @@
 		:required false;
 		:default true;
 		:files (
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Term.json>; :target "http://localhost/Term" ]
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/Taxonomy.json>; :target "http://localhost/Taxonomy" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBJSONSchema"; :document <schema/Term.json>; :target "http://magnode.org/Term" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/Taxonomy.json>; :target "http://magnode.org/term/Taxonomy" ]
 		)
 	]
 	[
@@ -86,9 +88,11 @@
 		:required false;
 		:default true;
 		:files (
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/PublishOption.json>; :target "http://localhost/taxonomy/PublishOption" ]
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/promoted.json>; :target "http://localhost/taxonomy/PublishOption/promoted" ]
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/published.json>; :target "http://localhost/taxonomy/PublishOption/published" ]
+			[ a :MongoDocument; :collection "system.indexes"; :document <system.indexes/term.subject.json> ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/PublishOption.json>; :target "http://magnode.org/term/PublishOption" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/PublishOptionLocal.json>; :target "http://localhost/term/PublishOption" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/promoted.json>; :target "http://localhost/term/PublishOption/promoted" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Term"; :document <taxonomy/published.json>; :target "http://localhost/term/PublishOption/published" ]
 		)
 	]
 	[

@@ -1,0 +1,4 @@
+{ "collection": "namespace"
+, "key": { "slug": 1 }
+, "options": { "unique": true }
+}

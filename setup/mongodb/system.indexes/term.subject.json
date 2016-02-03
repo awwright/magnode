@@ -1,0 +1,4 @@
+{ "collection": "term"
+, "key": { "subject": 1 }
+, "options": {"unique": true, "sparse": true}
+}

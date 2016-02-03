@@ -1,7 +1,7 @@
 { "_id": {"$ObjectId":"555af5eec2db0a2d7f601cd1"}
-, "subject": "http://localhost/PublishOption"
+, "subject": "http://localhost/term/PublishOption"
 , "type": [ {"$ObjectId":"51b0a361582c9333d6d36b75"} ]
-, "_type_uri": [ "http://magnode.org/Taxonomy" ]
+, "_type_uri": [ "http://magnode.org/term/Taxonomy" ]
 , "label": "Publishing Options"
 , "description": "Terms that can be applied to a document to allow it to be seen by a group of people, like paid subscribers or the general public; or to post it to a list of content, like the front page of a website."
 , "menu":

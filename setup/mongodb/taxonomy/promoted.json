@@ -1,7 +1,7 @@
 { "_id": {"$ObjectId":"51b0a47d582c9333d6d36b77"}
-, "subject": "http://localhost/Promoted"
-, "type": [ {"$ObjectId":"51b0a36d582c9333d6d36b76"} ]
-, "_type_uri": [ "http://localhost/PublishOption" ]
+, "subject": "http://localhost/term/PublishOption/promoted"
+, "type": [ {"$ObjectId":"555af5eec2db0a2d7f601cd1"}, {"$ObjectId":"51b0a36d582c9333d6d36b76"} ]
+, "_type_uri": [ "http://localhost/term/PublishOption", "http://magnode.org/term/PublishOption" ]
 , "label": "Promoted"
 , "description": "Published to front page"
 , "menu":

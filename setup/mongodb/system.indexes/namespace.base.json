@@ -1,0 +1,4 @@
+{ "collection": "namespace"
+, "key": { "base": 1 }
+, "options": { "unique": true }
+}
