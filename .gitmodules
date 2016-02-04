@@ -76,3 +76,6 @@
 [submodule "node_modules/q"]
 	path = node_modules/q
 	url = https://github.com/kriskowal/q.git
+[submodule "node_modules/mongodb-core"]
+	path = node_modules/mongodb-core
+	url = https://github.com/christkv/mongodb-core.git
