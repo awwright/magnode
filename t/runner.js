@@ -112,8 +112,8 @@ function runFile(filename, callback){
 	});
 
 	function runFileDb(){
-		// Verify the database doesn't exist
-		db.collectionNames(function(err, names){
+		// Verify the database does not exist (is not populated with any data)
+		db.collections(function(err, names){
 			if(err) throw err;
 			if(names.length) throw new Error('Database already exists!');
 			//var data = fs.readFileSync(__dirname+'/../setup/mongodb/schema/Schema.json'), 'utf-8');

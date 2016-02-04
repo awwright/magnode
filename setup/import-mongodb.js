@@ -76,12 +76,9 @@ function importData(){
 	if(!dbHost) dbHost='mongodb://localhost/'+dbName;
 	mongodb.connect(dbHost, function(err, dbClient){
 		if(dbUsername) dbClient.auth(dbUsername, dbPassword);
-		// FIXME Workaround to make sure we only execute dbConnect.close() after we've connected
-		dbClient.collectionNames(function(){
-			parseMongoJSON.importFiles(files, dbClient, base, function(err){
-				if(err) console.error(err.toString());
-				dbClient.close();
-			});
+		parseMongoJSON.importFiles(files, dbClient, base, function(err){
+			if(err) console.error(err.toString());
+			dbClient.close();
 		});
 	});
 }
