@@ -112,7 +112,7 @@
 		:required false;
 		:default false;
 		:files (
-			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/List"; :document <nodes/frontpage.json>; :target "http://localhost/" ]
+			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/MongoDBList"; :document <nodes/frontpage.json>; :target "http://localhost/" ]
 			[ a :MongoDocument; :mediaType "application/json;profile=http://magnode.org/Post"; :document <nodes/intro.json>; :target "http://localhost/post/intro" ]
 		)
 	]
