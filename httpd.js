@@ -106,6 +106,11 @@ if(configFile){
 	var configuration = {};
 }
 
+if(typeof configuration.setupPassword=='string'){
+	// This is only for automated testing and other environments that need determinism
+	setupPassword = configuration.setupPassword;
+}
+
 if(listenPort){
 	httpInterfaces = [listenPort];
 }else if(configuration.interfaces){
@@ -442,7 +447,9 @@ if(setupMode){
 	// setupMode gets a special reduced form of authorization where only the user with the randomly generated password has (root) access
 	var userAuthz = new (magnode.require("authorization.superuser"))(siteSuperuser);
 	var httpAuthCredential = {authenticateCredential: function(credential, callback){
-		if(credential.username==="root" && setupPassword && setupPassword.length>4 && credential.password===setupPassword){
+		// Allow authentication for a single user using the setupPassword defined earlier
+		// Ensure it's a string with at least 4 characters
+		if(credential.username==="root" && typeof setupPassword=='string' && setupPassword.length>4 && credential.password===setupPassword){
 			return void callback(null, {id:siteSuperuser});
 		}else{
 			return void callback(null);
