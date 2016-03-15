@@ -9,6 +9,7 @@
 		}
 	}
 , "schema": {"links":[{"rel":"self", "href":"{+subject}"}], "description":"This should probably be a {ref: 'http://magnode.org/Post.json'}"}
+, "fields": []
 , "output_type": "list"
 , "record_type": "story"
 , "collection": "nodes"
