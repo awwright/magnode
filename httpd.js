@@ -503,6 +503,7 @@ if(setupMode){
 		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], [rdf.environment.resolve(':Published')])
 		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/NotFound'])
 		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/Function_CreateSession'])
+		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/AuthCallback'])
 		, new (magnode.require("authorization.read"))(['get','displayLinkMenu'], ['http://magnode.org/AuthEndpoint'])
 		] );
 	resources["authz"] = authz;
