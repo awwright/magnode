@@ -366,7 +366,8 @@ function httpRequest(req, res){
 		var requestLine = req.requestLine = req.url;
 		var uri;
 		if(requestLine[0]=='/'){ // origin-form
-			uri = 'http://' + req.headers['host'] + requestLine;
+			var scheme = req.headers['scheme']=='https' ? req.headers['scheme'] : 'http' ;
+			uri = scheme + '://' + req.headers['host'] + requestLine;
 		}else if(requestLine.match(/^[a-z][a-z0-9+.-]*:/)){ // absolute-form
 			// This won't match if the scheme has anything uppercase. Maybe let's leave it this way.
 			uri = requestLine;
@@ -384,6 +385,7 @@ function httpRequest(req, res){
 		if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
 			var authority = httpd.magnodeOptions.authority;
 			if(authority[authority.length-1]!='/') authority+='/';
+			// Note that this won't replace URNs, only URLs
 			uri = uri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
 		}
 		req.uri = uri;
