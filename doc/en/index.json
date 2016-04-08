@@ -25,7 +25,8 @@
 			"articles": [
 				"content",
 				"users",
-				"taxonomy"
+				"taxonomy",
+				"namespace"
 			]
 		},
 		{
