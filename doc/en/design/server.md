@@ -45,7 +45,7 @@ The task of negotiating and rendering a variant is one of the core functions of 
 When resource is dereferenced:
 
 1. Determine the database resource identified in the URI and calculate its direct link, suitable for a rel="about" link.
-2. Parse the URI to determine the subset of variants that may be returned. Variants can vary by many dimensions:
+2. Examine the resource and URI to determine the subset of variants that may be returned. Variants can vary by many dimensions:
 	* Language
 	* Charset
 	* i18n options (timezone, maybe number formatting)
@@ -78,7 +78,7 @@ An HTTP server needs to satisfy a great number of requirements as laid out in th
 1. If desired, setup a timer to respond with 408 (Request Timeout) and kill the connection, to close old, lingering TCP connections.
 2. If appropriate, return with 505 (HTTP Version Not Supported)
 3. If desired, and if the server is marked offline or the request would bring the server over capacity (particularly non-safe, non-cachable requests), return 503 (Service Unavailable).
-4. If no Host request-header is provided, return 400 (Bad Request) (required per 14.23)
+4. If the Host header is provided, or if an absolute-uri is provided and it mismatches, return 400 (Bad Request) (required per RFC7320, Section 5.4)
 5. If there is a Content-Type request-header, then:
 	1. If the Content-Type request-header indicates a media type which cannot be handled by the server, return 415 (Unsupported Media Type)
 	2. If a Content-Length request-header is desired from the client but not provided, return 411 (Length Required)

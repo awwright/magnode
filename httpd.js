@@ -284,6 +284,7 @@ matches.forEach(function(m){
 // Namespace resolution... Look at a URI/authority and determine who 'owns' it
 var namespaceResolve = new magnode.Hook;
 namespaceResolve.reduce = magnode.Hook.concat; // Get a list of all results from all hooks
+// Register the default namespace resolver
 namespaceResolve.register(function(uri, httpd, resources){
 	var defer = require('q').defer();
 	if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
@@ -356,6 +357,9 @@ function httpRequest(req, res){
 		//closeProcess(3);
 	});
 	c.run(function(){
+		//handleRequest(req, res, route, nsres||resources, renders);
+
+		// RFC 7230 Section 5.5. Effective Request URI
 		// 1. Listen on specified interfaces, adjust authority as specified
 		// 2. Calculate request-uri
 		// 3. Apply aliases, e.g. https://example.com:8443/ => http://example.com/ (TODO)
@@ -366,14 +370,18 @@ function httpRequest(req, res){
 		var requestLine = req.requestLine = req.url;
 		var uri;
 		if(requestLine[0]=='/'){ // origin-form
+			// Nodejs already splits on the whitespace
+			// Allow clients/gateways to specify an "https:" scheme
 			var scheme = req.headers['scheme']=='https' ? req.headers['scheme'] : 'http' ;
 			uri = scheme + '://' + req.headers['host'] + requestLine;
 		}else if(requestLine.match(/^[a-z][a-z0-9+.-]*:/)){ // absolute-form
 			// This won't match if the scheme has anything uppercase. Maybe let's leave it this way.
 			uri = requestLine;
 		}else if(requestLine==='*'){ // asterisk-form
+			// This isn't actually a valid URI, but the query is for us directly
+			// TODO handle this in the future
 			uri = req.url;
-		}else{ // other illegal form
+		}else{ // unknown/illegal form
 			// Not handling authority-form. Re-examine this when a need presents itself.
 			res.statusCode = 400;
 			res.end('Invalid request-target\n');
