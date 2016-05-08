@@ -79,6 +79,7 @@ An HTTP server needs to satisfy a great number of requirements as laid out in th
 2. If appropriate, return with 505 (HTTP Version Not Supported)
 3. If desired, and if the server is marked offline or the request would bring the server over capacity (particularly non-safe, non-cachable requests), return 503 (Service Unavailable).
 4. If the Host header is provided, or if an absolute-uri is provided and it mismatches, return 400 (Bad Request) (required per RFC7320, Section 5.4)
+0. Determine the effective request URI from the Host header, absolute-form, fixed scheme, and/or fixed authority
 5. If there is a Content-Type request-header, then:
 	1. If the Content-Type request-header indicates a media type which cannot be handled by the server, return 415 (Unsupported Media Type)
 	2. If a Content-Length request-header is desired from the client but not provided, return 411 (Length Required)
