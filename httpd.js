@@ -396,7 +396,7 @@ function httpRequest(req, res){
 		// * base, all request URIs with this prefix fall into this namespace
 		// * option, list of resources applicable to this namespace only
 		// * uri, the actual URI that the request is identifiying, after applying path aliases, etc
-		namespaceResolve.emit(uri, httpd, resources).then(function(results){
+		namespaceResolve.emit(req.uri, httpd, resources).then(function(results){
 			var ns = results.reduce(function(prev, cur){
 				// pick the namespace that provides the longest `base`
 				if(!prev) return cur;
