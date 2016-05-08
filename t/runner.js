@@ -3,6 +3,7 @@
 var fs = require('fs');
 var http = require('http');
 var spawn = require('child_process').spawn;
+var parseURL = require('url').parse;
 
 var yaml = require('js-yaml');
 var assert = require('chai').assert;
@@ -176,7 +177,7 @@ function runFile(filename, callback){
 				parseHeaders(requestData.default).forEach(function(v){ defaultRequest[v.name]=v.value; });
 			}
 			if(!requestData.request) return void runRequest(i+1);
-			var headers = {};
+			var headers = {host: 'localhost'};
 			for(var n in defaultRequest) headers[n]=defaultRequest[n];
 			parseHeaders(requestData.request).forEach(function(v){ headers[v.name]=v.value; });
 			var vars = requestData.vars || {};
@@ -191,6 +192,8 @@ function runFile(filename, callback){
 					headers[n] = headers[n].replace('{{'+n+'}}', value);
 				}
 			}
+			var resourceParts = parseURL(headers.Resource);
+			headers.host = resourceParts.host;
 			var assertions = requestData.assert || [];
 			if(!assertions.forEach) assertions=[assertions];
 			var options = {};
