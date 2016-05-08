@@ -330,6 +330,7 @@ matches.forEach(function(m){
 
 // Handle HTTP requests
 var handleRequest = magnode.require('http').handleRequest;
+var effectiveURI = magnode.require('http').effectiveURI;
 function httpRequest(req, res){
 	var httpd = this;
 	var c = errctx.create();
@@ -366,37 +367,28 @@ function httpRequest(req, res){
 		// 4. Apply namespace rules to request
 		// 5. (in <lib/http.js>) Apply CURIE prefixing, absolute URL rewriting, and sameAs/synonyms
 
-		// request-target = origin-form / absolute-form / authority-form / asterisk-form
-		var requestLine = req.requestLine = req.url;
-		var uri;
-		if(requestLine[0]=='/'){ // origin-form
-			// Nodejs already splits on the whitespace
-			// Allow clients/gateways to specify an "https:" scheme
-			var scheme = req.headers['scheme']=='https' ? req.headers['scheme'] : 'http' ;
-			uri = scheme + '://' + req.headers['host'] + requestLine;
-		}else if(requestLine.match(/^[a-z][a-z0-9+.-]*:/)){ // absolute-form
-			// This won't match if the scheme has anything uppercase. Maybe let's leave it this way.
-			uri = requestLine;
-		}else if(requestLine==='*'){ // asterisk-form
-			// This isn't actually a valid URI, but the query is for us directly
-			// TODO handle this in the future
-			uri = req.url;
-		}else{ // unknown/illegal form
-			// Not handling authority-form. Re-examine this when a need presents itself.
-			res.statusCode = 400;
-			res.end('Invalid request-target\n');
+		// Save the request-line used by the client
+		req.requestLine = req.url;
+
+		try {
+			// Save the client-request-URI
+			req.requestUri = effectiveURI(req);
+		}catch(e){
+			res.statusCode = 500;
+			res.setHeader('content-type', 'text/plain');
+			res.end('Unsupported request-line form\n');
 			return;
 		}
-		// Save the request URI, pre-rewriting
-		req.requestUri = uri;
-		// If the interface is defined to only resolve to one authority, replace it here
+		// save the effective-request-URI formed by fixing the authority component if so configured
 		if(httpd.magnodeOptions && httpd.magnodeOptions.authority){
+			// If the interface is defined to only resolve to one authority, replace it here
 			var authority = httpd.magnodeOptions.authority;
 			if(authority[authority.length-1]!='/') authority+='/';
 			// Note that this won't replace URNs, only URLs
-			uri = uri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
+			req.uri = req.requestUri.replace(/^[a-z][a-z0-9+.-]*:\/\/[^\/]*\//, authority);
+		}else{
+			req.uri = req.requestUri;
 		}
-		req.uri = uri;
 		// Determine which namespace (including authority) this request is operating under
 		// The namespace defines which data sources to use, which renders to use, and how to handle errors and uploads
 		// We pass in the request-URI (absolute), http server instance the request came in from, and global resources

@@ -177,7 +177,7 @@ function runFile(filename, callback){
 				parseHeaders(requestData.default).forEach(function(v){ defaultRequest[v.name]=v.value; });
 			}
 			if(!requestData.request) return void runRequest(i+1);
-			var headers = {host: 'localhost'};
+			var headers = {Host: 'localhost'};
 			for(var n in defaultRequest) headers[n]=defaultRequest[n];
 			parseHeaders(requestData.request).forEach(function(v){ headers[v.name]=v.value; });
 			var vars = requestData.vars || {};
@@ -193,7 +193,7 @@ function runFile(filename, callback){
 				}
 			}
 			var resourceParts = parseURL(headers.Resource);
-			headers.host = resourceParts.host;
+			headers['Host'] = resourceParts.host;
 			var assertions = requestData.assert || [];
 			if(!assertions.forEach) assertions=[assertions];
 			var options = {};
