@@ -537,7 +537,7 @@ indexer['MongoDB_Index_Put'].register(magnode.require("indexer.linkmenuitem").Pu
 indexer['MongoDB_Index_Delete'].register(magnode.require("indexer.linkmenuitem").Delete);
 indexer['MongoDB_Index_Put'].register(magnode.require("indexer.nodes"));
 
-var libDir = path.dirname(require.resolve('magnode/render'));
+var libDir = path.dirname(require.resolve('magnode'));
 magnode.require('scan.widget').scanDirectorySync(libDir, renders);
 magnode.require('scan.ModuleTransform').scanDirectorySync(libDir, renders);
 //transformDb.filter().forEach(function(v){console.log(JSON.stringify(v));});
